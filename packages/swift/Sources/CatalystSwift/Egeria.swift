@@ -2,7 +2,7 @@
 //
 // Copyright (c) 2025 Natsune Mochizuki
 
-public final class Statuses {
+public final class Egeria {
     private let client: CatalystSwift
 
     init(client: CatalystSwift) {
