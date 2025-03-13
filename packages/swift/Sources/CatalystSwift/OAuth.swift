@@ -20,7 +20,7 @@ public struct ErrorInfo: Codable, Sendable {
     let uri: String?
 }
 
-public final class OAuth {
+public final class OAuth: Sendable {
     private let client: CatalystSwift
 
     init(client: CatalystSwift) {

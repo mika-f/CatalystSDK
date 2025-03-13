@@ -11,7 +11,7 @@ public enum PKCEError: Error {
     case RandomGenerationFailed
 }
 
-public struct PKCE {
+public class PKCE: @unchecked Sendable {
     let verifier: String
     let challenge: String
     let method = "S256"
