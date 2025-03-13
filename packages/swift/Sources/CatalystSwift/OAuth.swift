@@ -60,6 +60,38 @@ public final class OAuth: Sendable {
         }
     }
 
+    public func getAccessTokenByRefreshToken(using token: String) async throws -> Token {
+        var req = URLRequest(url: URL(string: "\(PUBLIC_API_ENDPOINT)/token")!)
+        req.httpMethod = "POST"
+        req.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "content-type")
+
+        let params = [
+            "grant_type": "refresh_token",
+            "refresh_token": token,
+            "client_id": client.clientId,
+            "client_secret": client.clientSecret,
+        ]
+
+        req.httpBody = params.map { "\($0.key)=\($0.value)" }.joined(separator: "&").data(using: .utf8)
+
+        let (payload, response) = try await URLSession.shared.data(for: req)
+        guard let status = (response as? HTTPURLResponse)?.statusCode else {
+            throw OAuthError.InvalidTokenResponse
+        }
+        guard status == 200 else {
+            throw OAuthError.InvalidTokenResponse
+        }
+
+        let decoder = JSONDecoder()
+        decoder.keyDecodingStrategy = .convertFromSnakeCase
+
+        do {
+            return try decoder.decode(Token.self, from: payload)
+        } catch {
+            throw OAuthError.InvalidTokenResponse
+        }
+    }
+
     public func getAuthorizeURL(callback _: ASWebAuthenticationSession.Callback, redirectUri: String, pkce: PKCE, state: String) throws -> URL {
         var components = URLComponents(string: PUBLIC_AUTHORIZE_ENDPOINT)!
         components.queryItems = [
