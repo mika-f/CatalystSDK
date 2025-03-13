@@ -8,4 +8,9 @@ public final class Egeria: Sendable {
     init(client: CatalystSwift) {
         self.client = client
     }
+
+    public func me() async throws -> User {
+        let wrapped: UserWrapped = try await client.get(endpoint: "/egeria/v1/me", parameters: [:])
+        return wrapped.user
+    }
 }
