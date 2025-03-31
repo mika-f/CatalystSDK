@@ -16,7 +16,7 @@ public enum CatalystSwiftError: Error {
 }
 
 struct HTTPServerError: Codable {
-    let message: String
+    let message: String?
 }
 
 public struct HTTPErrorInfo: Codable, Sendable {
@@ -183,7 +183,7 @@ public actor CatalystSwift {
                 throw CatalystSwiftError.InternalServerErrorException
 
             default:
-                throw CatalystSwiftError.UncaughtServerErrorException(HTTPErrorInfo(message: obj.message, code: status))
+                throw CatalystSwiftError.UncaughtServerErrorException(HTTPErrorInfo(message: obj.message ?? "", code: status))
             }
         }
     }
