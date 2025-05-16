@@ -61,8 +61,13 @@ public actor CatalystSwift {
 
     public func get<T>(endpoint: String, parameters: [String: String]) async throws -> T where T: Decodable, T: Sendable {
         var components = URLComponents(string: PUBLIC_API_ENDPOINT + endpoint)!
-        for (key, value) in parameters {
-            components.queryItems?.append(URLQueryItem(name: key, value: value))
+
+        if !parameters.isEmpty {
+            components.queryItems = []
+
+            for (key, value) in parameters {
+                components.queryItems?.append(URLQueryItem(name: key, value: value))
+            }
         }
 
         let url = components.url!
@@ -82,8 +87,13 @@ public actor CatalystSwift {
 
     public func post<T>(endpoint: String, parameters: [String: String]) async throws -> T where T: Decodable, T: Sendable {
         var components = URLComponents(string: PUBLIC_API_ENDPOINT + endpoint)!
-        for (key, value) in parameters {
-            components.queryItems?.append(URLQueryItem(name: key, value: value))
+
+        if !parameters.isEmpty {
+            components.queryItems = []
+
+            for (key, value) in parameters {
+                components.queryItems?.append(URLQueryItem(name: key, value: value))
+            }
         }
 
         let url = components.url!
@@ -103,8 +113,13 @@ public actor CatalystSwift {
 
     public func put<T>(endpoint: String, parameters: [String: String]) async throws -> T where T: Decodable, T: Sendable {
         var components = URLComponents(string: PUBLIC_API_ENDPOINT + endpoint)!
-        for (key, value) in parameters {
-            components.queryItems?.append(URLQueryItem(name: key, value: value))
+
+        if !parameters.isEmpty {
+            components.queryItems = []
+
+            for (key, value) in parameters {
+                components.queryItems?.append(URLQueryItem(name: key, value: value))
+            }
         }
 
         let url = components.url!
@@ -124,8 +139,13 @@ public actor CatalystSwift {
 
     public func patch<T>(endpoint: String, parameters: [String: String]) async throws -> T where T: Decodable, T: Sendable {
         var components = URLComponents(string: PUBLIC_API_ENDPOINT + endpoint)!
-        for (key, value) in parameters {
-            components.queryItems?.append(URLQueryItem(name: key, value: value))
+
+        if !parameters.isEmpty {
+            components.queryItems = []
+
+            for (key, value) in parameters {
+                components.queryItems?.append(URLQueryItem(name: key, value: value))
+            }
         }
 
         let url = components.url!
@@ -145,8 +165,13 @@ public actor CatalystSwift {
 
     public func delete<T>(endpoint: String, parameters: [String: String]) async throws -> T where T: Decodable, T: Sendable {
         var components = URLComponents(string: PUBLIC_API_ENDPOINT + endpoint)!
-        for (key, value) in parameters {
-            components.queryItems?.append(URLQueryItem(name: key, value: value))
+
+        if !parameters.isEmpty {
+            components.queryItems = []
+
+            for (key, value) in parameters {
+                components.queryItems?.append(URLQueryItem(name: key, value: value))
+            }
         }
 
         let url = components.url!
@@ -166,6 +191,7 @@ public actor CatalystSwift {
 
     private func ensureUnsuccessStatusCode<T>(_ status: Int, payload: Data) throws -> T where T: Decodable {
         let decoder = JSONDecoder()
+        decoder.dateDecodingStrategy = .formatted(.iso8601Full)
 
         if status == 200 {
             let obj = try! decoder.decode(T.self, from: payload)
@@ -189,6 +215,6 @@ public actor CatalystSwift {
     }
 
     public lazy var oauth: OAuth = .init(client: self)
+    public lazy var catalyst: Catalyst = .init(client: self)
     public lazy var egeria: Egeria = .init(client: self)
-    public lazy var status: Statuses = .init(client: self)
 }

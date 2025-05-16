@@ -13,4 +13,9 @@ public final class Egeria: Sendable {
         let wrapped: UserWrapped = try await client.get(endpoint: "/egeria/v1/me", parameters: [:])
         return wrapped.user
     }
+
+    public func userByUsername(username: String) async throws -> User {
+        let wrapped: UserWrapped = try await client.get(endpoint: "/egeria/v1/user/by/username/\(username)", parameters: [:])
+        return wrapped.user
+    }
 }
