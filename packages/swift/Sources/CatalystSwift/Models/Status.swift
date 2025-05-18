@@ -4,7 +4,7 @@
 
 import Foundation
 
-public struct Status: Codable, Sendable {
+public struct Status: Codable, Equatable, Hashable, Identifiable, Sendable {
     public let id: String
     public let body: String
     public let createdAt: Date

@@ -2,7 +2,7 @@
 //
 // Copyright (c) 2025 Natsune Mochizuki
 
-public struct UserProfile: Codable, Sendable {
+public struct UserProfile: Codable, Equatable, Hashable, Sendable {
     public let iconUrl: String
     public let bannerUrl: String
     public let bio: String
