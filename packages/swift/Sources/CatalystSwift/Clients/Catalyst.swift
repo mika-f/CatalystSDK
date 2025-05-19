@@ -40,4 +40,19 @@ public final class Catalyst: Sendable {
     public func relationships(username: String) async throws -> Relationships {
         return try await client.get(endpoint: "/catalyst/v1/relationships/\(username)", parameters: [:])
     }
+    
+    public func reactionsByStatus(id: String) async throws -> [String: Reaction] {
+        let obj: ReactionWrapped = try await client.get(endpoint: "/catalyst/v1/status/\(id)/reactions", parameters: [:])
+        return obj.reactions
+    }
+    
+    public func incrementReactionByStatys(id: String, symbol: String) async throws -> ReactedValue {
+        let obj: ReactedValue = try await client.post(endpoint: "/catalyst/v1/status/\(id)/reactions/\(symbol)", parameters: [:])
+        return obj
+    }
+    
+    public func decrementReactionByStatys(id: String, symbol: String) async throws -> ReactedValue {
+        let obj: ReactedValue = try await client.delete(endpoint: "/catalyst/v1/status/\(id)/reactions/\(symbol)", parameters: [:])
+        return obj
+    }
 }
