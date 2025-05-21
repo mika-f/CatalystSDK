@@ -97,10 +97,12 @@ public actor CatalystSwift {
         }
 
         let url = components.url!
+        let body = try JSONSerialization.data(withJSONObject: parameters, options: [])
         var req = URLRequest(url: url)
         req.httpMethod = "POST"
         req.setValue("applicaction/json", forHTTPHeaderField: "content-type")
         req.setValue("Bearer \(accessToken ?? "")", forHTTPHeaderField: "authorization")
+        req.httpBody = body
 
         let (payload, response) = try await URLSession.shared.data(for: req)
         guard let status = (response as? HTTPURLResponse)?.statusCode else {
@@ -123,10 +125,12 @@ public actor CatalystSwift {
         }
 
         let url = components.url!
+        let body = try JSONSerialization.data(withJSONObject: parameters, options: [])
         var req = URLRequest(url: url)
         req.httpMethod = "PUT"
         req.setValue("applicaction/json", forHTTPHeaderField: "content-type")
         req.setValue("Bearer \(accessToken ?? "")", forHTTPHeaderField: "authorization")
+        req.httpBody = body
 
         let (payload, response) = try await URLSession.shared.data(for: req)
         guard let status = (response as? HTTPURLResponse)?.statusCode else {
@@ -149,10 +153,12 @@ public actor CatalystSwift {
         }
 
         let url = components.url!
+        let body = try JSONSerialization.data(withJSONObject: parameters, options: [])
         var req = URLRequest(url: url)
         req.httpMethod = "PATCH"
         req.setValue("applicaction/json", forHTTPHeaderField: "content-type")
         req.setValue("Bearer \(accessToken ?? "")", forHTTPHeaderField: "authorization")
+        req.httpBody = body
 
         let (payload, response) = try await URLSession.shared.data(for: req)
         guard let status = (response as? HTTPURLResponse)?.statusCode else {
@@ -175,10 +181,12 @@ public actor CatalystSwift {
         }
 
         let url = components.url!
+        let body = try JSONSerialization.data(withJSONObject: parameters, options: [])
         var req = URLRequest(url: url)
         req.httpMethod = "delete"
         req.setValue("applicaction/json", forHTTPHeaderField: "content-type")
         req.setValue("Bearer \(accessToken ?? "")", forHTTPHeaderField: "authorization")
+        req.httpBody = body
 
         let (payload, response) = try await URLSession.shared.data(for: req)
         guard let status = (response as? HTTPURLResponse)?.statusCode else {
