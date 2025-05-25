@@ -37,6 +37,34 @@ public final class Catalyst: Sendable {
         return obj.statuses
     }
 
+    public func timelineByUser(username: String, since: String? = nil, until: String? = nil) async throws -> [Status] {
+        var parameters: [String: String] = [:]
+
+        if since != nil {
+            parameters["since"] = since
+        }
+        if until != nil {
+            parameters["until"] = until
+        }
+
+        let obj: Statuses = try await client.get(endpoint: "/catalyst/v1/timeline/user/by/username/\(username)", parameters: parameters)
+        return obj.statuses
+    }
+
+    public func timelineByUserSingle(username: String, since: String? = nil, until: String? = nil) async throws -> Status {
+        var parameters: [String: String] = [:]
+
+        if since != nil {
+            parameters["since"] = since
+        }
+        if until != nil {
+            parameters["until"] = until
+        }
+
+        let obj: Statuses = try await client.get(endpoint: "/catalyst/v1/timeline/user/by/username/\(username)/gallery", parameters: parameters)
+        return obj.statuses.first!
+    }
+
     public func relationships(username: String) async throws -> Relationships {
         return try await client.get(endpoint: "/catalyst/v1/relationships/\(username)", parameters: [:])
     }
