@@ -222,7 +222,15 @@ public actor CatalystSwift {
         }
     }
 
+    // for notifications parser
+    public static func decode<T: Decodable>(_ data: Data) throws -> T {
+        let decoder = JSONDecoder()
+        decoder.dateDecodingStrategy = .formatted(.iso8601Full)
+        return try decoder.decode(T.self, from: data)
+    }
+
     public lazy var oauth: OAuth = .init(client: self)
     public lazy var catalyst: Catalyst = .init(client: self)
     public lazy var egeria: Egeria = .init(client: self)
+    public lazy var steambird: Steambird = .init(client: self)
 }
