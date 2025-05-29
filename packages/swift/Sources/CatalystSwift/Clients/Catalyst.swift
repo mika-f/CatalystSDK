@@ -51,7 +51,7 @@ public final class Catalyst: Sendable {
         return obj.statuses
     }
 
-    public func timelineByUserSingle(username: String, since: String? = nil, until: String? = nil) async throws -> Status {
+    public func timelineByUserSingle(username: String, since: String? = nil, until: String? = nil) async throws -> [Status] {
         var parameters: [String: String] = [:]
 
         if since != nil {
@@ -62,7 +62,7 @@ public final class Catalyst: Sendable {
         }
 
         let obj: Statuses = try await client.get(endpoint: "/catalyst/v1/timeline/user/by/username/\(username)/gallery", parameters: parameters)
-        return obj.statuses.first!
+        return obj.statuses
     }
 
     public func relationships(username: String) async throws -> Relationships {
