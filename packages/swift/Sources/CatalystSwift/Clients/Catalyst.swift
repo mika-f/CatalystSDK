@@ -111,13 +111,13 @@ public final class Catalyst: Sendable {
     return obj.reactions
   }
 
-  public func incrementReactionByStatys(id: String, symbol: String) async throws -> ReactedValue {
+  public func incrementReactionByStatus(id: String, symbol: String) async throws -> ReactedValue {
     let obj: ReactedValue = try await client.post(
       endpoint: "/catalyst/v1/status/\(id)/reactions/\(symbol)", parameters: [:])
     return obj
   }
 
-  public func decrementReactionByStatys(id: String, symbol: String) async throws -> ReactedValue {
+  public func decrementReactionByStatus(id: String, symbol: String) async throws -> ReactedValue {
     let obj: ReactedValue = try await client.delete(
       endpoint: "/catalyst/v1/status/\(id)/reactions/\(symbol)", parameters: [:])
     return obj
