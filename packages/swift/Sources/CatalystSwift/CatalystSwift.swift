@@ -6,10 +6,10 @@ import Foundation
 
 public enum CatalystSwiftError: Error {
     // response cause
-    case BadRequestException // 400
-    case UnauthorizedException // 401
-    case InternalServerErrorException // 500
-    case UncaughtServerErrorException(HTTPErrorInfo) // xxx
+    case BadRequestException  // 400
+    case UnauthorizedException  // 401
+    case InternalServerErrorException  // 500
+    case UncaughtServerErrorException(HTTPErrorInfo)  // xxx
 
     // request cause
     case InvalidRequestException
@@ -59,7 +59,8 @@ public actor CatalystSwift {
         return token
     }
 
-    public func get<T>(endpoint: String, parameters: [String: String]) async throws -> T where T: Decodable, T: Sendable {
+    public func get<T>(endpoint: String, parameters: [String: String]) async throws -> T
+    where T: Decodable, T: Sendable {
         var components = URLComponents(string: PUBLIC_API_ENDPOINT + endpoint)!
 
         if !parameters.isEmpty {
@@ -73,7 +74,7 @@ public actor CatalystSwift {
         let url = components.url!
         var req = URLRequest(url: url)
         req.httpMethod = "GET"
-        req.setValue("applicaction/json", forHTTPHeaderField: "content-type")
+        req.setValue("application/json", forHTTPHeaderField: "content-type")
         req.setValue("Bearer \(accessToken ?? "")", forHTTPHeaderField: "authorization")
 
         let (payload, response) = try await URLSession.shared.data(for: req)
@@ -85,7 +86,8 @@ public actor CatalystSwift {
         return json
     }
 
-    public func post<T>(endpoint: String, parameters: [String: String]) async throws -> T where T: Decodable, T: Sendable {
+    public func post<T>(endpoint: String, parameters: [String: String]) async throws -> T
+    where T: Decodable, T: Sendable {
         var components = URLComponents(string: PUBLIC_API_ENDPOINT + endpoint)!
 
         if !parameters.isEmpty {
@@ -100,7 +102,7 @@ public actor CatalystSwift {
         let body = try JSONSerialization.data(withJSONObject: parameters, options: [])
         var req = URLRequest(url: url)
         req.httpMethod = "POST"
-        req.setValue("applicaction/json", forHTTPHeaderField: "content-type")
+        req.setValue("application/json", forHTTPHeaderField: "content-type")
         req.setValue("Bearer \(accessToken ?? "")", forHTTPHeaderField: "authorization")
         req.httpBody = body
 
@@ -113,7 +115,8 @@ public actor CatalystSwift {
         return json
     }
 
-    public func put<T>(endpoint: String, parameters: [String: String]) async throws -> T where T: Decodable, T: Sendable {
+    public func put<T>(endpoint: String, parameters: [String: String]) async throws -> T
+    where T: Decodable, T: Sendable {
         var components = URLComponents(string: PUBLIC_API_ENDPOINT + endpoint)!
 
         if !parameters.isEmpty {
@@ -128,7 +131,7 @@ public actor CatalystSwift {
         let body = try JSONSerialization.data(withJSONObject: parameters, options: [])
         var req = URLRequest(url: url)
         req.httpMethod = "PUT"
-        req.setValue("applicaction/json", forHTTPHeaderField: "content-type")
+        req.setValue("application/json", forHTTPHeaderField: "content-type")
         req.setValue("Bearer \(accessToken ?? "")", forHTTPHeaderField: "authorization")
         req.httpBody = body
 
@@ -141,7 +144,8 @@ public actor CatalystSwift {
         return json
     }
 
-    public func patch<T>(endpoint: String, parameters: [String: String]) async throws -> T where T: Decodable, T: Sendable {
+    public func patch<T>(endpoint: String, parameters: [String: String]) async throws -> T
+    where T: Decodable, T: Sendable {
         var components = URLComponents(string: PUBLIC_API_ENDPOINT + endpoint)!
 
         if !parameters.isEmpty {
@@ -156,7 +160,7 @@ public actor CatalystSwift {
         let body = try JSONSerialization.data(withJSONObject: parameters, options: [])
         var req = URLRequest(url: url)
         req.httpMethod = "PATCH"
-        req.setValue("applicaction/json", forHTTPHeaderField: "content-type")
+        req.setValue("application/json", forHTTPHeaderField: "content-type")
         req.setValue("Bearer \(accessToken ?? "")", forHTTPHeaderField: "authorization")
         req.httpBody = body
 
@@ -169,7 +173,8 @@ public actor CatalystSwift {
         return json
     }
 
-    public func delete<T>(endpoint: String, parameters: [String: String]) async throws -> T where T: Decodable, T: Sendable {
+    public func delete<T>(endpoint: String, parameters: [String: String]) async throws -> T
+    where T: Decodable, T: Sendable {
         var components = URLComponents(string: PUBLIC_API_ENDPOINT + endpoint)!
 
         if !parameters.isEmpty {
@@ -184,7 +189,7 @@ public actor CatalystSwift {
         let body = try JSONSerialization.data(withJSONObject: parameters, options: [])
         var req = URLRequest(url: url)
         req.httpMethod = "delete"
-        req.setValue("applicaction/json", forHTTPHeaderField: "content-type")
+        req.setValue("application/json", forHTTPHeaderField: "content-type")
         req.setValue("Bearer \(accessToken ?? "")", forHTTPHeaderField: "authorization")
         req.httpBody = body
 
@@ -197,7 +202,8 @@ public actor CatalystSwift {
         return json
     }
 
-    private func ensureUnsuccessStatusCode<T>(_ status: Int, payload: Data) throws -> T where T: Decodable {
+    private func ensureUnsuccessStatusCode<T>(_ status: Int, payload: Data) throws -> T
+    where T: Decodable {
         let decoder = JSONDecoder()
         decoder.dateDecodingStrategy = .formatted(.iso8601Full)
 
@@ -217,7 +223,8 @@ public actor CatalystSwift {
                 throw CatalystSwiftError.InternalServerErrorException
 
             default:
-                throw CatalystSwiftError.UncaughtServerErrorException(HTTPErrorInfo(message: obj.message ?? "", code: status))
+                throw CatalystSwiftError.UncaughtServerErrorException(
+                    HTTPErrorInfo(message: obj.message ?? "", code: status))
             }
         }
     }
