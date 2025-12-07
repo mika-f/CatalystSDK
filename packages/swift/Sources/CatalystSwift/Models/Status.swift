@@ -5,9 +5,9 @@
 import Foundation
 
 public struct Status: Codable, Equatable, Hashable, Identifiable, Sendable {
-    public let id: String
-    public let body: String
-    public let createdAt: Date
-    public let user: User
-    public let medias: [Media]
+  public let id: String
+  public let body: String
+  public let createdAt: Date
+  public let user: User
+  public let medias: [Media]
 }

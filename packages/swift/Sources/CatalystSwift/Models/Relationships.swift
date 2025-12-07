@@ -5,7 +5,7 @@
 import Foundation
 
 public struct Relationships: Codable, Sendable {
-    public let isMyself: Bool
-    public let isFollowing: Bool
-    public let isFollowed: Bool
+  public let isMyself: Bool
+  public let isFollowing: Bool
+  public let isFollowed: Bool
 }
