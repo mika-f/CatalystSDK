@@ -86,18 +86,9 @@ public actor CatalystSwift {
     return json
   }
 
-  public func post<T>(endpoint: String, parameters: [String: String]) async throws -> T
+  public func post<T>(endpoint: String, parameters: [String: Codable]) async throws -> T
   where T: Decodable, T: Sendable {
-    var components = URLComponents(string: PUBLIC_API_ENDPOINT + endpoint)!
-
-    if !parameters.isEmpty {
-      components.queryItems = []
-
-      for (key, value) in parameters {
-        components.queryItems?.append(URLQueryItem(name: key, value: value))
-      }
-    }
-
+    let components = URLComponents(string: PUBLIC_API_ENDPOINT + endpoint)!
     let url = components.url!
     let body = try JSONSerialization.data(withJSONObject: parameters, options: [])
     var req = URLRequest(url: url)
@@ -115,18 +106,9 @@ public actor CatalystSwift {
     return json
   }
 
-  public func put<T>(endpoint: String, parameters: [String: String]) async throws -> T
+  public func put<T>(endpoint: String, parameters: [String: Codable]) async throws -> T
   where T: Decodable, T: Sendable {
-    var components = URLComponents(string: PUBLIC_API_ENDPOINT + endpoint)!
-
-    if !parameters.isEmpty {
-      components.queryItems = []
-
-      for (key, value) in parameters {
-        components.queryItems?.append(URLQueryItem(name: key, value: value))
-      }
-    }
-
+    let components = URLComponents(string: PUBLIC_API_ENDPOINT + endpoint)!
     let url = components.url!
     let body = try JSONSerialization.data(withJSONObject: parameters, options: [])
     var req = URLRequest(url: url)
@@ -144,18 +126,9 @@ public actor CatalystSwift {
     return json
   }
 
-  public func patch<T>(endpoint: String, parameters: [String: String]) async throws -> T
+  public func patch<T>(endpoint: String, parameters: [String: Codable]) async throws -> T
   where T: Decodable, T: Sendable {
-    var components = URLComponents(string: PUBLIC_API_ENDPOINT + endpoint)!
-
-    if !parameters.isEmpty {
-      components.queryItems = []
-
-      for (key, value) in parameters {
-        components.queryItems?.append(URLQueryItem(name: key, value: value))
-      }
-    }
-
+    let components = URLComponents(string: PUBLIC_API_ENDPOINT + endpoint)!
     let url = components.url!
     let body = try JSONSerialization.data(withJSONObject: parameters, options: [])
     var req = URLRequest(url: url)
