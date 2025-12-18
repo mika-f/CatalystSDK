@@ -24,27 +24,51 @@ public struct HTTPErrorInfo: Codable, Sendable {
   let code: Int
 }
 
-public actor CatalystSwift {
-  let clientId: String
-  let clientSecret: String
-  var accessToken: String?
-  var refreshToken: String?
+public final actor CatalystSwift {
+  private var initialInterceptors: [RequestInterceptor] = []
+  public let clientId: String
+  public let clientSecret: String
+  public private(set) var accessToken: String?
+  public private(set) var refreshToken: String?
 
-  public init(clientId: String, clientSecret: String) {
+  private lazy var client: APIClient = {
+    var interceptors = initialInterceptors
+    interceptors.append(AuthInterceptor(tokenProvider: { [weak self] in await self?.accessToken }))
+    return URLSessionAPIClient(interceptors: interceptors)
+  }()
+
+  public init(clientId: String, clientSecret: String, interceptors: [RequestInterceptor] = []) {
     self.clientId = clientId
     self.clientSecret = clientSecret
+    self.initialInterceptors = interceptors
   }
 
-  public init(clientId: String, clientSecret: String, accessToken: String, refreshToken: String) {
+  public init(
+    clientId: String, clientSecret: String, accessToken: String, refreshToken: String,
+    interceptors: [RequestInterceptor] = []
+  ) {
     self.clientId = clientId
     self.clientSecret = clientSecret
     self.accessToken = accessToken
     self.refreshToken = refreshToken
+    self.initialInterceptors = interceptors
   }
 
   public func setCredential(accessToken: String, refreshToken: String) {
     self.accessToken = accessToken
     self.refreshToken = refreshToken
+  }
+
+  public func request<T: Decodable>(_ endpoint: Endpoint) async throws -> T {
+    try await client.request(endpoint)
+  }
+
+  public func request(_ endpoint: Endpoint) async throws {
+    try await client.request(endpoint)
+  }
+  
+  public func requestRaw(_ endpoint: Endpoint) async throws -> Data {
+    try await client.requestRaw(endpoint)
   }
 
   public func refresh() async throws -> Token {
@@ -59,149 +83,6 @@ public actor CatalystSwift {
     return token
   }
 
-  public func get<T>(endpoint: String, parameters: [String: String]) async throws -> T
-  where T: Decodable, T: Sendable {
-    var components = URLComponents(string: PUBLIC_API_ENDPOINT + endpoint)!
-
-    if !parameters.isEmpty {
-      components.queryItems = []
-
-      for (key, value) in parameters {
-        components.queryItems?.append(URLQueryItem(name: key, value: value))
-      }
-    }
-
-    let url = components.url!
-    var req = URLRequest(url: url)
-    req.httpMethod = "GET"
-    req.setValue("application/json", forHTTPHeaderField: "content-type")
-    req.setValue("Bearer \(accessToken ?? "")", forHTTPHeaderField: "authorization")
-
-    let (payload, response) = try await URLSession.shared.data(for: req)
-    guard let status = (response as? HTTPURLResponse)?.statusCode else {
-      throw CatalystSwiftError.InvalidRequestException
-    }
-
-    let json: T = try ensureUnsuccessStatusCode(status, payload: payload)
-    return json
-  }
-
-  public func post<T>(endpoint: String, parameters: [String: Codable]) async throws -> T
-  where T: Decodable, T: Sendable {
-    let components = URLComponents(string: PUBLIC_API_ENDPOINT + endpoint)!
-    let url = components.url!
-    let body = try JSONSerialization.data(withJSONObject: parameters, options: [])
-    var req = URLRequest(url: url)
-    req.httpMethod = "POST"
-    req.setValue("application/json", forHTTPHeaderField: "content-type")
-    req.setValue("Bearer \(accessToken ?? "")", forHTTPHeaderField: "authorization")
-    req.httpBody = body
-
-    let (payload, response) = try await URLSession.shared.data(for: req)
-    guard let status = (response as? HTTPURLResponse)?.statusCode else {
-      throw CatalystSwiftError.InvalidRequestException
-    }
-
-    let json: T = try ensureUnsuccessStatusCode(status, payload: payload)
-    return json
-  }
-
-  public func put<T>(endpoint: String, parameters: [String: Codable]) async throws -> T
-  where T: Decodable, T: Sendable {
-    let components = URLComponents(string: PUBLIC_API_ENDPOINT + endpoint)!
-    let url = components.url!
-    let body = try JSONSerialization.data(withJSONObject: parameters, options: [])
-    var req = URLRequest(url: url)
-    req.httpMethod = "PUT"
-    req.setValue("application/json", forHTTPHeaderField: "content-type")
-    req.setValue("Bearer \(accessToken ?? "")", forHTTPHeaderField: "authorization")
-    req.httpBody = body
-
-    let (payload, response) = try await URLSession.shared.data(for: req)
-    guard let status = (response as? HTTPURLResponse)?.statusCode else {
-      throw CatalystSwiftError.InvalidRequestException
-    }
-
-    let json: T = try ensureUnsuccessStatusCode(status, payload: payload)
-    return json
-  }
-
-  public func patch<T>(endpoint: String, parameters: [String: Codable]) async throws -> T
-  where T: Decodable, T: Sendable {
-    let components = URLComponents(string: PUBLIC_API_ENDPOINT + endpoint)!
-    let url = components.url!
-    let body = try JSONSerialization.data(withJSONObject: parameters, options: [])
-    var req = URLRequest(url: url)
-    req.httpMethod = "PATCH"
-    req.setValue("application/json", forHTTPHeaderField: "content-type")
-    req.setValue("Bearer \(accessToken ?? "")", forHTTPHeaderField: "authorization")
-    req.httpBody = body
-
-    let (payload, response) = try await URLSession.shared.data(for: req)
-    guard let status = (response as? HTTPURLResponse)?.statusCode else {
-      throw CatalystSwiftError.InvalidRequestException
-    }
-
-    let json: T = try ensureUnsuccessStatusCode(status, payload: payload)
-    return json
-  }
-
-  public func delete<T>(endpoint: String, parameters: [String: String]) async throws -> T
-  where T: Decodable, T: Sendable {
-    var components = URLComponents(string: PUBLIC_API_ENDPOINT + endpoint)!
-
-    if !parameters.isEmpty {
-      components.queryItems = []
-
-      for (key, value) in parameters {
-        components.queryItems?.append(URLQueryItem(name: key, value: value))
-      }
-    }
-
-    let url = components.url!
-    let body = try JSONSerialization.data(withJSONObject: parameters, options: [])
-    var req = URLRequest(url: url)
-    req.httpMethod = "delete"
-    req.setValue("application/json", forHTTPHeaderField: "content-type")
-    req.setValue("Bearer \(accessToken ?? "")", forHTTPHeaderField: "authorization")
-    req.httpBody = body
-
-    let (payload, response) = try await URLSession.shared.data(for: req)
-    guard let status = (response as? HTTPURLResponse)?.statusCode else {
-      throw CatalystSwiftError.InvalidRequestException
-    }
-
-    let json: T = try ensureUnsuccessStatusCode(status, payload: payload)
-    return json
-  }
-
-  private func ensureUnsuccessStatusCode<T>(_ status: Int, payload: Data) throws -> T
-  where T: Decodable {
-    let decoder = JSONDecoder()
-    decoder.dateDecodingStrategy = .formatted(.iso8601Full)
-
-    if status == 200 {
-      let obj = try! decoder.decode(T.self, from: payload)
-      return obj
-    } else {
-      let obj = try! decoder.decode(HTTPServerError.self, from: payload)
-      switch status {
-      case 400:
-        throw CatalystSwiftError.InvalidRequestException
-
-      case 401:
-        throw CatalystSwiftError.UnauthorizedException
-
-      case 500:
-        throw CatalystSwiftError.InternalServerErrorException
-
-      default:
-        throw CatalystSwiftError.UncaughtServerErrorException(
-          HTTPErrorInfo(message: obj.message ?? "", code: status))
-      }
-    }
-  }
-
   // for notifications parser
   public static func decode<T: Decodable>(_ data: Data) throws -> T {
     let decoder = JSONDecoder()
@@ -209,8 +90,9 @@ public actor CatalystSwift {
     return try decoder.decode(T.self, from: data)
   }
 
-  public lazy var oauth: OAuth = .init(client: self)
-  public lazy var catalyst: Catalyst = .init(client: self)
-  public lazy var egeria: Egeria = .init(client: self)
-  public lazy var steambird: Steambird = .init(client: self)
+  public var oauth: OAuth { .init(client: self) }
+  public var catalyst: CatalystClient { .init(client: self) }
+  public var egeria: EgeriaClient { .init(client: self) }
+  public var media: MediaClient { .init(client: self) }
+  public var steambird: SteambirdClient { .init(client: self) }
 }

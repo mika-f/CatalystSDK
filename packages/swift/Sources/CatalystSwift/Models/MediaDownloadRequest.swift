@@ -1,0 +1,7 @@
+// Licensed under the MIT License
+//
+// Copyright (c) 2025 Natsune Mochizuki
+
+public struct MediaDownloadRequest: Encodable, Sendable {
+  public let url: String
+}
