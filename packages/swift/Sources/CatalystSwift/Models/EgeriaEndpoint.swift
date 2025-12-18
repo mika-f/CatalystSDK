@@ -10,8 +10,7 @@ public enum EgeriaEndpoint: Endpoint {
 
   public var path: String {
     switch self {
-    case .me:
-    case .update(_):
+    case .me, .update(_):
       return "/egeria/v1/me"
 
     case .search:
@@ -30,9 +29,7 @@ public enum EgeriaEndpoint: Endpoint {
 
   public var method: HTTPMethod {
     switch self {
-    case .me:
-    case .search(_):
-    case .user(_, _):
+    case .me, .search(_), .user(_, _):
       return .get
 
     case .update(_):

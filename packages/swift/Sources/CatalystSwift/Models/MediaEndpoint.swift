@@ -22,8 +22,7 @@ public enum MediaEndpoint: Endpoint {
 
   public var method: HTTPMethod {
     switch self {
-    case .download:
-    case .upload:
+    case .download, .upload:
       return .post
 
     case .delete:

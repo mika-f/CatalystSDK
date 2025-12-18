@@ -26,12 +26,10 @@ public enum SteambirdEndpoint: Endpoint {
 
   public var method: HTTPMethod {
     switch self {
-    case .notifications:
-    case .unreads:
+    case .notifications, .unreads:
       return .get
 
-    case .read:
-    case .readAll:
+    case .read, .readAll:
       return .post
     }
   }
