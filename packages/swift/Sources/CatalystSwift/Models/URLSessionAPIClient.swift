@@ -3,7 +3,7 @@
 // Copyright (c) 2025 Natsune Mochizuki
 import Foundation
 
-final class URLSessionAPIClient: APIClient {
+final class URLSessionAPIClient: APIClient, @unchecked Sendable {
   private let session: URLSession = .shared
   private let interceptors: [RequestInterceptor]
 

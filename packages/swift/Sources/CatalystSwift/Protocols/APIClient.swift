@@ -4,7 +4,7 @@
 
 import Foundation
 
-protocol APIClient {
+protocol APIClient: Sendable {
   func request<T: Decodable>(_ endpoint: Endpoint) async throws -> T
   func request(_ endpoint: Endpoint) async throws
   func requestRaw(_ endpoint: Endpoint) async throws -> Data

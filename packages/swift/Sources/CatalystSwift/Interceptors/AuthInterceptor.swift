@@ -4,9 +4,9 @@
 import Foundation
 
 final class AuthInterceptor: RequestInterceptor {
-  private let tokenProvider: () async throws -> String?
+  private let tokenProvider: @Sendable () async throws -> String?
 
-  init(tokenProvider: @escaping () async throws -> String?) {
+  init(tokenProvider: @escaping @Sendable () async throws -> String?) {
     self.tokenProvider = tokenProvider
   }
 
