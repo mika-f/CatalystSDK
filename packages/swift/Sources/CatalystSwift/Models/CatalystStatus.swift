@@ -10,7 +10,7 @@ public struct CatalystStatus: Decodable, Sendable, Equatable, Hashable {
   public let user: EgeriaUser?
   public let medias: [Media]
   public let createdAt: Date
-  public let updatedAt: Date
+  public let updatedAt: Date?
 }
 
 public struct CatalystStatusWrapper: Decodable, Sendable {
