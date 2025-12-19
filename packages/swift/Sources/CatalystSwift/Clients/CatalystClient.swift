@@ -142,7 +142,7 @@ public final class CatalystClient: Sendable {
   }
 
   public func firehoseTimeline(since: String? = nil, until: String? = nil) async throws
-    -> CatalystStatuses
+    -> [CatalystStatus]
   {
     return try await client.request(CatalystEndpoint.firehoseTimeline(since: since, until: until))
   }
@@ -154,7 +154,7 @@ public final class CatalystClient: Sendable {
   }
 
   public func homeTimeline(since: String? = nil, until: String? = nil) async throws
-    -> CatalystStatuses
+    -> [CatalystStatus]
   {
     return try await client.request(CatalystEndpoint.homeTimeline(since: since, until: until))
   }
