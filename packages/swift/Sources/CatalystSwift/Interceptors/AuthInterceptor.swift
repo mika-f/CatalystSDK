@@ -5,6 +5,7 @@ import Foundation
 
 final class AuthInterceptor: RequestInterceptor {
   private let tokenProvider: @Sendable () async throws -> String?
+  private let retryManager = RetryManager()
 
   init(tokenProvider: @escaping @Sendable () async throws -> String?) {
     self.tokenProvider = tokenProvider
@@ -26,6 +27,30 @@ final class AuthInterceptor: RequestInterceptor {
       return false
     }
 
+    return await retryManager.shouldRetry(for: request)
+  }
+}
+
+private actor RetryManager {
+  private let maxRetryCount = 5
+  private var retryCounts: [String: Int] = [:]
+
+  func shouldRetry(for request: URLRequest) -> Bool {
+    let key = makeRequestKey(from: request)
+    let currentCount = retryCounts[key, default: 0]
+
+    if currentCount >= maxRetryCount {
+      retryCounts.removeValue(forKey: key)
+      return false
+    }
+
+    retryCounts[key] = currentCount + 1
     return true
+  }
+
+  private func makeRequestKey(from request: URLRequest) -> String {
+    let url = request.url?.absoluteString ?? ""
+    let method = request.httpMethod ?? "GET"
+    return "\(method):\(url)"
   }
 }
