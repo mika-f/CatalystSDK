@@ -34,6 +34,7 @@ public final actor CatalystSwift {
   private lazy var client: APIClient = {
     var interceptors = initialInterceptors
     interceptors.append(AuthInterceptor(tokenProvider: { [weak self] in await self?.accessToken }))
+    interceptors.append(UserAgentInterceptor())
     return URLSessionAPIClient(interceptors: interceptors)
   }()
 
