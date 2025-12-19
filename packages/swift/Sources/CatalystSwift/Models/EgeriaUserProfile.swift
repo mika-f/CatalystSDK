@@ -7,13 +7,13 @@ public struct EgeriaUserProfile: Codable, Sendable, Equatable, Hashable {
   public let bannerUrl: String
   public let bio: String
   public let website: String
-  public let additionalWebsies: [String]
+  public let additionalWebsites: [String]
   
-  public init(iconUrl: String, bannerUrl: String, bio: String, website: String, additionalWebsies: [String]) {
+  public init(iconUrl: String, bannerUrl: String, bio: String, website: String, additionalWebsites: [String]) {
     self.iconUrl = iconUrl
     self.bannerUrl = bannerUrl
     self.bio = bio
     self.website = website
-    self.additionalWebsies = additionalWebsies
+    self.additionalWebsites = additionalWebsites
   }
 }
