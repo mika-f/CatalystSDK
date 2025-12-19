@@ -8,8 +8,10 @@ public struct EgeriaUserProfile: Codable, Sendable, Equatable, Hashable {
   public let bio: String
   public let website: String
   public let additionalWebsites: [String]
-  
-  public init(iconUrl: String, bannerUrl: String, bio: String, website: String, additionalWebsites: [String]) {
+
+  public init(
+    iconUrl: String, bannerUrl: String, bio: String, website: String, additionalWebsites: [String]
+  ) {
     self.iconUrl = iconUrl
     self.bannerUrl = bannerUrl
     self.bio = bio

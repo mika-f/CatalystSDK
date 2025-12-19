@@ -4,7 +4,7 @@
 
 public struct MediaDownloadRequest: Encodable, Sendable {
   public let url: String
-  
+
   public init(url: String) {
     self.url = url
   }

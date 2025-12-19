@@ -18,7 +18,7 @@ final class URLSessionAPIClient: APIClient, @unchecked Sendable {
       request = try await interceptor.adapt(request)
     }
 
-    let (data, response) = try await session.data(for: endpoint.request)
+    let (data, response) = try await session.data(for: request)
 
     guard let httpResponse = response as? HTTPURLResponse else {
       throw APIError.invalid
@@ -52,7 +52,7 @@ final class URLSessionAPIClient: APIClient, @unchecked Sendable {
       request = try await interceptor.adapt(request)
     }
 
-    let (_, response) = try await session.data(for: endpoint.request)
+    let (_, response) = try await session.data(for: request)
 
     guard let httpResponse = response as? HTTPURLResponse else {
       throw APIError.invalid
@@ -78,7 +78,7 @@ final class URLSessionAPIClient: APIClient, @unchecked Sendable {
       request = try await interceptor.adapt(request)
     }
 
-    let (data, response) = try await session.data(for: endpoint.request)
+    let (data, response) = try await session.data(for: request)
 
     guard let httpResponse = response as? HTTPURLResponse else {
       throw APIError.invalid

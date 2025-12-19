@@ -13,7 +13,7 @@ public struct CatalystCreateSmartAlbumRequest: Encodable, Sendable {
   public let isAllowNsfw: Bool?
   public let isAllowOthers: Bool?
   public let mode: CatalystAlbumDisplayMode?
-  
+
   public init(
     title: String,
     description: String,
