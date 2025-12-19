@@ -16,7 +16,7 @@ final class AuthInterceptor: RequestInterceptor {
     let token = try await self.tokenProvider()
 
     if let token = token {
-      request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+      request.setValue("Bearer \(token)", forHTTPHeaderField: "authorization")
     }
 
     return request
