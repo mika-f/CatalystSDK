@@ -4,4 +4,8 @@
 
 public struct CatalystRelationshipRequest: Encodable, Sendable {
   public let userId: String
+  
+  public init(userId: String) {
+    self.userId = userId
+  }
 }

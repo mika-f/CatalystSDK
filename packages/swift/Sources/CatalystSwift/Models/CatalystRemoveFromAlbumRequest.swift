@@ -4,4 +4,8 @@
 
 public struct CatalystRemoveFromAlbumRequest: Encodable, Sendable {
   public let remove: String
+  
+  public init(remove: String) {
+    self.remove = remove
+  }
 }

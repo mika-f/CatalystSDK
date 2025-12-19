@@ -13,4 +13,24 @@ public struct CatalystCreateSmartAlbumRequest: Encodable, Sendable {
   public let isAllowNsfw: Bool?
   public let isAllowOthers: Bool?
   public let mode: CatalystAlbumDisplayMode?
+  
+  public init(
+    title: String,
+    description: String,
+    hashtags: [String],
+    since: Date?,
+    until: Date?,
+    isAllowNsfw: Bool?,
+    isAllowOthers: Bool?,
+    mode: CatalystAlbumDisplayMode?
+  ) {
+    self.title = title
+    self.description = description
+    self.hashtags = hashtags
+    self.since = since
+    self.until = until
+    self.isAllowNsfw = isAllowNsfw
+    self.isAllowOthers = isAllowOthers
+    self.mode = mode
+  }
 }

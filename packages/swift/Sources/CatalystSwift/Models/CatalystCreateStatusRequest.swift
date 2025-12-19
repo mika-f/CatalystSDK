@@ -13,4 +13,28 @@ public struct CatalystCreateStatusRequest: Encodable, Sendable {
   public let privacy: CatalystStatusPrivacy?
   public let contestId: String?
   public let media: [CatalystMediaWithMetadata]
+  
+  public init(
+    description: String,
+    isNsfw: Bool,
+    isSpoiler: Bool,
+    isSubmitToContest: Bool,
+    isHidingLikeAndViewCount: Bool,
+    isPrivateMetadata: Bool?,
+    isAllowComments: Bool,
+    privacy: CatalystStatusPrivacy?,
+    contestId: String?,
+    media: [CatalystMediaWithMetadata]
+  ) {
+    self.description = description
+    self.isNsfw = isNsfw
+    self.isSpoiler = isSpoiler
+    self.isSubmitToContest = isSubmitToContest
+    self.isHidingLikeAndViewCount = isHidingLikeAndViewCount
+    self.isPrivateMetadata = isPrivateMetadata
+    self.isAllowComments = isAllowComments
+    self.privacy = privacy
+    self.contestId = contestId
+    self.media = media
+  }
 }
