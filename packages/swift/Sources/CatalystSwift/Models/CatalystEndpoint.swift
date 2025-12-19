@@ -60,10 +60,10 @@ public enum CatalystEndpoint: Endpoint {
       return "/catalyst/v1/reactions"
 
     case .relationships(let id):
-      return "/catalyst/v1/album/relationships/\(id)"
+      return "/catalyst/v1/relationships/\(id)"
 
     case .follow(_), .remove(_):
-      return "/catalyst/v1/album/relationships"
+      return "/catalyst/v1/relationships"
 
     case .createSmartAlbum(_):
       return "/catalyst/v1/smart-album"
