@@ -116,7 +116,7 @@ public final class CatalystClient: Sendable {
     try await client.request(CatalystEndpoint.unfavorite(id: id))
   }
 
-  public func reactions(by id: String) async throws -> [String: CatalystReaction] {
+  public func reactions(by id: String) async throws -> CatalystReactions {
     return try await client.request(CatalystEndpoint.reactions(id: id))
   }
 
