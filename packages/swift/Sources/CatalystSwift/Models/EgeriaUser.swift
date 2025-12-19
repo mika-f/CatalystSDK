@@ -2,7 +2,7 @@
 //
 // Copyright (c) 2025 Natsune Mochizuki
 
-public struct EgeriaUser: Decodable, Sendable {
+public struct EgeriaUser: Decodable, Sendable, Equatable, Hashable {
   public let id: String
   public let screenName: String
   public let displayName: String

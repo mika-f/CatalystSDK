@@ -4,7 +4,7 @@
 
 import Foundation
 
-public struct CatalystSmartAlbum: Decodable, Sendable {
+public struct CatalystSmartAlbum: Decodable, Sendable, Equatable, Hashable {
   public let id: String
   public let name: String
   public let description: String

@@ -46,7 +46,8 @@ public enum CatalystEndpoint: Endpoint {
     case .createAlbum(_):
       return "/catalyst/v1/album"
 
-    case .getAlbum(let id, _, _), .editAlbum(let id, _), .insertToAlbum(let id, _), .removeFromAlbum(let id, _), .deleteAlbum(let id):
+    case .getAlbum(let id, _, _), .editAlbum(let id, _), .insertToAlbum(let id, _),
+      .removeFromAlbum(let id, _), .deleteAlbum(let id):
       return "/catalyst/v1/album/by/id/\(id)"
 
     case .listAlbums(let username, _):
@@ -123,49 +124,49 @@ public enum CatalystEndpoint: Endpoint {
   public var method: HTTPMethod {
     switch self {
     case .getAlbum(_, _, _),
-         .listAlbums(_, _),
-         .searchAlbum(_, _),
-         .customReactions,
-         .relationships(_),
-         .getSmartAlbum(_, _, _),
-         .searchSmartAlbum(_),
-         .getStatus(_),
-         .isFavorited(_),
-         .reactions(_),
-         .contestTimeline(_, _, _),
-         .favoriteTimeline(_, _),
-         .firehoseTimeline(_, _),
-         .galleryTimeline(_, _),
-         .homeTimeline(_, _),
-         .searchTimeline(_, _, _, _),
-         .userTimeline(_, _, _, _, _),
-         .userGalleryTimeline(_, _, _),
-         .trend:
+      .listAlbums(_, _),
+      .searchAlbum(_, _),
+      .customReactions,
+      .relationships(_),
+      .getSmartAlbum(_, _, _),
+      .searchSmartAlbum(_),
+      .getStatus(_),
+      .isFavorited(_),
+      .reactions(_),
+      .contestTimeline(_, _, _),
+      .favoriteTimeline(_, _),
+      .firehoseTimeline(_, _),
+      .galleryTimeline(_, _),
+      .homeTimeline(_, _),
+      .searchTimeline(_, _, _, _),
+      .userTimeline(_, _, _, _, _),
+      .userGalleryTimeline(_, _, _),
+      .trend:
       return .get
 
     case .createAlbum(_),
-         .follow(_),
-         .createSmartAlbum(_),
-         .createStatus(_),
-         .favorite(_),
-         .react(_, _):
+      .follow(_),
+      .createSmartAlbum(_),
+      .createStatus(_),
+      .favorite(_),
+      .react(_, _):
       return .post
 
     case .editAlbum(_, _),
-         .editSmartAlbum(_, _),
-         .editStatus(_, _):
+      .editSmartAlbum(_, _),
+      .editStatus(_, _):
       return .patch
 
     case .insertToAlbum(_, _),
-         .removeFromAlbum(_, _):
+      .removeFromAlbum(_, _):
       return .put
 
     case .deleteAlbum(_),
-         .remove(_),
-         .deleteSmartAlbum(_),
-         .deleteStatus(_),
-         .unfavorite(_),
-         .unreact(_, _):
+      .remove(_),
+      .deleteSmartAlbum(_),
+      .deleteStatus(_),
+      .unfavorite(_),
+      .unreact(_, _):
       return .delete
     }
   }
@@ -180,13 +181,13 @@ public enum CatalystEndpoint: Endpoint {
   public var queryParameters: [String: String]? {
     switch self {
     case .getAlbum(_, let since, let until),
-         .getSmartAlbum(_, let since, let until),
-         .contestTimeline(_, let since, let until),
-         .favoriteTimeline(let since, let until),
-         .firehoseTimeline(let since, let until),
-         .galleryTimeline(let since, let until),
-         .homeTimeline(let since, let until),
-         .userGalleryTimeline(_, let since, let until):
+      .getSmartAlbum(_, let since, let until),
+      .contestTimeline(_, let since, let until),
+      .favoriteTimeline(let since, let until),
+      .firehoseTimeline(let since, let until),
+      .galleryTimeline(let since, let until),
+      .homeTimeline(let since, let until),
+      .userGalleryTimeline(_, let since, let until):
       var params: [String: String] = [:]
       if let since {
         params["since"] = since

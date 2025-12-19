@@ -4,7 +4,7 @@
 
 import Foundation
 
-public struct CatalystStatus: Decodable, Sendable {
+public struct CatalystStatus: Decodable, Sendable, Equatable, Hashable {
   public let id: String
   public let body: String
   public let user: EgeriaUser?

@@ -2,7 +2,7 @@
 //
 // Copyright (c) 2025 Natsune Mochizuki
 
-public struct CatalystAlbum: Decodable, Sendable {
+public struct CatalystAlbum: Decodable, Equatable, Hashable, Sendable {
   public let id: String
   public let name: String
   public let description: String

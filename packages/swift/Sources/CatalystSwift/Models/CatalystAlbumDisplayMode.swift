@@ -2,7 +2,7 @@
 //
 // Copyright (c) 2025 Natsune Mochizuki
 
-public enum CatalystAlbumDisplayMode: String, Codable, Sendable {
+public enum CatalystAlbumDisplayMode: String, Codable, Equatable, Hashable, Sendable {
   case timeline
   case grid
   case gallery

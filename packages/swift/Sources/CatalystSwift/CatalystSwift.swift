@@ -66,7 +66,7 @@ public final actor CatalystSwift {
   public func request(_ endpoint: Endpoint) async throws {
     try await client.request(endpoint)
   }
-  
+
   public func requestRaw(_ endpoint: Endpoint) async throws -> Data {
     try await client.requestRaw(endpoint)
   }

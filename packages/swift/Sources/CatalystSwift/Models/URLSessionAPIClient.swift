@@ -95,7 +95,7 @@ final class URLSessionAPIClient: APIClient, @unchecked Sendable {
 
       throw error
     }
-    
+
     return data
   }
 }
