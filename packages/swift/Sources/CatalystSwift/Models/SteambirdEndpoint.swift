@@ -1,9 +1,10 @@
 // Licensed under the MIT License
 //
 // Copyright (c) 2025 Natsune Mochizuki
+import Foundation
 
 public enum SteambirdEndpoint: Endpoint {
-  case notifications(issuer: String)
+  case notifications(issuer: String, since: String?, until: String?)
   case read(id: String)
   case readAll(issuer: String?)
   case unreads(issuers: [String]?)
@@ -43,10 +44,18 @@ public enum SteambirdEndpoint: Endpoint {
 
   public var queryParameters: [String: String]? {
     switch self {
-    case .notifications(let issuer):
-      let params: [String: String] = [
+    case .notifications(let issuer, let since, let until):
+      var params: [String: String] = [
         "issuer": issuer
       ]
+
+      if since != nil {
+        params["since"] = since
+      }
+
+      if until != nil {
+        params["until"] = until
+      }
 
       return params
 

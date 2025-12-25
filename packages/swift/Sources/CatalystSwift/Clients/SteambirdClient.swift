@@ -1,6 +1,7 @@
 // Licensed under the MIT License
 //
 // Copyright (c) 2025 Natsune Mochizuki
+import Foundation
 
 public final class SteambirdClient: Sendable {
   private let client: CatalystSwift
@@ -13,8 +14,11 @@ public final class SteambirdClient: Sendable {
     self.client = client
   }
 
-  public func notifications(issuer: String) async throws -> Notifications {
-    return try await client.request(SteambirdEndpoint.notifications(issuer: issuer))
+  public func notifications(issuer: String, since: String? = nil, until: String? = nil) async throws
+    -> Notifications
+  {
+    return try await client.request(
+      SteambirdEndpoint.notifications(issuer: issuer, since: since, until: until))
   }
 
   public func read(by id: String) async throws {
