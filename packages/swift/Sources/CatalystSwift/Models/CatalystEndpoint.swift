@@ -69,7 +69,7 @@ public enum CatalystEndpoint: Endpoint {
       return "/catalyst/v1/smart-album"
 
     case .getSmartAlbum(let id, _, _), .editSmartAlbum(let id, _), .deleteSmartAlbum(let id):
-      return "/catalyst/v1/smart-album/\(id)"
+      return "/catalyst/v1/smart-album/by/id/\(id)"
 
     case .searchSmartAlbum(_):
       return "/catalyst/v1/smart-album/search"
