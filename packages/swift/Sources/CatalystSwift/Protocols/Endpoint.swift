@@ -31,7 +31,9 @@ extension Endpoint {
     headers?.forEach { request.setValue($1, forHTTPHeaderField: $0) }
 
     if let body = body {
-      request.httpBody = try? JSONEncoder().encode(body)
+      var encoder = JSONEncoder()
+      encoder.dateEncodingStrategy = .iso8601
+      request.httpBody = try? encoder.encode(body)
       request.setValue("application/json", forHTTPHeaderField: "Content-Type")
     }
 
