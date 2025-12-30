@@ -12,6 +12,7 @@ public struct CatalystCreateSmartAlbumRequest: Encodable, Sendable {
   public let until: Date?
   public let isAllowNsfw: Bool?
   public let isAllowOthers: Bool?
+  public let isPublic: Bool
   public let mode: CatalystAlbumDisplayMode?
 
   public init(
@@ -22,6 +23,7 @@ public struct CatalystCreateSmartAlbumRequest: Encodable, Sendable {
     until: Date?,
     isAllowNsfw: Bool?,
     isAllowOthers: Bool?,
+    isPublic: Bool,
     mode: CatalystAlbumDisplayMode?
   ) {
     self.title = title
@@ -31,6 +33,7 @@ public struct CatalystCreateSmartAlbumRequest: Encodable, Sendable {
     self.until = until
     self.isAllowNsfw = isAllowNsfw
     self.isAllowOthers = isAllowOthers
+    self.isPublic = isPublic
     self.mode = mode
   }
 }
