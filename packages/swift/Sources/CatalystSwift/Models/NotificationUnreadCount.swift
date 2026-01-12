@@ -3,5 +3,5 @@
 // Copyright (c) 2025 Natsune Mochizuki
 
 public struct NotificationUnreadCount: Decodable, Sendable {
-  public let count: Int
+  public let unread: Int
 }
