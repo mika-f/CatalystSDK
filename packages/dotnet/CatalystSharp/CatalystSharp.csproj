@@ -5,7 +5,26 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <RootNamespace>CatalystSharp</RootNamespace>
+    <Title>CatalystSharp</Title>
+    <Authors>Natsuneko</Authors>
+    <Company>Natsuneko Laboratory</Company>
+    <Description>CatalystSharp is a .NET library that provides bindings for Natsuneko Laboratory Platform, enabling developers to create Catalyst applications using C# and .NET technologies.</Description>
+    <PackageProjectUrl>https://github.com/mika-f/CatalystSharp</PackageProjectUrl>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <RepositoryUrl>https://github.com/mika-f/CatalystSharp</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <AssemblyVersion>0.1.0.0</AssemblyVersion>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <FileVersion>0.1.0.0</FileVersion>
+    <Version>0.1.0</Version>
   </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="..\README.md">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="System.Text.Json" Version="8.0.5" />
