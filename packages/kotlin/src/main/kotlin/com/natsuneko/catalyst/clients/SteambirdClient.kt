@@ -44,10 +44,7 @@ class SteambirdClient internal constructor(
     /**
      * Marks all notifications as read
      */
-    suspend fun markAllAsRead(issuer: String? = null) = httpClient.post(
-        "/steambird/v1/notifications/all",
-        issuer?.let { mapOf("issuer" to it) }
-    )
+    suspend fun markAllAsRead(issuer: String? = null) = httpClient.post("/steambird/v1/notifications/all")
 
     /**
      * Gets the unread notification count

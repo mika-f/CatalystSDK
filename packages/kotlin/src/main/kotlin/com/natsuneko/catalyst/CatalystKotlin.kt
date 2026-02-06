@@ -33,10 +33,6 @@ class CatalystKotlin(
     private var httpClient: CatalystHttpClient = createHttpClient()
 
     private val _oauth: OAuthClient by lazy { OAuthClient(clientId, clientSecret) }
-    private val _catalyst: CatalystClient by lazy { CatalystClient(httpClient) }
-    private val _egeria: EgeriaClient by lazy { EgeriaClient(httpClient) }
-    private val _media: MediaClient by lazy { MediaClient(httpClient) }
-    private val _steambird: SteambirdClient by lazy { SteambirdClient(httpClient) }
 
     /**
      * OAuth client for authentication operations
@@ -46,22 +42,22 @@ class CatalystKotlin(
     /**
      * Catalyst client for status, album, and timeline operations
      */
-    val catalyst: CatalystClient get() = _catalyst
+    val catalyst: CatalystClient get() = CatalystClient(httpClient)
 
     /**
      * Egeria client for user management operations
      */
-    val egeria: EgeriaClient get() = _egeria
+    val egeria: EgeriaClient get() = EgeriaClient(httpClient)
 
     /**
      * Media client for media upload and download operations
      */
-    val media: MediaClient get() = _media
+    val media: MediaClient get() = MediaClient(httpClient)
 
     /**
      * Steambird client for notification operations
      */
-    val steambird: SteambirdClient get() = _steambird
+    val steambird: SteambirdClient get() = SteambirdClient(httpClient)
 
     /**
      * Sets the authentication credentials

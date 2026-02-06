@@ -25,7 +25,7 @@ class CatalystHttpClient(
     internal val baseUrl: String = "https://api.catalyst.natsuneko.com",
     accessToken: String? = null,
     private val userAgent: String = "CatalystKotlin/0.1.0",
-    configure: HttpClientConfig<*>.() -> Unit = {}
+    private val configure: HttpClientConfig<*>.() -> Unit = {}
 ) {
     @PublishedApi
     internal val client = HttpClient(CIO) {
@@ -163,7 +163,8 @@ class CatalystHttpClient(
         return CatalystHttpClient(
             baseUrl = baseUrl,
             accessToken = token,
-            userAgent = userAgent
+            userAgent = userAgent,
+            configure = configure
         )
     }
 
