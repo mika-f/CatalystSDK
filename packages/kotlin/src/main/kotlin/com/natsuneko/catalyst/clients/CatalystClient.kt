@@ -19,7 +19,7 @@ class CatalystClient internal constructor(
         description: String,
         isPublic: Boolean,
         mode: CatalystAlbumDisplayMode
-    ): Identity = httpClient.post(
+    ): Identity = httpClient.postWithResult(
         "/catalyst/v1/album",
         mapOf(
             "name" to name,
@@ -93,7 +93,7 @@ class CatalystClient internal constructor(
         until: String? = null,
         isPublic: Boolean,
         mode: CatalystAlbumDisplayMode
-    ): Identity = httpClient.post(
+    ): Identity = httpClient.postWithResult(
         "/catalyst/v1/smart-album",
         mapOf(
             "name" to name,
@@ -171,7 +171,7 @@ class CatalystClient internal constructor(
         body: String,
         privacy: CatalystStatusPrivacy,
         mediaIds: List<String> = emptyList()
-    ): Identity = httpClient.post(
+    ): Identity = httpClient.postWithResult(
         "/catalyst/v1/status",
         mapOf(
             "body" to body,

@@ -21,12 +21,14 @@ import kotlinx.serialization.json.Json
  * Provides type-safe HTTP operations with automatic serialization/deserialization
  */
 class CatalystHttpClient(
-    private val baseUrl: String = "https://api.catalyst.natsuneko.com",
-    private val accessToken: String? = null,
+    @PublishedApi
+    internal val baseUrl: String = "https://api.catalyst.natsuneko.com",
+    accessToken: String? = null,
     private val userAgent: String = "CatalystKotlin/0.1.0",
     configure: HttpClientConfig<*>.() -> Unit = {}
 ) {
-    private val client = HttpClient(CIO) {
+    @PublishedApi
+    internal val client = HttpClient(CIO) {
         install(ContentNegotiation) {
             json(Json {
                 ignoreUnknownKeys = true
@@ -74,9 +76,9 @@ class CatalystHttpClient(
     }
 
     /**
-     * Performs a POST request
+     * Performs a POST request with typed return value
      */
-    suspend inline fun <reified T> post(
+    suspend inline fun <reified T> postWithResult(
         path: String,
         body: Any? = null
     ): T {

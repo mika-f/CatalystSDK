@@ -1,7 +1,9 @@
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+
 plugins {
     kotlin("jvm") version "2.1.0"
     kotlin("plugin.serialization") version "2.1.0"
-    id("maven-publish")
+    `maven-publish`
 }
 
 group = "com.natsuneko.catalyst"
@@ -38,6 +40,7 @@ kotlin {
     jvmToolchain(17)
 
     compilerOptions {
+        jvmTarget.set(JvmTarget.JVM_17)
         freeCompilerArgs.add("-Xjsr305=strict")
     }
 }

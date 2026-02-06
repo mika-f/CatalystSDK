@@ -16,7 +16,7 @@ class MediaClient internal constructor(
     /**
      * Downloads media by URL
      */
-    suspend fun download(url: String): ByteArray = httpClient.post(
+    suspend fun download(url: String): ByteArray = httpClient.postWithResult(
         "/media/v1/download",
         mapOf("url" to url)
     )
@@ -32,5 +32,5 @@ class MediaClient internal constructor(
     /**
      * Gets a signed URL for uploading media
      */
-    suspend fun getUploadUrl(): MediaUploadUrls = httpClient.post("/media/v2/upload")
+    suspend fun getUploadUrl(): MediaUploadUrls = httpClient.postWithResult("/media/v2/upload")
 }
