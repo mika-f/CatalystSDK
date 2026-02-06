@@ -19,7 +19,9 @@ jobs:
           dotnet-version: "8.x"
 
       - name: dotnet pack
-        run: dotnet pack ./CatalystSharp/CatalystSharp.csproj --configuration Release -o ./bin
+        run: |
+          cd packages/dotnet
+          dotnet pack ./CatalystSharp/CatalystSharp.csproj --configuration Release -o ./bin
 
       - name: NuGet Login
         uses: NuGet/login@d22cc5f58ff5b88bf9bd452535b4335137e24544 # v1.1.0
@@ -28,4 +30,6 @@ jobs:
           user: Mikazuki
 
       - name: Publish package
-        run: dotnet nuget push ./bin/*.nupkg --api-key "${{ steps.login.outputs.NUGET_API_KEY }}" --source https://api.nuget.org/v3/index.json
+        run: |
+          cd packages/dotnet
+          dotnet nuget push ./bin/*.nupkg --api-key "${{ steps.login.outputs.NUGET_API_KEY }}" --source https://api.nuget.org/v3/index.json
