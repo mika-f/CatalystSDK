@@ -18,4 +18,4 @@ data class EgeriaUser(
 )
 
 @Serializable
-data class EgeriaUserWrapper (val user: EgeriaUser? = null)
+data class EgeriaUserWrapper (val user: EgeriaUser)
