@@ -22,7 +22,7 @@ import kotlinx.serialization.json.Json
  */
 class CatalystHttpClient(
     @PublishedApi
-    internal val baseUrl: String = "https://api.catalyst.natsuneko.com",
+    internal val baseUrl: String = "https://api.natsuneko.com",
     accessToken: String? = null,
     private val userAgent: String = "CatalystKotlin/0.1.0",
     private val configure: HttpClientConfig<*>.() -> Unit = {}
