@@ -16,3 +16,6 @@ data class EgeriaUser(
     val displayName: String,
     val profile: EgeriaUserProfile? = null
 )
+
+@Serializable
+data class EgeriaUserWrapper (val user: EgeriaUser? = null)
