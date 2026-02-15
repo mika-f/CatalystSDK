@@ -4,18 +4,18 @@
 
 package com.natsuneko.catalyst.models
 
-import kotlinx.datetime.Instant
 import kotlinx.serialization.Serializable
+import kotlin.time.ExperimentalTime
 
 /**
  * Social media status (post)
  */
 @Serializable
-data class CatalystStatus(
+data class CatalystStatus @OptIn(ExperimentalTime::class) constructor(
     val id: String,
     val body: String,
     val user: EgeriaUser? = null,
     val medias: List<Media>,
-    val createdAt: Instant,
-    val updatedAt: Instant? = null
+    val createdAt: kotlin.time.Instant,
+    val updatedAt: kotlin.time.Instant? = null
 )
