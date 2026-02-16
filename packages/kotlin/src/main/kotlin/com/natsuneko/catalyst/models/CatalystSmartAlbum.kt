@@ -4,14 +4,15 @@
 
 package com.natsuneko.catalyst.models
 
-import kotlinx.datetime.Instant
 import kotlinx.serialization.Serializable
+import kotlin.time.ExperimentalTime
+import kotlin.time.Instant
 
 /**
  * Smart album with automatic content filtering
  */
 @Serializable
-data class CatalystSmartAlbum(
+data class CatalystSmartAlbum @OptIn(ExperimentalTime::class) constructor(
     val id: String,
     val name: String,
     val description: String,
