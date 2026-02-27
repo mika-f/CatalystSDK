@@ -1,7 +1,36 @@
 {
   "permissions": {
     "allow": [
-      "Bash(./gradlew build:*)"
+      "Bash(./gradlew build:*)",
+      "Bash(./gradlew clean:*)",
+      "Bash(pnpm exec vitest:*)",
+      "Bash(pnpm run build:*)",
+      "Bash(pnpm run typecheck)",
+      "Bash(git status *)",
+      "Bash(git diff *)",
+      "Bash(git log *)",
+      "Bash(gh pr view:*)",
+      "Edit(packages/**)",
+      "WebFetch(domain:github.com)",
+      "WebFetch(domain:npmjs.com)"
+    ],
+    "deny": [
+      "Read(./.env)",
+      "Read(./.env.*)",
+      "Read(./.secrets)",
+      "Bash(git add .)",
+      "Bash(git add -A)",
+      "Bash(git pull *)",
+      "Bash(git push *)",
+      "Bash(git reset)",
+      "Bash(git checkout .)",
+      "Bash(git -C *)",
+      "Bash(npm publish)",
+      "Bash(pnpm publish)",
+      "Bash(yarn publish)",
+      "Edit(pnpm-lock.yaml)",
+      "Edit(yarn.lock)",
+      "Edit(package-lock.json)"
     ]
   }
 }
