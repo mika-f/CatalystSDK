@@ -169,9 +169,9 @@ public class CatalystClient
         await _httpClient.DeleteAsync($"/catalyst/v1/status/{id}/favorite", cancellationToken);
     }
 
-    public async Task<List<CatalystAlbum>> GetAlbumsInStatusAsync(string id, CancellationToken cancellationToken = default)
+    public async Task<CatalystSmartAlbums> GetAlbumsInStatusAsync(string id, CancellationToken cancellationToken = default)
     {
-        return await _httpClient.GetAsync<List<CatalystAlbum>>($"/catalyst/v1/status/{id}/albums", cancellationToken);
+        return await _httpClient.GetAsync<CatalystSmartAlbums>($"/catalyst/v1/status/{id}/albums", cancellationToken);
     }
 
     public async Task<CatalystReactions> GetReactionsAsync(string id, CancellationToken cancellationToken = default)

@@ -163,7 +163,7 @@ export class CatalystClient {
     return this.http.request(CatalystEndpoint.reactions(id));
   }
 
-  albumsInStatus(id: string): Promise<CatalystAlbum[]> {
+  albumsInStatus(id: string): Promise<CatalystSmartAlbums> {
     return this.http.request(CatalystEndpoint.albumsInStatus(id));
   }
 
