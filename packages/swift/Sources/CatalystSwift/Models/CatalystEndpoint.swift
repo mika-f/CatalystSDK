@@ -27,6 +27,7 @@ public enum CatalystEndpoint: Endpoint {
   case isFavorited(id: String)
   case favorite(id: String)
   case unfavorite(id: String)
+  case albumsInStatus(id: String)
   case reactions(id: String)
   case react(id: String, symbol: String)
   case unreact(id: String, symbol: String)
@@ -86,6 +87,9 @@ public enum CatalystEndpoint: Endpoint {
     case .isFavorited(let id), .favorite(let id), .unfavorite(let id):
       return "/catalyst/v1/status/\(id)/favorite"
 
+    case .albumsInStatus(let id):
+      return "/catalyst/v1/status/\(id)/albums"
+
     case .reactions(let id):
       return "/catalyst/v1/status/\(id)/reactions"
 
@@ -132,6 +136,7 @@ public enum CatalystEndpoint: Endpoint {
       .searchSmartAlbum(_),
       .getStatus(_),
       .isFavorited(_),
+      .albumsInStatus(_),
       .reactions(_),
       .contestTimeline(_, _, _),
       .favoriteTimeline(_, _),

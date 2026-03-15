@@ -204,6 +204,8 @@ class CatalystClient internal constructor(
 
     suspend fun unfavorite(id: String) = httpClient.delete("/catalyst/v1/status/$id/favorite")
 
+    suspend fun getAlbumsInStatus(id: String): List<CatalystAlbum> = httpClient.get("/catalyst/v1/status/$id/albums")
+
     suspend fun getReactions(id: String): List<CatalystReaction> = httpClient.get("/catalyst/v1/status/$id/reactions")
 
     suspend fun react(id: String, symbol: String) = httpClient.post("/catalyst/v1/status/$id/reactions/$symbol")

@@ -19,8 +19,14 @@ import type {
   CatalystCreateStatusRequest,
   CatalystEditStatusRequest,
 } from "../types/status.js";
-import type { CatalystReactions, CatalystCustomReaction } from "../types/reactions.js";
-import type { CatalystRelationships, CatalystRelationshipRequest } from "../types/relationships.js";
+import type {
+  CatalystReactions,
+  CatalystCustomReaction,
+} from "../types/reactions.js";
+import type {
+  CatalystRelationships,
+  CatalystRelationshipRequest,
+} from "../types/relationships.js";
 
 export class CatalystClient {
   constructor(private readonly http: HttpClient) {}
@@ -31,7 +37,10 @@ export class CatalystClient {
     return this.http.request(CatalystEndpoint.createAlbum(data));
   }
 
-  getAlbum(id: string, opts: { since?: string; until?: string } = {}): Promise<CatalystAlbum> {
+  getAlbum(
+    id: string,
+    opts: { since?: string; until?: string } = {},
+  ): Promise<CatalystAlbum> {
     return this.http.request(CatalystEndpoint.getAlbum(id, opts));
   }
 
@@ -43,7 +52,10 @@ export class CatalystClient {
     return this.http.requestVoid(CatalystEndpoint.insertToAlbum(id, data));
   }
 
-  removeFromAlbum(id: string, data: CatalystRemoveFromAlbumRequest): Promise<void> {
+  removeFromAlbum(
+    id: string,
+    data: CatalystRemoveFromAlbumRequest,
+  ): Promise<void> {
     return this.http.requestVoid(CatalystEndpoint.removeFromAlbum(id, data));
   }
 
@@ -51,12 +63,22 @@ export class CatalystClient {
     return this.http.requestVoid(CatalystEndpoint.deleteAlbum(id));
   }
 
-  listAlbums(username: string, includeSmartAlbums = true): Promise<CatalystSmartAlbums> {
-    return this.http.request(CatalystEndpoint.listAlbums(username, includeSmartAlbums));
+  listAlbums(
+    username: string,
+    includeSmartAlbums = true,
+  ): Promise<CatalystSmartAlbums> {
+    return this.http.request(
+      CatalystEndpoint.listAlbums(username, includeSmartAlbums),
+    );
   }
 
-  searchAlbums(q: string, includeSmartAlbums = true): Promise<CatalystSmartAlbums> {
-    return this.http.request(CatalystEndpoint.searchAlbum(q, includeSmartAlbums));
+  searchAlbums(
+    q: string,
+    includeSmartAlbums = true,
+  ): Promise<CatalystSmartAlbums> {
+    return this.http.request(
+      CatalystEndpoint.searchAlbum(q, includeSmartAlbums),
+    );
   }
 
   // Reactions
@@ -85,11 +107,17 @@ export class CatalystClient {
     return this.http.request(CatalystEndpoint.createSmartAlbum(data));
   }
 
-  getSmartAlbum(id: string, opts: { since?: string; until?: string } = {}): Promise<CatalystSmartAlbum> {
+  getSmartAlbum(
+    id: string,
+    opts: { since?: string; until?: string } = {},
+  ): Promise<CatalystSmartAlbum> {
     return this.http.request(CatalystEndpoint.getSmartAlbum(id, opts));
   }
 
-  editSmartAlbum(id: string, data: CatalystEditSmartAlbumRequest): Promise<void> {
+  editSmartAlbum(
+    id: string,
+    data: CatalystEditSmartAlbumRequest,
+  ): Promise<void> {
     return this.http.requestVoid(CatalystEndpoint.editSmartAlbum(id, data));
   }
 
@@ -135,6 +163,10 @@ export class CatalystClient {
     return this.http.request(CatalystEndpoint.reactions(id));
   }
 
+  albumsInStatus(id: string): Promise<CatalystAlbum[]> {
+    return this.http.request(CatalystEndpoint.albumsInStatus(id));
+  }
+
   react(id: string, symbol: string): Promise<void> {
     return this.http.requestVoid(CatalystEndpoint.react(id, symbol));
   }
@@ -145,39 +177,62 @@ export class CatalystClient {
 
   // Timelines
 
-  contestTimeline(slug: string, opts: { since?: string; until?: string } = {}): Promise<CatalystStatuses> {
+  contestTimeline(
+    slug: string,
+    opts: { since?: string; until?: string } = {},
+  ): Promise<CatalystStatuses> {
     return this.http.request(CatalystEndpoint.contestTimeline(slug, opts));
   }
 
-  favoriteTimeline(opts: { since?: string; until?: string } = {}): Promise<CatalystStatuses> {
+  favoriteTimeline(
+    opts: { since?: string; until?: string } = {},
+  ): Promise<CatalystStatuses> {
     return this.http.request(CatalystEndpoint.favoriteTimeline(opts));
   }
 
-  firehoseTimeline(opts: { since?: string; until?: string } = {}): Promise<CatalystStatus[]> {
+  firehoseTimeline(
+    opts: { since?: string; until?: string } = {},
+  ): Promise<CatalystStatus[]> {
     return this.http.request(CatalystEndpoint.firehoseTimeline(opts));
   }
 
-  galleryTimeline(opts: { since?: string; until?: string } = {}): Promise<CatalystStatuses> {
+  galleryTimeline(
+    opts: { since?: string; until?: string } = {},
+  ): Promise<CatalystStatuses> {
     return this.http.request(CatalystEndpoint.galleryTimeline(opts));
   }
 
-  homeTimeline(opts: { since?: string; until?: string } = {}): Promise<CatalystStatus[]> {
+  homeTimeline(
+    opts: { since?: string; until?: string } = {},
+  ): Promise<CatalystStatus[]> {
     return this.http.request(CatalystEndpoint.homeTimeline(opts));
   }
 
-  searchTimeline(opts: { q?: string; exact?: boolean; since?: string; until?: string } = {}): Promise<CatalystStatuses> {
+  searchTimeline(
+    opts: { q?: string; exact?: boolean; since?: string; until?: string } = {},
+  ): Promise<CatalystStatuses> {
     return this.http.request(CatalystEndpoint.searchTimeline(opts));
   }
 
   userTimeline(
     username: string,
-    opts: { trimUser?: boolean; excludeSensitive?: boolean; since?: string; until?: string } = {},
+    opts: {
+      trimUser?: boolean;
+      excludeSensitive?: boolean;
+      since?: string;
+      until?: string;
+    } = {},
   ): Promise<CatalystStatuses> {
     return this.http.request(CatalystEndpoint.userTimeline(username, opts));
   }
 
-  userGalleryTimeline(username: string, opts: { since?: string; until?: string } = {}): Promise<CatalystStatuses> {
-    return this.http.request(CatalystEndpoint.userGalleryTimeline(username, opts));
+  userGalleryTimeline(
+    username: string,
+    opts: { since?: string; until?: string } = {},
+  ): Promise<CatalystStatuses> {
+    return this.http.request(
+      CatalystEndpoint.userGalleryTimeline(username, opts),
+    );
   }
 
   trend(): Promise<string[]> {

@@ -116,6 +116,10 @@ public final class CatalystClient: Sendable {
     try await client.request(CatalystEndpoint.unfavorite(id: id))
   }
 
+  public func getAlbumsInStatus(by id: String) async throws -> [CatalystAlbum] {
+    return try await client.request(CatalystEndpoint.albumsInStatus(id: id))
+  }
+
   public func reactions(by id: String) async throws -> CatalystReactions {
     return try await client.request(CatalystEndpoint.reactions(id: id))
   }

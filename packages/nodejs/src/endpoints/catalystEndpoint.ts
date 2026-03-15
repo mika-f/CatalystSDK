@@ -7,10 +7,16 @@ import type {
   CatalystCreateSmartAlbumRequest,
   CatalystEditSmartAlbumRequest,
 } from "../types/albums.js";
-import type { CatalystCreateStatusRequest, CatalystEditStatusRequest } from "../types/status.js";
+import type {
+  CatalystCreateStatusRequest,
+  CatalystEditStatusRequest,
+} from "../types/status.js";
 import type { CatalystRelationshipRequest } from "../types/relationships.js";
 
-function buildTimelineParams(opts: { since?: string; until?: string }): Record<string, string> | undefined {
+function buildTimelineParams(opts: {
+  since?: string;
+  until?: string;
+}): Record<string, string> | undefined {
   const params: Record<string, string> = {};
   if (opts.since != null) params["since"] = opts.since;
   if (opts.until != null) params["until"] = opts.until;
@@ -22,7 +28,10 @@ export const CatalystEndpoint = {
     return { path: "/catalyst/v1/album", method: "POST", body: data };
   },
 
-  getAlbum(id: string, opts: { since?: string; until?: string } = {}): Endpoint {
+  getAlbum(
+    id: string,
+    opts: { since?: string; until?: string } = {},
+  ): Endpoint {
     return {
       path: `/catalyst/v1/album/by/id/${id}`,
       method: "GET",
@@ -31,15 +40,27 @@ export const CatalystEndpoint = {
   },
 
   editAlbum(id: string, data: CatalystEditAlbumRequest): Endpoint {
-    return { path: `/catalyst/v1/album/by/id/${id}`, method: "PATCH", body: data };
+    return {
+      path: `/catalyst/v1/album/by/id/${id}`,
+      method: "PATCH",
+      body: data,
+    };
   },
 
   insertToAlbum(id: string, data: CatalystInsertToAlbumRequest): Endpoint {
-    return { path: `/catalyst/v1/album/by/id/${id}`, method: "PUT", body: data };
+    return {
+      path: `/catalyst/v1/album/by/id/${id}`,
+      method: "PUT",
+      body: data,
+    };
   },
 
   removeFromAlbum(id: string, data: CatalystRemoveFromAlbumRequest): Endpoint {
-    return { path: `/catalyst/v1/album/by/id/${id}`, method: "PUT", body: data };
+    return {
+      path: `/catalyst/v1/album/by/id/${id}`,
+      method: "PUT",
+      body: data,
+    };
   },
 
   deleteAlbum(id: string): Endpoint {
@@ -82,7 +103,10 @@ export const CatalystEndpoint = {
     return { path: "/catalyst/v1/smart-album", method: "POST", body: data };
   },
 
-  getSmartAlbum(id: string, opts: { since?: string; until?: string } = {}): Endpoint {
+  getSmartAlbum(
+    id: string,
+    opts: { since?: string; until?: string } = {},
+  ): Endpoint {
     return {
       path: `/catalyst/v1/smart-album/by/id/${id}`,
       method: "GET",
@@ -91,7 +115,11 @@ export const CatalystEndpoint = {
   },
 
   editSmartAlbum(id: string, data: CatalystEditSmartAlbumRequest): Endpoint {
-    return { path: `/catalyst/v1/smart-album/by/id/${id}`, method: "PATCH", body: data };
+    return {
+      path: `/catalyst/v1/smart-album/by/id/${id}`,
+      method: "PATCH",
+      body: data,
+    };
   },
 
   deleteSmartAlbum(id: string): Endpoint {
@@ -99,7 +127,11 @@ export const CatalystEndpoint = {
   },
 
   searchSmartAlbum(q: string): Endpoint {
-    return { path: "/catalyst/v1/smart-album/search", method: "GET", queryParameters: { q } };
+    return {
+      path: "/catalyst/v1/smart-album/search",
+      method: "GET",
+      queryParameters: { q },
+    };
   },
 
   createStatus(data: CatalystCreateStatusRequest): Endpoint {
@@ -134,15 +166,28 @@ export const CatalystEndpoint = {
     return { path: `/catalyst/v1/status/${id}/reactions`, method: "GET" };
   },
 
+  albumsInStatus(id: string): Endpoint {
+    return { path: `/catalyst/v1/status/${id}/albums`, method: "GET" };
+  },
+
   react(id: string, symbol: string): Endpoint {
-    return { path: `/catalyst/v1/status/${id}/reactions/${symbol}`, method: "POST" };
+    return {
+      path: `/catalyst/v1/status/${id}/reactions/${symbol}`,
+      method: "POST",
+    };
   },
 
   unreact(id: string, symbol: string): Endpoint {
-    return { path: `/catalyst/v1/status/${id}/reactions/${symbol}`, method: "DELETE" };
+    return {
+      path: `/catalyst/v1/status/${id}/reactions/${symbol}`,
+      method: "DELETE",
+    };
   },
 
-  contestTimeline(slug: string, opts: { since?: string; until?: string } = {}): Endpoint {
+  contestTimeline(
+    slug: string,
+    opts: { since?: string; until?: string } = {},
+  ): Endpoint {
     return {
       path: `/catalyst/v1/timeline/contest/by/slug/${slug}`,
       method: "GET",
@@ -182,7 +227,9 @@ export const CatalystEndpoint = {
     };
   },
 
-  searchTimeline(opts: { q?: string; exact?: boolean; since?: string; until?: string } = {}): Endpoint {
+  searchTimeline(
+    opts: { q?: string; exact?: boolean; since?: string; until?: string } = {},
+  ): Endpoint {
     const params: Record<string, string> = {};
     if (opts.q != null) params["q"] = opts.q;
     if (opts.exact != null) params["exact"] = String(opts.exact);
@@ -197,11 +244,17 @@ export const CatalystEndpoint = {
 
   userTimeline(
     username: string,
-    opts: { trimUser?: boolean; excludeSensitive?: boolean; since?: string; until?: string } = {},
+    opts: {
+      trimUser?: boolean;
+      excludeSensitive?: boolean;
+      since?: string;
+      until?: string;
+    } = {},
   ): Endpoint {
     const params: Record<string, string> = {};
     if (opts.trimUser != null) params["trim_user"] = String(opts.trimUser);
-    if (opts.excludeSensitive != null) params["exclude_sensitive"] = String(opts.excludeSensitive);
+    if (opts.excludeSensitive != null)
+      params["exclude_sensitive"] = String(opts.excludeSensitive);
     if (opts.since != null) params["since"] = opts.since;
     if (opts.until != null) params["until"] = opts.until;
     return {
@@ -211,7 +264,10 @@ export const CatalystEndpoint = {
     };
   },
 
-  userGalleryTimeline(username: string, opts: { since?: string; until?: string } = {}): Endpoint {
+  userGalleryTimeline(
+    username: string,
+    opts: { since?: string; until?: string } = {},
+  ): Endpoint {
     return {
       path: `/catalyst/v1/timeline/user/by/username/${username}/gallery`,
       method: "GET",
