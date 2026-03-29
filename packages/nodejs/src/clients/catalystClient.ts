@@ -27,6 +27,12 @@ import type {
   CatalystRelationships,
   CatalystRelationshipRequest,
 } from "../types/relationships.js";
+import {
+  CatalystCreateFleetRequest,
+  CatalystFleet,
+  CatalystFleetRing,
+  CatalystFleetViewer,
+} from "../types/fleet.js";
 
 export class CatalystClient {
   constructor(private readonly http: HttpClient) {}
@@ -237,5 +243,41 @@ export class CatalystClient {
 
   trend(): Promise<string[]> {
     return this.http.request(CatalystEndpoint.trend());
+  }
+
+  createFleet(data: CatalystCreateFleetRequest): Promise<void> {
+    return this.http.requestVoid(CatalystEndpoint.createFleet(data));
+  }
+
+  fleetById(id: string): Promise<CatalystFleet> {
+    return this.http.request(CatalystEndpoint.fleetById(id));
+  }
+
+  deleteFleet(id: string): Promise<void> {
+    return this.http.requestVoid(CatalystEndpoint.deleteFleet(id));
+  }
+
+  viewFleet(id: string): Promise<void> {
+    return this.http.requestVoid(CatalystEndpoint.viewFleet(id));
+  }
+
+  fleetViewers(id: string): Promise<CatalystFleetViewer[]> {
+    return this.http.request(CatalystEndpoint.fleetViewers(id));
+  }
+
+  reactFleet(id: string, symbol: string): Promise<void> {
+    return this.http.requestVoid(CatalystEndpoint.reactFleet(id, symbol));
+  }
+
+  unreactFleet(id: string, symbol: string): Promise<void> {
+    return this.http.requestVoid(CatalystEndpoint.unreactFleet(id, symbol));
+  }
+
+  fleets(): Promise<CatalystFleetRing[]> {
+    return this.http.request(CatalystEndpoint.fleets());
+  }
+
+  fleetByUsername(username: string): Promise<CatalystFleet[]> {
+    return this.http.request(CatalystEndpoint.fleetByUsername(username));
   }
 }

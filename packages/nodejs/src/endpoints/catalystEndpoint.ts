@@ -12,6 +12,7 @@ import type {
   CatalystEditStatusRequest,
 } from "../types/status.js";
 import type { CatalystRelationshipRequest } from "../types/relationships.js";
+import { CatalystCreateFleetRequest } from "../types/fleet.js";
 
 function buildTimelineParams(opts: {
   since?: string;
@@ -277,5 +278,69 @@ export const CatalystEndpoint = {
 
   trend(): Endpoint {
     return { path: "/catalyst/v1/trend", method: "GET" };
+  },
+
+  createFleet(data: CatalystCreateFleetRequest): Endpoint {
+    return {
+      path: "/catalyst/v1/fleet",
+      method: "POST",
+      body: data,
+    };
+  },
+
+  fleetById(id: string): Endpoint {
+    return {
+      path: `/catalyst/v1/fleet/${id}`,
+      method: "GET",
+    };
+  },
+
+  deleteFleet(id: string): Endpoint {
+    return {
+      path: `/catalyst/v1/fleet/${id}`,
+      method: "DELETE",
+    };
+  },
+
+  viewFleet(id: string): Endpoint {
+    return {
+      path: `/catalyst/v1/fleet/${id}/view`,
+      method: "POST",
+    };
+  },
+
+  fleetViewers(id: string): Endpoint {
+    return {
+      path: `/catalyst/v1/fleet/${id}/viewers`,
+      method: "GET",
+    };
+  },
+
+  reactFleet(id: string, symbol: string): Endpoint {
+    return {
+      path: `/catalyst/v1/fleet/${id}/reactions/${symbol}`,
+      method: "POST",
+    };
+  },
+
+  unreactFleet(id: string, symbol: string): Endpoint {
+    return {
+      path: `/catalyst/v1/fleet/${id}/reactions/${symbol}`,
+      method: "DELETE",
+    };
+  },
+
+  fleets(): Endpoint {
+    return {
+      path: "/catalyst/v1/fleet/ring",
+      method: "GET",
+    };
+  },
+
+  fleetByUsername(username: string): Endpoint {
+    return {
+      path: `/catalyst/v1/fleet/by/user/${username}`,
+      method: "GET",
+    };
   },
 } as const;
