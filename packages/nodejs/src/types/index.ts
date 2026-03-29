@@ -1,6 +1,7 @@
 export * from "./apiError.js";
 export * from "./albums.js";
 export * from "./constants.js";
+export * from "./fleet.js";
 export * from "./httpMethod.js";
 export * from "./identity.js";
 export * from "./media.js";
