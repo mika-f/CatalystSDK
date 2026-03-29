@@ -1,6 +1,6 @@
 {
   "name": "@natsuneko-laboratory/catalyst-sdk",
-  "version": "0.1.2",
+  "version": "0.2.0",
   "description": "TypeScript/JavaScript SDK for the Natsuneko Laboratory platform",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
