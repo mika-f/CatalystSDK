@@ -26,6 +26,9 @@
     "sdk",
     "api"
   ],
+  "repository": {
+    "url": "https://github.com/mika-f/CatalystSDK/"
+  },
   "license": "MIT",
   "devDependencies": {
     "@types/node": "^22.0.0",
