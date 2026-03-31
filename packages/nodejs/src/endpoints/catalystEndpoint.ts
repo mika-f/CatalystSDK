@@ -13,6 +13,14 @@ import type {
 } from "../types/status.js";
 import type { CatalystRelationshipRequest } from "../types/relationships.js";
 import { CatalystCreateFleetRequest } from "../types/fleet.js";
+import {
+  CatalystContestAddCollaboratorRequest,
+  CatalystContestRemoveCollaboratorRequest,
+  CatalystCreateContestRequest,
+  CatalystEditContestRequest,
+  CatalystSetContestAwardRequest,
+  CatalystUnsetContestAwardRequest,
+} from "../types/contest.js";
 
 function buildTimelineParams(opts: {
   since?: string;
@@ -341,6 +349,153 @@ export const CatalystEndpoint = {
     return {
       path: `/catalyst/v1/fleet/by/user/${username}`,
       method: "GET",
+    };
+  },
+
+  createContest(data: CatalystCreateContestRequest): Endpoint {
+    return {
+      path: "/catalyst/v1/contest",
+      method: "POST",
+      body: data,
+    };
+  },
+
+  getContestsByMe(): Endpoint {
+    return {
+      path: "/catalyst/v1/contest/by/me",
+      method: "GET",
+    };
+  },
+
+  getContestBySlug(slug: string): Endpoint {
+    return {
+      path: `/catalyst/v1/contest/by/slug/${slug}`,
+      method: "GET",
+    };
+  },
+
+  editContest(slug: string, data: CatalystEditContestRequest): Endpoint {
+    return {
+      path: `/catalyst/v1/contest/by/slug/${slug}`,
+      method: "PATCH",
+      body: data,
+    };
+  },
+
+  getContestAwards(slug: string): Endpoint {
+    return {
+      path: `/catalyst/v1/contest/by/slug/${slug}/awards`,
+      method: "GET",
+    };
+  },
+
+  setContestAward(
+    slug: string,
+    id: string,
+    data: CatalystSetContestAwardRequest,
+  ): Endpoint {
+    return {
+      path: `/catalyst/v1/contest/by/slug/${slug}/awards/${id}`,
+      method: "POST",
+      body: data,
+    };
+  },
+
+  unsetContestAward(
+    slug: string,
+    id: string,
+    data: CatalystUnsetContestAwardRequest,
+  ): Endpoint {
+    return {
+      path: `/catalyst/v1/contest/by/slug/${slug}/awards/${id}`,
+      method: "DELETE",
+      body: data,
+    };
+  },
+
+  getContestCollaborators(slug: string): Endpoint {
+    return {
+      path: `/catalyst/v1/contest/by/slug/${slug}/collaborators`,
+      method: "GET",
+    };
+  },
+
+  addContestCollaborator(
+    slug: string,
+    data: CatalystContestAddCollaboratorRequest,
+  ): Endpoint {
+    return {
+      path: `/catalyst/v1/contest/by/slug/${slug}/collaborators`,
+      method: "POST",
+      body: data,
+    };
+  },
+
+  removeContestCollaborator(
+    slug: string,
+    data: CatalystContestRemoveCollaboratorRequest,
+  ): Endpoint {
+    return {
+      path: `/catalyst/v1/contest/by/slug/${slug}/collaborators`,
+      method: "DELETE",
+      body: data,
+    };
+  },
+
+  copyContest(slug: string): Endpoint {
+    return {
+      path: `/catalyst/v1/contest/by/slug/${slug}/copy`,
+      method: "POST",
+    };
+  },
+
+  getAccessPermissionOfContest(slug: string): Endpoint {
+    return {
+      path: `/catalyst/v1/contest/by/slug/${slug}/dashboard`,
+      method: "GET",
+    };
+  },
+
+  getContestPolls(slug: string): Endpoint {
+    return {
+      path: `/catalyst/v1/contest/by/slug/${slug}/polls`,
+      method: "GET",
+    };
+  },
+
+  publishContest(slug: string): Endpoint {
+    return {
+      path: `/catalyst/v1/contest/by/slug/${slug}/publish`,
+      method: "POST",
+    };
+  },
+
+  addContestVoteToStatus(slug: string, id: string): Endpoint {
+    return {
+      path: `/catalyst/v1/contest/by/slug/${slug}/vote/${id}`,
+      method: "POST",
+    };
+  },
+
+  removeContestVoteFromStatus(slug: string, id: string): Endpoint {
+    return {
+      path: `/catalyst/v1/contest/by/slug/${slug}/vote/${id}`,
+      method: "DELETE",
+    };
+  },
+
+  getContestVotes(slug: string): Endpoint {
+    return {
+      path: `/catalyst/v1/contest/by/slug/${slug}/votes`,
+      method: "GET",
+    };
+  },
+
+  searchContest(state: string, q?: string): Endpoint {
+    return {
+      path: "/catalyst/v1/contest/search",
+      method: "GET",
+      queryParameters: { state, q: q ?? "" },
     };
   },
 } as const;

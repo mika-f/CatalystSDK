@@ -33,6 +33,17 @@ import {
   CatalystFleetRing,
   CatalystFleetViewer,
 } from "../types/fleet.js";
+import {
+  CatalystContest,
+  CatalystContestAddCollaboratorRequest,
+  CatalystContestAward,
+  CatalystContestRemoveCollaboratorRequest,
+  CatalystCreateContestRequest,
+  CatalystEditContestRequest,
+  CatalystSetContestAwardRequest,
+  CatalystUnsetContestAwardRequest,
+  CatalystUserVoteRights,
+} from "../types/contest.js";
 
 export class CatalystClient {
   constructor(private readonly http: HttpClient) {}
@@ -279,5 +290,106 @@ export class CatalystClient {
 
   fleetByUsername(username: string): Promise<CatalystFleet[]> {
     return this.http.request(CatalystEndpoint.fleetByUsername(username));
+  }
+
+  createContest(data: CatalystCreateContestRequest): Promise<Identity> {
+    return this.http.request(CatalystEndpoint.createContest(data));
+  }
+
+  getContestsByMe(): Promise<CatalystContest[]> {
+    return this.http.request(CatalystEndpoint.getContestsByMe());
+  }
+
+  getContestBySlug(slug: string): Promise<{ contest: CatalystContest }> {
+    return this.http.request(CatalystEndpoint.getContestBySlug(slug));
+  }
+
+  editContest(slug: string, data: CatalystEditContestRequest): Promise<void> {
+    return this.http.requestVoid(CatalystEndpoint.editContest(slug, data));
+  }
+
+  getContestAwards(slug: string): Promise<{ awards: CatalystContestAward[] }> {
+    return this.http.request(CatalystEndpoint.getContestAwards(slug));
+  }
+
+  setContestAward(
+    slug: string,
+    id: string,
+    data: CatalystSetContestAwardRequest,
+  ): Promise<void> {
+    return this.http.requestVoid(
+      CatalystEndpoint.setContestAward(slug, id, data),
+    );
+  }
+
+  unsetContestAward(
+    slug: string,
+    id: string,
+    data: CatalystUnsetContestAwardRequest,
+  ): Promise<void> {
+    return this.http.requestVoid(
+      CatalystEndpoint.unsetContestAward(slug, id, data),
+    );
+  }
+
+  getContestCollaborators(slug: string): Promise<{ collaborators: string[] }> {
+    return this.http.request(CatalystEndpoint.getContestCollaborators(slug));
+  }
+
+  addContestCollaborator(
+    slug: string,
+    data: CatalystContestAddCollaboratorRequest,
+  ): Promise<void> {
+    return this.http.requestVoid(
+      CatalystEndpoint.addContestCollaborator(slug, data),
+    );
+  }
+
+  removeContestCollaborator(
+    slug: string,
+    data: CatalystContestRemoveCollaboratorRequest,
+  ): Promise<void> {
+    return this.http.requestVoid(
+      CatalystEndpoint.removeContestCollaborator(slug, data),
+    );
+  }
+
+  copyContest(slug: string): Promise<Identity> {
+    return this.http.request(CatalystEndpoint.copyContest(slug));
+  }
+
+  getAccessPermissionOfContest(slug: string): Promise<{
+    result: "admin" | "collaborator" | "contributor" | "guest";
+  }> {
+    return this.http.request(
+      CatalystEndpoint.getAccessPermissionOfContest(slug),
+    );
+  }
+
+  publishContest(slug: string): Promise<Identity> {
+    return this.http.request(CatalystEndpoint.publishContest(slug));
+  }
+
+  addContestVoteToStatus(slug: string, id: string): Promise<void> {
+    return this.http.requestVoid(
+      CatalystEndpoint.addContestVoteToStatus(slug, id),
+    );
+  }
+
+  removeContestVoteFromStatus(slug: string, id: string): Promise<void> {
+    return this.http.requestVoid(
+      CatalystEndpoint.removeContestVoteFromStatus(slug, id),
+    );
+  }
+
+  getContestVotes(slug: string): Promise<CatalystUserVoteRights> {
+    return this.http.request(CatalystEndpoint.getContestVotes(slug));
+  }
+
+  searchContest(
+    state: string,
+    q?: string,
+  ): Promise<{ contests: CatalystContest[] }> {
+    return this.http.request(CatalystEndpoint.searchContest(state, q));
   }
 }
