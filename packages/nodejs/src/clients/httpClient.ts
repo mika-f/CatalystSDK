@@ -79,7 +79,12 @@ export class HttpClient {
       for (const interceptor of this.interceptors) {
         const shouldRetry = await interceptor.retry(req, error);
         if (shouldRetry) {
-          return this.executeWithRetry(req, endpoint);
+          // Rebuild and re-adapt request so interceptors (e.g. auth) pick up refreshed tokens
+          let retryReq = this.buildRequest(endpoint);
+          for (const adaptInterceptor of this.interceptors) {
+            retryReq = await adaptInterceptor.adapt(retryReq);
+          }
+          return this.executeWithRetry(retryReq, endpoint);
         }
       }
 
