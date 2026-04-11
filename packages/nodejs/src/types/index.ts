@@ -9,6 +9,7 @@ export * from "./media.js";
 export * from "./notifications.js";
 export * from "./reactions.js";
 export * from "./relationships.js";
+export * from "./report.js";
 export * from "./status.js";
 export * from "./token.js";
 export * from "./users.js";

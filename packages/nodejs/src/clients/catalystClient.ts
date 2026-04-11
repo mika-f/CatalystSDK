@@ -44,6 +44,7 @@ import {
   CatalystUnsetContestAwardRequest,
   CatalystUserVoteRights,
 } from "../types/contest.js";
+import { ReportRequest } from "../types/report.js";
 
 export class CatalystClient {
   constructor(private readonly http: HttpClient) {}
@@ -391,5 +392,10 @@ export class CatalystClient {
     q?: string,
   ): Promise<{ contests: CatalystContest[] }> {
     return this.http.request(CatalystEndpoint.searchContest(state, q));
+  }
+
+  // report
+  reportStatus(id: string, data: ReportRequest): Promise<void> {
+    return this.http.requestVoid(CatalystEndpoint.reportStatus(id, data));
   }
 }

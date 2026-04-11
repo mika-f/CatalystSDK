@@ -21,6 +21,7 @@ import {
   CatalystSetContestAwardRequest,
   CatalystUnsetContestAwardRequest,
 } from "../types/contest.js";
+import { ReportRequest } from "../types/report.js";
 
 function buildTimelineParams(opts: {
   since?: string;
@@ -496,6 +497,14 @@ export const CatalystEndpoint = {
       path: "/catalyst/v1/contest/search",
       method: "GET",
       queryParameters: { state, q: q ?? "" },
+    };
+  },
+
+  reportStatus(id: string, data: ReportRequest): Endpoint {
+    return {
+      path: `/catalyst/v1/status/${id}/report`,
+      method: "POST",
+      body: data,
     };
   },
 } as const;
