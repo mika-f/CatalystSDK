@@ -22,6 +22,7 @@ import {
   CatalystUnsetContestAwardRequest,
 } from "../types/contest.js";
 import { ReportRequest } from "../types/report.js";
+import { CatalystPrivacySettingsRequest } from "../types/privacy.js";
 
 function buildTimelineParams(opts: {
   since?: string;
@@ -107,6 +108,31 @@ export const CatalystEndpoint = {
 
   remove(data: CatalystRelationshipRequest): Endpoint {
     return { path: "/catalyst/v1/relationships", method: "DELETE", body: data };
+  },
+
+  followings(username: string, opts?: { page?: number }): Endpoint {
+    return {
+      path: `/catalyst/v1/relationships/by/username/${username}/followings`,
+      method: "GET",
+      queryParameters:
+        opts?.page != null ? { page: String(opts.page) } : undefined,
+    };
+  },
+
+  followers(username: string, opts?: { page?: number }): Endpoint {
+    return {
+      path: `/catalyst/v1/relationships/by/username/${username}/followers`,
+      method: "GET",
+      queryParameters:
+        opts?.page != null ? { page: String(opts.page) } : undefined,
+    };
+  },
+
+  relationshipCounts(username: string): Endpoint {
+    return {
+      path: `/catalyst/v1/relationships/by/username/${username}/counts`,
+      method: "GET",
+    };
   },
 
   createSmartAlbum(data: CatalystCreateSmartAlbumRequest): Endpoint {
@@ -503,6 +529,14 @@ export const CatalystEndpoint = {
   reportStatus(id: string, data: ReportRequest): Endpoint {
     return {
       path: `/catalyst/v1/status/${id}/report`,
+      method: "POST",
+      body: data,
+    };
+  },
+
+  privacySettings(data: CatalystPrivacySettingsRequest): Endpoint {
+    return {
+      path: "/catalyst/v1/privacy/settings",
       method: "POST",
       body: data,
     };

@@ -45,6 +45,11 @@ import {
   CatalystUserVoteRights,
 } from "../types/contest.js";
 import { ReportRequest } from "../types/report.js";
+import { EgeriaUser } from "../types/users.js";
+import {
+  CatalystPrivacySettings,
+  CatalystPrivacySettingsRequest,
+} from "../types/privacy.js";
 
 export class CatalystClient {
   constructor(private readonly http: HttpClient) {}
@@ -117,6 +122,46 @@ export class CatalystClient {
 
   remove(data: CatalystRelationshipRequest): Promise<void> {
     return this.http.requestVoid(CatalystEndpoint.remove(data));
+  }
+
+  followings(
+    id: string,
+    opts?: { page?: number },
+  ): Promise<{
+    items: EgeriaUser[];
+    count: { total: number; offset: number };
+    page: {
+      min: number;
+      max: number;
+      current: number;
+      next: number | null;
+      prev: number | null;
+    };
+  }> {
+    return this.http.request(CatalystEndpoint.followings(id, opts));
+  }
+
+  followers(
+    id: string,
+    opts?: { page?: number },
+  ): Promise<{
+    items: EgeriaUser[];
+    count: { total: number; offset: number };
+    page: {
+      min: number;
+      max: number;
+      current: number;
+      next: number | null;
+      prev: number | null;
+    };
+  }> {
+    return this.http.request(CatalystEndpoint.followers(id, opts));
+  }
+
+  relationshipCounts(
+    id: string,
+  ): Promise<{ followers: number | null; followings: number | null }> {
+    return this.http.request(CatalystEndpoint.relationshipCounts(id));
   }
 
   // Smart Albums
@@ -397,5 +442,12 @@ export class CatalystClient {
   // report
   reportStatus(id: string, data: ReportRequest): Promise<void> {
     return this.http.requestVoid(CatalystEndpoint.reportStatus(id, data));
+  }
+
+  // privacy
+  privacySettings(
+    data: CatalystPrivacySettingsRequest,
+  ): Promise<CatalystPrivacySettings> {
+    return this.http.request(CatalystEndpoint.privacySettings(data));
   }
 }
