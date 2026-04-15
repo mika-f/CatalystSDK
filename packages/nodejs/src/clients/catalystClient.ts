@@ -445,9 +445,13 @@ export class CatalystClient {
   }
 
   // privacy
-  privacySettings(
+  getPrivacySettings(): Promise<CatalystPrivacySettings> {
+    return this.http.request(CatalystEndpoint.getPrivacySettings());
+  }
+
+  updatePrivacySettings(
     data: CatalystPrivacySettingsRequest,
   ): Promise<CatalystPrivacySettings> {
-    return this.http.request(CatalystEndpoint.privacySettings(data));
+    return this.http.request(CatalystEndpoint.updatePrivacySettings(data));
   }
 }

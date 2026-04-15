@@ -534,10 +534,17 @@ export const CatalystEndpoint = {
     };
   },
 
-  privacySettings(data: CatalystPrivacySettingsRequest): Endpoint {
+  getPrivacySettings(): Endpoint {
     return {
       path: "/catalyst/v1/privacy/settings",
-      method: "POST",
+      method: "GET",
+    };
+  },
+
+  updatePrivacySettings(data: CatalystPrivacySettingsRequest): Endpoint {
+    return {
+      path: "/catalyst/v1/privacy/settings",
+      method: "PATCH",
       body: data,
     };
   },
