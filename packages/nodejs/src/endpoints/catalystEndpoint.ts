@@ -98,6 +98,22 @@ export const CatalystEndpoint = {
     return { path: "/catalyst/v1/reactions", method: "GET" };
   },
 
+  block(data: CatalystRelationshipRequest): Endpoint {
+    return {
+      path: "/catalyst/v1/blocks",
+      method: "POST",
+      body: data,
+    };
+  },
+
+  unblock(data: CatalystRelationshipRequest): Endpoint {
+    return {
+      path: "/catalyst/v1/blocks",
+      method: "DELETE",
+      body: data,
+    };
+  },
+
   relationships(id: string): Endpoint {
     return { path: `/catalyst/v1/relationships/${id}`, method: "GET" };
   },

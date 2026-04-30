@@ -112,6 +112,14 @@ export class CatalystClient {
 
   // Relationships
 
+  block(data: CatalystRelationshipRequest): Promise<void> {
+    return this.http.requestVoid(CatalystEndpoint.block(data));
+  }
+
+  unblock(data: CatalystRelationshipRequest): Promise<void> {
+    return this.http.requestVoid(CatalystEndpoint.unblock(data));
+  }
+
   relationships(id: string): Promise<CatalystRelationships> {
     return this.http.request(CatalystEndpoint.relationships(id));
   }
