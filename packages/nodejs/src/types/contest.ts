@@ -49,7 +49,9 @@ export interface CatalystContest {
   winnersOpenAt: string;
   winnersMessageSendAt: string;
   publishedAt: string;
-  application: { since: string; until: string; allowSensitive: boolean };
+  since: string;
+  until: string;
+  allowSensitive: boolean;
   voting: { since: string; until: string; maxVotes: number; isEnable: boolean };
   winners: { since: string; until: string };
   ranks: CatalystContestRank[];
