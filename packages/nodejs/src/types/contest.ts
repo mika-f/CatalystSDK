@@ -17,7 +17,12 @@ export interface CatalystEditContestRequest {
   winnersOpenAt?: string;
   winnersMessageSendAt?: string;
   publishedAt?: string;
-  application?: { since?: string; until?: string; allowSensitive: boolean };
+  application?: {
+    since?: string;
+    until?: string;
+    allowSensitive: boolean;
+    maxMediaPerEntry?: number;
+  };
   voting?: {
     since?: string;
     until?: string;
@@ -52,6 +57,7 @@ export interface CatalystContest {
   since: string;
   until: string;
   allowSensitive: boolean;
+  maxMediaPerEntry: number | null;
   voting: { since: string; until: string; maxVotes: number; isEnable: boolean };
   winners: { since: string; until: string };
   ranks: CatalystContestRank[];
