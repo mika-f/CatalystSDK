@@ -1,3 +1,4 @@
+export * from "./announcements.js";
 export * from "./apiError.js";
 export * from "./albums.js";
 export * from "./constants.js";
@@ -8,6 +9,7 @@ export * from "./identity.js";
 export * from "./media.js";
 export * from "./notifications.js";
 export * from "./privacy.js";
+export * from "./profileTags.js";
 export * from "./reactions.js";
 export * from "./relationships.js";
 export * from "./report.js";

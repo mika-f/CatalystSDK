@@ -50,6 +50,13 @@ import {
   CatalystPrivacySettings,
   CatalystPrivacySettingsRequest,
 } from "../types/privacy.js";
+import { CatalystAnnouncement } from "../types/announcements.js";
+import {
+  ProfileTag,
+  ProfileTagSuggestion,
+  ProfileTagUser,
+  UpdateProfileTagsRequest,
+} from "../types/profileTags.js";
 
 export class CatalystClient {
   constructor(private readonly http: HttpClient) {}
@@ -461,5 +468,111 @@ export class CatalystClient {
     data: CatalystPrivacySettingsRequest,
   ): Promise<CatalystPrivacySettings> {
     return this.http.request(CatalystEndpoint.updatePrivacySettings(data));
+  }
+
+  // announcements
+
+  announcements(): Promise<{ announcements: CatalystAnnouncement[] }> {
+    return this.http.request(CatalystEndpoint.announcements());
+  }
+
+  // profile tags
+
+  updateProfileTags(
+    data: UpdateProfileTagsRequest,
+  ): Promise<{ tags: ProfileTag[] }> {
+    return this.http.request(CatalystEndpoint.updateProfileTags(data));
+  }
+
+  profileTagSuggestions(
+    q: string,
+  ): Promise<{ tags: ProfileTagSuggestion[] }> {
+    return this.http.request(CatalystEndpoint.profileTagSuggestions(q));
+  }
+
+  getUsersByProfileTag(
+    name: string,
+    cursor?: string,
+  ): Promise<{
+    items: ProfileTagUser[];
+    cursor: string | null;
+  }> {
+    return this.http.request(
+      CatalystEndpoint.getUsersByProfileTag(name, cursor),
+    );
+  }
+
+  getProfileTagsByUser(id: string): Promise<{ tags: ProfileTag[] }> {
+    return this.http.request(CatalystEndpoint.getProfileTagsByUser(id));
+  }
+
+  // random
+
+  randomStatus(): Promise<{ status: CatalystStatus | null }> {
+    return this.http.request(CatalystEndpoint.randomStatus());
+  }
+
+  randomStatusByHashtag(
+    q: string,
+  ): Promise<{ status: CatalystStatus | null }> {
+    return this.http.request(CatalystEndpoint.randomStatusByHashtag(q));
+  }
+
+  // bulk reactions
+
+  bulkStatusReactions(
+    ids: string[],
+  ): Promise<{ reactions: Record<string, CatalystReactions> }> {
+    return this.http.request(CatalystEndpoint.bulkStatusReactions(ids));
+  }
+
+  // archive timeline
+
+  archiveTimeline(opts: {
+    year: number;
+    month: number;
+    day?: number;
+    since?: string;
+    until?: string;
+    userId?: string;
+    limit?: number;
+    trimUser?: boolean;
+    excludeSensitive?: boolean;
+  }): Promise<{ statuses: CatalystStatus[] }> {
+    return this.http.request(CatalystEndpoint.archiveTimeline(opts));
+  }
+
+  archiveMonths(): Promise<{
+    months: { year: number; month: number; count: number }[];
+  }> {
+    return this.http.request(CatalystEndpoint.archiveMonths());
+  }
+
+  // contests
+
+  currentContests(): Promise<{ contests: CatalystContest[] }> {
+    return this.http.request(CatalystEndpoint.currentContests());
+  }
+
+  getContestsByUser(username: string): Promise<{ contests: CatalystContest[] }> {
+    return this.http.request(CatalystEndpoint.getContestsByUser(username));
+  }
+
+  getContestPolls(slug: string): Promise<{
+    polls: { status: CatalystStatus; count: number }[];
+  }> {
+    return this.http.request(CatalystEndpoint.getContestPolls(slug));
+  }
+
+  // album by me
+
+  getAlbumsByMe(includeSmartAlbums = false): Promise<{ albums: CatalystAlbum[] }> {
+    return this.http.request(CatalystEndpoint.getAlbumsByMe(includeSmartAlbums));
+  }
+
+  // smart album by user
+
+  listSmartAlbumsByUser(username: string): Promise<{ albums: CatalystSmartAlbum[] }> {
+    return this.http.request(CatalystEndpoint.listSmartAlbumsByUser(username));
   }
 }

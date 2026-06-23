@@ -23,6 +23,7 @@ import {
 } from "../types/contest.js";
 import { ReportRequest } from "../types/report.js";
 import { CatalystPrivacySettingsRequest } from "../types/privacy.js";
+import { UpdateProfileTagsRequest } from "../types/profileTags.js";
 
 function buildTimelineParams(opts: {
   since?: string;
@@ -564,4 +565,132 @@ export const CatalystEndpoint = {
       body: data,
     };
   },
+
+  // Announcements
+
+  announcements(): Endpoint {
+    return { path: "/catalyst/v1/announcements", method: "GET" };
+  },
+
+  // Profile Tags
+
+  updateProfileTags(data: UpdateProfileTagsRequest): Endpoint {
+    return { path: "/catalyst/v1/profile-tags", method: "PUT", body: data };
+  },
+
+  profileTagSuggestions(q: string): Endpoint {
+    return {
+      path: "/catalyst/v1/profile-tags/suggestions",
+      method: "GET",
+      queryParameters: { q },
+    };
+  },
+
+  getUsersByProfileTag(name: string, cursor?: string): Endpoint {
+    return {
+      path: `/catalyst/v1/profile-tags/by/name/${name}/users`,
+      method: "GET",
+      queryParameters: cursor != null ? { cursor } : undefined,
+    };
+  },
+
+  getProfileTagsByUser(id: string): Endpoint {
+    return {
+      path: `/catalyst/v1/profile-tags/by/user/${id}`,
+      method: "GET",
+    };
+  },
+
+  // Random
+
+  randomStatus(): Endpoint {
+    return { path: "/catalyst/v1/random", method: "GET" };
+  },
+
+  randomStatusByHashtag(q: string): Endpoint {
+    return {
+      path: "/catalyst/v1/random/by/hashtag",
+      method: "GET",
+      queryParameters: { q },
+    };
+  },
+
+  // Bulk reactions
+
+  bulkStatusReactions(ids: string[]): Endpoint {
+    return {
+      path: "/catalyst/v1/statuses/reactions",
+      method: "POST",
+      body: { ids },
+    };
+  },
+
+  // Archive timeline
+
+  archiveTimeline(opts: {
+    year: number;
+    month: number;
+    day?: number;
+    since?: string;
+    until?: string;
+    userId?: string;
+    limit?: number;
+    trimUser?: boolean;
+    excludeSensitive?: boolean;
+  }): Endpoint {
+    const params: Record<string, string> = {
+      year: String(opts.year),
+      month: String(opts.month),
+    };
+    if (opts.day != null) params["day"] = String(opts.day);
+    if (opts.since != null) params["since"] = opts.since;
+    if (opts.until != null) params["until"] = opts.until;
+    if (opts.userId != null) params["userId"] = opts.userId;
+    if (opts.limit != null) params["limit"] = String(opts.limit);
+    if (opts.trimUser != null) params["trimUser"] = String(opts.trimUser);
+    if (opts.excludeSensitive != null)
+      params["excludeSensitive"] = String(opts.excludeSensitive);
+    return {
+      path: "/catalyst/v1/timeline/archive",
+      method: "GET",
+      queryParameters: params,
+    };
+  },
+
+  archiveMonths(): Endpoint {
+    return { path: "/catalyst/v1/timeline/archive/months", method: "GET" };
+  },
+
+  // Contests
+
+  currentContests(): Endpoint {
+    return { path: "/catalyst/v1/contest/current", method: "GET" };
+  },
+
+  getContestsByUser(username: string): Endpoint {
+    return {
+      path: `/catalyst/v1/contest/by/user/${username}`,
+      method: "GET",
+    };
+  },
+
+  // Album by me
+
+  getAlbumsByMe(includeSmartAlbums = false): Endpoint {
+    return {
+      path: "/catalyst/v1/album/by/me",
+      method: "GET",
+      queryParameters: { include_smart_albums: String(includeSmartAlbums) },
+    };
+  },
+
+  // Smart album by user
+
+  listSmartAlbumsByUser(username: string): Endpoint {
+    return {
+      path: `/catalyst/v1/smart-album/by/user/${username}`,
+      method: "GET",
+    };
+  },
+
 } as const;
