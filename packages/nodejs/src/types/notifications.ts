@@ -1,10 +1,18 @@
 import type { EgeriaUser } from "./users.js";
 
+export interface NotificationAdditionalContext {
+  type: "custom-reaction";
+  url: string;
+  format: string;
+}
+
 export interface NotificationGroup {
   id: string;
   body: string;
   occurredBy: EgeriaUser;
   isRead: boolean;
+  createdAt: string;
+  additionalContexts?: NotificationAdditionalContext | null;
 }
 
 export interface Notification {

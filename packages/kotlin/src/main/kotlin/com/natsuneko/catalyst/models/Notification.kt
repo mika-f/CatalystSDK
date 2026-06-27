@@ -22,6 +22,16 @@ data class Notification(
 )
 
 /**
+ * Additional context for a notification group (e.g. custom reaction)
+ */
+@Serializable
+data class NotificationAdditionalContext(
+    val type: String,
+    val url: String,
+    val format: String
+)
+
+/**
  * Notification group
  */
 @Serializable
@@ -29,7 +39,9 @@ data class NotificationGroup(
     val id: String,
     val body: String,
     val occurredBy: EgeriaUser,
-    val isRead: Boolean
+    val isRead: Boolean,
+    val createdAt: String,
+    val additionalContexts: NotificationAdditionalContext? = null
 )
 
 /**
@@ -37,5 +49,5 @@ data class NotificationGroup(
  */
 @Serializable
 data class NotificationUnreadCount(
-    val count: Int
+    val unread: Int
 )
