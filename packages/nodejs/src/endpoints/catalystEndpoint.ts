@@ -105,10 +105,17 @@ export const CatalystEndpoint = {
   },
 
   createCustomReaction(data: FormData): Endpoint {
-    return { path: "/catalyst/v1/custom-reactions", method: "POST", body: data };
+    return {
+      path: "/catalyst/v1/custom-reactions",
+      method: "POST",
+      body: data,
+    };
   },
 
-  updateCustomReaction(id: string, data: UpdateCustomReactionRequest): Endpoint {
+  updateCustomReaction(
+    id: string,
+    data: UpdateCustomReactionRequest,
+  ): Endpoint {
     return {
       path: `/catalyst/v1/custom-reactions/${id}`,
       method: "PATCH",
@@ -551,7 +558,7 @@ export const CatalystEndpoint = {
 
   getContestVotes(slug: string): Endpoint {
     return {
-      path: `/catalyst/v1/contest/by/slug/${slug}/votes`,
+      path: `/catalyst/v1/contest/by/slug/${slug}/vote`,
       method: "GET",
     };
   },
@@ -713,5 +720,4 @@ export const CatalystEndpoint = {
       method: "GET",
     };
   },
-
 } as const;
