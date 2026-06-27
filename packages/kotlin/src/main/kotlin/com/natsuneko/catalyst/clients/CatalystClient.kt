@@ -6,6 +6,7 @@ package com.natsuneko.catalyst.clients
 
 import com.natsuneko.catalyst.http.CatalystHttpClient
 import com.natsuneko.catalyst.models.*
+import io.ktor.http.*
 
 /**
  * Client for Catalyst API endpoints
@@ -155,11 +156,23 @@ class CatalystClient internal constructor(
 
     suspend fun getCustomUserReactions(): CatalystCustomReactionList = httpClient.get("/catalyst/v1/custom-reactions")
 
-    suspend fun createCustomReaction(shortcode: String, displayName: String): CatalystCustomReaction =
-        httpClient.postWithResult(
-            "/catalyst/v1/custom-reactions",
-            mapOf("shortcode" to shortcode, "displayName" to displayName)
+    suspend fun createCustomReaction(
+        shortcode: String,
+        displayName: String,
+        image: ByteArray,
+        imageMimeType: String = "image/png"
+    ): CatalystUserCustomReaction = httpClient.postMultipartWithResult("/catalyst/v1/custom-reactions") {
+        append("shortcode", shortcode)
+        append("displayName", displayName)
+        append(
+            "image",
+            image,
+            Headers.build {
+                append(HttpHeaders.ContentType, imageMimeType)
+                append(HttpHeaders.ContentDisposition, "filename=\"reaction.${if (imageMimeType == "image/jpeg") "jpg" else "png"}\"")
+            }
         )
+    }
 
     suspend fun updateCustomReaction(id: String, displayName: String? = null, sortOrder: Int? = null) =
         httpClient.patch(

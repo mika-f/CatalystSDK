@@ -57,10 +57,19 @@ public final class CatalystClient: Sendable {
     return try await client.request(CatalystEndpoint.customUserReactions)
   }
 
-  public func createCustomReaction(data: CatalystCreateCustomReactionRequest) async throws
-    -> CatalystCustomReaction
-  {
-    return try await client.request(CatalystEndpoint.createCustomReaction(data: data))
+  public func createCustomReaction(
+    shortcode: String,
+    displayName: String,
+    imageData: Data,
+    mimeType: String = "image/png"
+  ) async throws -> CatalystUserCustomReaction {
+    return try await client.requestMultipart(
+      "/catalyst/v1/custom-reactions",
+      fields: ["shortcode": shortcode, "displayName": displayName],
+      imageKey: "image",
+      imageData: imageData,
+      mimeType: mimeType
+    )
   }
 
   public func updateCustomReaction(by id: String, data: CatalystUpdateCustomReactionRequest)

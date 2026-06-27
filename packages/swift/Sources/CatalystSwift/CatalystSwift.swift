@@ -72,6 +72,45 @@ public final actor CatalystSwift {
     try await client.requestRaw(endpoint)
   }
 
+  public func requestMultipart<T: Decodable>(_ path: String, fields: [String: String], imageKey: String, imageData: Data, mimeType: String) async throws -> T {
+    let boundary = UUID().uuidString
+    var body = Data()
+
+    for (key, value) in fields {
+      body.append("--\(boundary)\r\n".data(using: .utf8)!)
+      body.append("Content-Disposition: form-data; name=\"\(key)\"\r\n\r\n".data(using: .utf8)!)
+      body.append("\(value)\r\n".data(using: .utf8)!)
+    }
+
+    let ext = mimeType == "image/jpeg" ? "jpg" : "png"
+    body.append("--\(boundary)\r\n".data(using: .utf8)!)
+    body.append("Content-Disposition: form-data; name=\"\(imageKey)\"; filename=\"reaction.\(ext)\"\r\n".data(using: .utf8)!)
+    body.append("Content-Type: \(mimeType)\r\n\r\n".data(using: .utf8)!)
+    body.append(imageData)
+    body.append("\r\n--\(boundary)--\r\n".data(using: .utf8)!)
+
+    let url = URL(string: PUBLIC_API_ENDPOINT)!.appendingPathComponent(path)
+    var request = URLRequest(url: url)
+    request.httpMethod = "POST"
+    request.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
+    request.httpBody = body
+
+    for interceptor in initialInterceptors {
+      request = try await interceptor.adapt(request)
+    }
+    if let token = accessToken {
+      request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+    }
+
+    let (data, response) = try await URLSession.shared.data(for: request)
+    guard let httpResponse = response as? HTTPURLResponse, (200...299).contains(httpResponse.statusCode) else {
+      throw APIError.invalid
+    }
+    let decoder = JSONDecoder()
+    decoder.dateDecodingStrategy = .formatted(.iso8601Full)
+    return try decoder.decode(T.self, from: data)
+  }
+
   public func refresh() async throws -> Token {
     guard let refreshToken else {
       fatalError("refreshToken is nil")

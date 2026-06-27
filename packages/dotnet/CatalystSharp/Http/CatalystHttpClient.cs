@@ -61,6 +61,13 @@ internal class CatalystHttpClient : ICatalystHttpClient
         await SendAsync(request, cancellationToken);
     }
 
+    public async Task<T> PostMultipartAsync<T>(string path, MultipartFormDataContent content, CancellationToken cancellationToken = default)
+    {
+        using var request = CreateRequest(HttpMethod.Post, BuildUrl(path));
+        request.Content = content;
+        return await SendAsync<T>(request, cancellationToken);
+    }
+
     public async Task<T> PatchAsync<T>(string path, object? body = null, CancellationToken cancellationToken = default)
     {
         using var request = CreateRequest(HttpMethod.Patch, BuildUrl(path));

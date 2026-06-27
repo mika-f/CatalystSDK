@@ -13,7 +13,6 @@ public enum CatalystEndpoint: Endpoint {
   case searchAlbum(q: String, includeSmartAlbums: Bool?)
   case customReactions
   case customUserReactions
-  case createCustomReaction(data: CatalystCreateCustomReactionRequest)
   case updateCustomReaction(id: String, data: CatalystUpdateCustomReactionRequest)
   case deleteCustomReaction(id: String)
   case relationships(id: String)
@@ -64,7 +63,7 @@ public enum CatalystEndpoint: Endpoint {
     case .customReactions:
       return "/catalyst/v1/reactions"
 
-    case .customUserReactions, .createCustomReaction(_):
+    case .customUserReactions:
       return "/catalyst/v1/custom-reactions"
 
     case .updateCustomReaction(let id, _), .deleteCustomReaction(let id):
@@ -165,8 +164,7 @@ public enum CatalystEndpoint: Endpoint {
       .createSmartAlbum(_),
       .createStatus(_),
       .favorite(_),
-      .react(_, _),
-      .createCustomReaction(_):
+      .react(_, _):
       return .post
 
     case .editAlbum(_, _),
@@ -295,9 +293,6 @@ public enum CatalystEndpoint: Endpoint {
       return data
 
     case .editStatus(_, let data):
-      return data
-
-    case .createCustomReaction(let data):
       return data
 
     case .updateCustomReaction(_, let data):

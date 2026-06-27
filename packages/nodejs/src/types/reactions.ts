@@ -10,6 +10,14 @@ export interface CatalystReactions {
   reactions: Record<string, CatalystReaction>;
 }
 
+// GET /catalyst/v1/reactions が返す標準絵文字リアクション定義
+export interface CatalystCustomReaction {
+  id: string;
+  name: string;
+  symbol: string;
+  url: string;
+}
+
 export type CatalystCustomReactionStatus =
   | "active"
   | "moderated"
@@ -25,7 +33,8 @@ export type SupporterTier =
   | "tier_4"
   | "tier_5";
 
-export interface CatalystCustomReaction {
+// GET /catalyst/v1/custom-reactions の items に含まれるユーザー独自リアクション
+export interface CatalystUserCustomReaction {
   id: string;
   shortcode: string;
   displayName: string;
@@ -40,12 +49,7 @@ export interface CatalystCustomReactionList {
   plan: SupporterTier;
   limit: number;
   used: number;
-  items: CatalystCustomReaction[];
-}
-
-export interface CreateCustomReactionRequest {
-  shortcode: string;
-  displayName: string;
+  items: CatalystUserCustomReaction[];
 }
 
 export interface UpdateCustomReactionRequest {

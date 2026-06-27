@@ -17,10 +17,15 @@ export class HttpClient {
 
     const headers = new Headers(endpoint.headers);
 
-    let body: string | undefined;
+    let body: BodyInit | undefined;
     if (endpoint.body != null) {
-      body = JSON.stringify(endpoint.body);
-      headers.set("Content-Type", "application/json");
+      if (endpoint.body instanceof FormData) {
+        body = endpoint.body;
+        // Content-Type は FormData の境界付きで自動設定されるため手動セットしない
+      } else {
+        body = JSON.stringify(endpoint.body);
+        headers.set("Content-Type", "application/json");
+      }
     }
 
     return new Request(url.toString(), {

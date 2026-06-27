@@ -19,10 +19,21 @@ data class CatalystReaction(
 )
 
 /**
- * Custom reaction definition
+ * Standard emoji reaction definition (GET /catalyst/v1/reactions)
  */
 @Serializable
 data class CatalystCustomReaction(
+    val id: String,
+    val name: String,
+    val symbol: String,
+    val url: String
+)
+
+/**
+ * User-defined custom reaction (items in GET /catalyst/v1/custom-reactions)
+ */
+@Serializable
+data class CatalystUserCustomReaction(
     val id: String,
     val shortcode: String,
     val displayName: String,
@@ -34,12 +45,12 @@ data class CatalystCustomReaction(
 )
 
 /**
- * List of custom reactions with plan information
+ * List of user-defined custom reactions with plan information
  */
 @Serializable
 data class CatalystCustomReactionList(
     val plan: String,
     val limit: Int,
     val used: Int,
-    val items: List<CatalystCustomReaction>
+    val items: List<CatalystUserCustomReaction>
 )

@@ -12,10 +12,7 @@ import type {
   CatalystEditStatusRequest,
 } from "../types/status.js";
 import type { CatalystRelationshipRequest } from "../types/relationships.js";
-import type {
-  CreateCustomReactionRequest,
-  UpdateCustomReactionRequest,
-} from "../types/reactions.js";
+import type { UpdateCustomReactionRequest } from "../types/reactions.js";
 import { CatalystCreateFleetRequest } from "../types/fleet.js";
 import {
   CatalystContestAddCollaboratorRequest,
@@ -107,7 +104,7 @@ export const CatalystEndpoint = {
     return { path: "/catalyst/v1/custom-reactions", method: "GET" };
   },
 
-  createCustomReaction(data: CreateCustomReactionRequest): Endpoint {
+  createCustomReaction(data: FormData): Endpoint {
     return { path: "/catalyst/v1/custom-reactions", method: "POST", body: data };
   },
 

@@ -11,6 +11,7 @@ import io.ktor.client.plugins.*
 import io.ktor.client.plugins.contentnegotiation.*
 import io.ktor.client.plugins.logging.*
 import io.ktor.client.request.*
+import io.ktor.client.request.forms.*
 import io.ktor.client.statement.*
 import io.ktor.http.*
 import io.ktor.serialization.kotlinx.json.*
@@ -100,6 +101,20 @@ class CatalystHttpClient(
             contentType(ContentType.Application.Json)
             body?.let { setBody(it) }
         }
+    }
+
+    /**
+     * Performs a POST request with multipart/form-data and typed return value
+     */
+    suspend inline fun <reified T> postMultipartWithResult(
+        path: String,
+        block: FormBuilder.() -> Unit
+    ): T {
+        val response: HttpResponse = client.submitFormWithBinaryData(
+            url = "$baseUrl$path",
+            formData = formData(block)
+        )
+        return response.body()
     }
 
     /**

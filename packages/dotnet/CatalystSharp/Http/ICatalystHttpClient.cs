@@ -9,6 +9,7 @@ internal interface ICatalystHttpClient
 
     Task<T> PostAsync<T>(string path, object? body = null, CancellationToken cancellationToken = default);
     Task PostAsync(string path, object? body = null, CancellationToken cancellationToken = default);
+    Task<T> PostMultipartAsync<T>(string path, MultipartFormDataContent content, CancellationToken cancellationToken = default);
 
     Task<T> PatchAsync<T>(string path, object? body = null, CancellationToken cancellationToken = default);
     Task PatchAsync(string path, object? body = null, CancellationToken cancellationToken = default);

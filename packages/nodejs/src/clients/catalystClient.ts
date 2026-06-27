@@ -23,7 +23,7 @@ import type {
   CatalystReactions,
   CatalystCustomReaction,
   CatalystCustomReactionList,
-  CreateCustomReactionRequest,
+  CatalystUserCustomReaction,
   UpdateCustomReactionRequest,
 } from "../types/reactions.js";
 import type {
@@ -124,7 +124,7 @@ export class CatalystClient {
     return this.http.request(CatalystEndpoint.customUserReactions());
   }
 
-  createCustomReaction(data: CreateCustomReactionRequest): Promise<CatalystCustomReaction> {
+  createCustomReaction(data: FormData): Promise<CatalystUserCustomReaction> {
     return this.http.request(CatalystEndpoint.createCustomReaction(data));
   }
 

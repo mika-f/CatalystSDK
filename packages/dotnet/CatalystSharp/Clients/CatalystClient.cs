@@ -116,9 +116,9 @@ public class CatalystClient
         return await _httpClient.GetAsync<CatalystCustomReactionList>("/catalyst/v1/custom-reactions", cancellationToken);
     }
 
-    public async Task<CatalystCustomReaction> CreateCustomReactionAsync(CatalystCreateCustomReactionRequest request, CancellationToken cancellationToken = default)
+    public async Task<CatalystUserCustomReaction> CreateCustomReactionAsync(MultipartFormDataContent content, CancellationToken cancellationToken = default)
     {
-        return await _httpClient.PostAsync<CatalystCustomReaction>("/catalyst/v1/custom-reactions", request, cancellationToken);
+        return await _httpClient.PostMultipartAsync<CatalystUserCustomReaction>("/catalyst/v1/custom-reactions", content, cancellationToken);
     }
 
     public async Task UpdateCustomReactionAsync(string id, CatalystUpdateCustomReactionRequest request, CancellationToken cancellationToken = default)
