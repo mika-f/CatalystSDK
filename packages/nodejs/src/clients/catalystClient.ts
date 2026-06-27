@@ -22,6 +22,9 @@ import type {
 import type {
   CatalystReactions,
   CatalystCustomReaction,
+  CatalystCustomReactionList,
+  CreateCustomReactionRequest,
+  UpdateCustomReactionRequest,
 } from "../types/reactions.js";
 import type {
   CatalystRelationships,
@@ -115,6 +118,22 @@ export class CatalystClient {
 
   customReactions(): Promise<CatalystCustomReaction[]> {
     return this.http.request(CatalystEndpoint.customReactions());
+  }
+
+  customUserReactions(): Promise<CatalystCustomReactionList> {
+    return this.http.request(CatalystEndpoint.customUserReactions());
+  }
+
+  createCustomReaction(data: CreateCustomReactionRequest): Promise<CatalystCustomReaction> {
+    return this.http.request(CatalystEndpoint.createCustomReaction(data));
+  }
+
+  updateCustomReaction(id: string, data: UpdateCustomReactionRequest): Promise<void> {
+    return this.http.requestVoid(CatalystEndpoint.updateCustomReaction(id, data));
+  }
+
+  deleteCustomReaction(id: string): Promise<void> {
+    return this.http.requestVoid(CatalystEndpoint.deleteCustomReaction(id));
   }
 
   // Relationships

@@ -23,7 +23,23 @@ data class CatalystReaction(
  */
 @Serializable
 data class CatalystCustomReaction(
-    val name: String,
-    val symbol: String,
-    val url: String
+    val id: String,
+    val shortcode: String,
+    val displayName: String,
+    val imageUrl: String,
+    val mimeType: String,
+    val sortOrder: Int,
+    val status: String,
+    val createdAt: String
+)
+
+/**
+ * List of custom reactions with plan information
+ */
+@Serializable
+data class CatalystCustomReactionList(
+    val plan: String,
+    val limit: Int,
+    val used: Int,
+    val items: List<CatalystCustomReaction>
 )

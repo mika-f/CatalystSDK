@@ -12,6 +12,10 @@ import type {
   CatalystEditStatusRequest,
 } from "../types/status.js";
 import type { CatalystRelationshipRequest } from "../types/relationships.js";
+import type {
+  CreateCustomReactionRequest,
+  UpdateCustomReactionRequest,
+} from "../types/reactions.js";
 import { CatalystCreateFleetRequest } from "../types/fleet.js";
 import {
   CatalystContestAddCollaboratorRequest,
@@ -97,6 +101,26 @@ export const CatalystEndpoint = {
 
   customReactions(): Endpoint {
     return { path: "/catalyst/v1/reactions", method: "GET" };
+  },
+
+  customUserReactions(): Endpoint {
+    return { path: "/catalyst/v1/custom-reactions", method: "GET" };
+  },
+
+  createCustomReaction(data: CreateCustomReactionRequest): Endpoint {
+    return { path: "/catalyst/v1/custom-reactions", method: "POST", body: data };
+  },
+
+  updateCustomReaction(id: string, data: UpdateCustomReactionRequest): Endpoint {
+    return {
+      path: `/catalyst/v1/custom-reactions/${id}`,
+      method: "PATCH",
+      body: data,
+    };
+  },
+
+  deleteCustomReaction(id: string): Endpoint {
+    return { path: `/catalyst/v1/custom-reactions/${id}`, method: "DELETE" };
   },
 
   block(data: CatalystRelationshipRequest): Endpoint {

@@ -111,6 +111,26 @@ public class CatalystClient
         return await _httpClient.GetAsync<IReadOnlyList<CatalystCustomReaction>>("/catalyst/v1/reactions", cancellationToken);
     }
 
+    public async Task<CatalystCustomReactionList> GetCustomUserReactionsAsync(CancellationToken cancellationToken = default)
+    {
+        return await _httpClient.GetAsync<CatalystCustomReactionList>("/catalyst/v1/custom-reactions", cancellationToken);
+    }
+
+    public async Task<CatalystCustomReaction> CreateCustomReactionAsync(CatalystCreateCustomReactionRequest request, CancellationToken cancellationToken = default)
+    {
+        return await _httpClient.PostAsync<CatalystCustomReaction>("/catalyst/v1/custom-reactions", request, cancellationToken);
+    }
+
+    public async Task UpdateCustomReactionAsync(string id, CatalystUpdateCustomReactionRequest request, CancellationToken cancellationToken = default)
+    {
+        await _httpClient.PatchAsync($"/catalyst/v1/custom-reactions/{id}", request, cancellationToken);
+    }
+
+    public async Task DeleteCustomReactionAsync(string id, CancellationToken cancellationToken = default)
+    {
+        await _httpClient.DeleteAsync($"/catalyst/v1/custom-reactions/{id}", cancellationToken);
+    }
+
     #endregion
 
     #region Relationships

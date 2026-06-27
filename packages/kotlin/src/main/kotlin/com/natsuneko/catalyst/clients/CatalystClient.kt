@@ -153,6 +153,25 @@ class CatalystClient internal constructor(
     // Reactions
     suspend fun getCustomReactions(): List<CatalystCustomReaction> = httpClient.get("/catalyst/v1/reactions")
 
+    suspend fun getCustomUserReactions(): CatalystCustomReactionList = httpClient.get("/catalyst/v1/custom-reactions")
+
+    suspend fun createCustomReaction(shortcode: String, displayName: String): CatalystCustomReaction =
+        httpClient.postWithResult(
+            "/catalyst/v1/custom-reactions",
+            mapOf("shortcode" to shortcode, "displayName" to displayName)
+        )
+
+    suspend fun updateCustomReaction(id: String, displayName: String? = null, sortOrder: Int? = null) =
+        httpClient.patch(
+            "/catalyst/v1/custom-reactions/$id",
+            buildMap {
+                displayName?.let { put("displayName", it) }
+                sortOrder?.let { put("sortOrder", it) }
+            }
+        )
+
+    suspend fun deleteCustomReaction(id: String) = httpClient.delete("/catalyst/v1/custom-reactions/$id")
+
     // Relationships
     suspend fun getRelationships(userId: String): CatalystRelationships = httpClient.get("/catalyst/v1/relationships/$userId")
 

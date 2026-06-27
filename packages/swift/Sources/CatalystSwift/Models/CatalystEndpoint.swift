@@ -12,6 +12,10 @@ public enum CatalystEndpoint: Endpoint {
   case listAlbums(username: String, includeSmartAlbums: Bool?)
   case searchAlbum(q: String, includeSmartAlbums: Bool?)
   case customReactions
+  case customUserReactions
+  case createCustomReaction(data: CatalystCreateCustomReactionRequest)
+  case updateCustomReaction(id: String, data: CatalystUpdateCustomReactionRequest)
+  case deleteCustomReaction(id: String)
   case relationships(id: String)
   case follow(data: CatalystRelationshipRequest)
   case remove(data: CatalystRelationshipRequest)
@@ -59,6 +63,12 @@ public enum CatalystEndpoint: Endpoint {
 
     case .customReactions:
       return "/catalyst/v1/reactions"
+
+    case .customUserReactions, .createCustomReaction(_):
+      return "/catalyst/v1/custom-reactions"
+
+    case .updateCustomReaction(let id, _), .deleteCustomReaction(let id):
+      return "/catalyst/v1/custom-reactions/\(id)"
 
     case .relationships(let id):
       return "/catalyst/v1/relationships/\(id)"
@@ -131,6 +141,7 @@ public enum CatalystEndpoint: Endpoint {
       .listAlbums(_, _),
       .searchAlbum(_, _),
       .customReactions,
+      .customUserReactions,
       .relationships(_),
       .getSmartAlbum(_, _, _),
       .searchSmartAlbum(_),
@@ -154,12 +165,14 @@ public enum CatalystEndpoint: Endpoint {
       .createSmartAlbum(_),
       .createStatus(_),
       .favorite(_),
-      .react(_, _):
+      .react(_, _),
+      .createCustomReaction(_):
       return .post
 
     case .editAlbum(_, _),
       .editSmartAlbum(_, _),
-      .editStatus(_, _):
+      .editStatus(_, _),
+      .updateCustomReaction(_, _):
       return .patch
 
     case .insertToAlbum(_, _),
@@ -171,7 +184,8 @@ public enum CatalystEndpoint: Endpoint {
       .deleteSmartAlbum(_),
       .deleteStatus(_),
       .unfavorite(_),
-      .unreact(_, _):
+      .unreact(_, _),
+      .deleteCustomReaction(_):
       return .delete
     }
   }
@@ -281,6 +295,12 @@ public enum CatalystEndpoint: Endpoint {
       return data
 
     case .editStatus(_, let data):
+      return data
+
+    case .createCustomReaction(let data):
+      return data
+
+    case .updateCustomReaction(_, let data):
       return data
 
     default:

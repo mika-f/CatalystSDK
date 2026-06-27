@@ -53,6 +53,26 @@ public final class CatalystClient: Sendable {
     return try await client.request(CatalystEndpoint.customReactions)
   }
 
+  public func customUserReactions() async throws -> CatalystCustomReactionList {
+    return try await client.request(CatalystEndpoint.customUserReactions)
+  }
+
+  public func createCustomReaction(data: CatalystCreateCustomReactionRequest) async throws
+    -> CatalystCustomReaction
+  {
+    return try await client.request(CatalystEndpoint.createCustomReaction(data: data))
+  }
+
+  public func updateCustomReaction(by id: String, data: CatalystUpdateCustomReactionRequest)
+    async throws
+  {
+    try await client.request(CatalystEndpoint.updateCustomReaction(id: id, data: data))
+  }
+
+  public func deleteCustomReaction(by id: String) async throws {
+    try await client.request(CatalystEndpoint.deleteCustomReaction(id: id))
+  }
+
   public func relationships(by id: String) async throws -> CatalystRelationships {
     return try await client.request(CatalystEndpoint.relationships(id: id))
   }
