@@ -23,7 +23,7 @@ export interface CatalystSmartAlbum {
   until?: string;
   isPublic: boolean;
   mode: CatalystAlbumDisplayMode;
-  user?: EgeriaUser;
+  user: EgeriaUser | null;
   type?: string;
   statuses: CatalystStatus[];
   hashtags: string[];

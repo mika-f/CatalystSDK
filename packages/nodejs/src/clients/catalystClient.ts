@@ -14,6 +14,7 @@ import type {
 } from "../types/albums.js";
 import type {
   CatalystStatus,
+  CatalystStatusV1_1,
   CatalystStatusWrapper,
   CatalystStatuses,
   CatalystCreateStatusRequest,
@@ -40,6 +41,7 @@ import {
   CatalystContest,
   CatalystContestAddCollaboratorRequest,
   CatalystContestAward,
+  CatalystContestCollaborator,
   CatalystContestRemoveCollaboratorRequest,
   CatalystCreateContestRequest,
   CatalystEditContestRequest,
@@ -289,7 +291,7 @@ export class CatalystClient {
 
   firehoseTimeline(
     opts: { since?: string; until?: string } = {},
-  ): Promise<CatalystStatus[]> {
+  ): Promise<CatalystStatusV1_1[]> {
     return this.http.request(CatalystEndpoint.firehoseTimeline(opts));
   }
 
@@ -301,7 +303,7 @@ export class CatalystClient {
 
   homeTimeline(
     opts: { since?: string; until?: string } = {},
-  ): Promise<CatalystStatus[]> {
+  ): Promise<CatalystStatusV1_1[]> {
     return this.http.request(CatalystEndpoint.homeTimeline(opts));
   }
 
@@ -412,7 +414,9 @@ export class CatalystClient {
     );
   }
 
-  getContestCollaborators(slug: string): Promise<{ collaborators: string[] }> {
+  getContestCollaborators(
+    slug: string,
+  ): Promise<{ collaborators: CatalystContestCollaborator[] }> {
     return this.http.request(CatalystEndpoint.getContestCollaborators(slug));
   }
 

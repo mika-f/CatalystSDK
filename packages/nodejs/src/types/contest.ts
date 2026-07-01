@@ -21,13 +21,17 @@ export interface CatalystEditContestRequest {
     since?: string;
     until?: string;
     allowSensitive: boolean;
-    maxMediaPerEntry?: number;
+    maxMediaPerEntry?: number | null;
   };
   voting?: {
     since?: string;
     until?: string;
     maxVotes?: number;
     isEnableVoting?: boolean;
+  };
+  winners?: {
+    since?: string;
+    until?: string;
   };
   ranks?: Omit<CatalystContestRank, "id" | "winners">[];
 }
@@ -41,16 +45,26 @@ export interface CatalystContestRank {
   winners: EgeriaUser[];
 }
 
+export type CatalystContestState =
+  | "draft"
+  | "published"
+  | "opening"
+  | "closing"
+  | "voting"
+  | "electing"
+  | "closed";
+
 export interface CatalystContest {
   slug: string;
   draft: boolean;
-  state: string;
+  state: CatalystContestState;
   title: string;
   description: string;
   theme: string;
   terms: string;
   headerUrl: string;
   bannerUrl: string;
+  organizer: EgeriaUser;
   winnersOpenAt: string;
   winnersMessageSendAt: string;
   publishedAt: string;
@@ -59,19 +73,17 @@ export interface CatalystContest {
   allowSensitive: boolean;
   maxMediaPerEntry: number | null;
   voting: { since: string; until: string; maxVotes: number; isEnable: boolean };
-  winners: { since: string; until: string };
   ranks: CatalystContestRank[];
 }
 
 export interface CatalystContestAward {
   id: string;
   name: string;
-  winners: CatalystStatus &
-    {
-      message?: string | null;
-      commentary?: string | null;
-      attachment?: { name: string; id: string } | null;
-    }[];
+  winners: (CatalystStatus & {
+    message?: string | null;
+    commentary?: string | null;
+    attachment?: { name: string; id: string } | null;
+  })[];
   order: number;
   count: number;
   remaining: number;

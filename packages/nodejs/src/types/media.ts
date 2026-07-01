@@ -1,6 +1,6 @@
 export interface MediaMetadata {
-  width?: number;
-  height?: number;
+  width: number | null;
+  height: number | null;
   isSensitive: boolean;
   isSpoiler: boolean;
 }
@@ -9,8 +9,10 @@ export interface Media {
   id: string;
   alt: string;
   url: string;
-  metadata?: MediaMetadata;
+  order: number;
+  metadata: MediaMetadata | null;
   privacyMetadata?: boolean;
+  blurhash?: string | null;
 }
 
 export interface MediaUploadUrls {

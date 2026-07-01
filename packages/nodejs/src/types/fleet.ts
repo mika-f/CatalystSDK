@@ -80,6 +80,7 @@ export interface CatalystFleetMedia {
 export interface CatalystFleet extends CatalystReactions {
   id: string;
   backgroundColor: string;
+  renderedImageUrl: string | null;
   user: EgeriaUser;
   texts: CatalystFleetText[];
   media: CatalystFleetMedia | null;
