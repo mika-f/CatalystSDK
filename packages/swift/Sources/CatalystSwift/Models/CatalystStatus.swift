@@ -4,15 +4,21 @@
 
 import Foundation
 
+public struct CatalystStatusContest: Decodable, Sendable, Equatable, Hashable {
+  public let slug: String
+  public let title: String
+  public let headerUrl: String
+  public let bannerUrl: String?
+}
+
 public struct CatalystStatus: Decodable, Sendable, Equatable, Hashable {
   public let id: String
   public let body: String
   public let user: EgeriaUser?
   public let medias: [Media]
+  public let contest: CatalystStatusContest?
   public let createdAt: Date
-  public let updatedAt: Date?
-}
 
-public struct CatalystStatusWrapper: Decodable, Sendable {
-  public let status: CatalystStatus
+  /// - Deprecated: The real API always serializes this as an empty array; contents are not modeled.
+  public let reactions: [String]?
 }

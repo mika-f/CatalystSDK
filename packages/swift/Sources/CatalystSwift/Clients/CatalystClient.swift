@@ -2,6 +2,8 @@
 //
 // Copyright (c) 2025 Natsune Mochizuki
 
+import Foundation
+
 public final class CatalystClient: Sendable {
   private let client: CatalystSwift
 
@@ -121,7 +123,7 @@ public final class CatalystClient: Sendable {
     return try await client.request(CatalystEndpoint.createStatus(data: data))
   }
 
-  public func getStatus(by id: String) async throws -> CatalystStatusWrapper {
+  public func getStatus(by id: String) async throws -> CatalystStatusV1_1Wrapper {
     return try await client.request(CatalystEndpoint.getStatus(id: id))
   }
 
@@ -175,7 +177,7 @@ public final class CatalystClient: Sendable {
   }
 
   public func firehoseTimeline(since: String? = nil, until: String? = nil) async throws
-    -> [CatalystStatus]
+    -> [CatalystStatusV1_1]
   {
     return try await client.request(CatalystEndpoint.firehoseTimeline(since: since, until: until))
   }
@@ -187,7 +189,7 @@ public final class CatalystClient: Sendable {
   }
 
   public func homeTimeline(since: String? = nil, until: String? = nil) async throws
-    -> [CatalystStatus]
+    -> [CatalystStatusV1_1]
   {
     return try await client.request(CatalystEndpoint.homeTimeline(since: since, until: until))
   }
@@ -218,5 +220,135 @@ public final class CatalystClient: Sendable {
 
   public func trend() async throws -> [String] {
     return try await client.request(CatalystEndpoint.trend)
+  }
+
+  public func createContest(data: CatalystCreateContestRequest) async throws -> Identity {
+    return try await client.request(CatalystEndpoint.createContest(data: data))
+  }
+
+  public func getContestsByMe() async throws -> [CatalystContest] {
+    return try await client.request(CatalystEndpoint.getContestsByMe)
+  }
+
+  public func getCurrentContests() async throws -> CatalystContestsWrapper {
+    return try await client.request(CatalystEndpoint.getCurrentContests)
+  }
+
+  public func getContestBySlug(_ slug: String) async throws -> CatalystContestWrapper {
+    return try await client.request(CatalystEndpoint.getContestBySlug(slug: slug))
+  }
+
+  public func editContest(slug: String, data: CatalystEditContestRequest) async throws {
+    try await client.request(CatalystEndpoint.editContest(slug: slug, data: data))
+  }
+
+  public func getContestAwards(slug: String) async throws -> CatalystContestAwardsWrapper {
+    return try await client.request(CatalystEndpoint.getContestAwards(slug: slug))
+  }
+
+  public func setContestAward(
+    slug: String, id: String, data: CatalystSetContestAwardRequest
+  ) async throws {
+    try await client.request(CatalystEndpoint.setContestAward(slug: slug, id: id, data: data))
+  }
+
+  public func unsetContestAward(
+    slug: String, id: String, data: CatalystUnsetContestAwardRequest
+  ) async throws {
+    try await client.request(CatalystEndpoint.unsetContestAward(slug: slug, id: id, data: data))
+  }
+
+  public func getContestCollaborators(slug: String) async throws
+    -> CatalystContestCollaboratorsWrapper
+  {
+    return try await client.request(CatalystEndpoint.getContestCollaborators(slug: slug))
+  }
+
+  public func addContestCollaborator(
+    slug: String, data: CatalystContestAddCollaboratorRequest
+  ) async throws {
+    try await client.request(CatalystEndpoint.addContestCollaborator(slug: slug, data: data))
+  }
+
+  public func removeContestCollaborator(
+    slug: String, data: CatalystContestRemoveCollaboratorRequest
+  ) async throws {
+    try await client.request(CatalystEndpoint.removeContestCollaborator(slug: slug, data: data))
+  }
+
+  public func copyContest(slug: String) async throws {
+    try await client.request(CatalystEndpoint.copyContest(slug: slug))
+  }
+
+  public func getAccessPermissionOfContest(slug: String) async throws
+    -> CatalystContestAccessPermission
+  {
+    return try await client.request(CatalystEndpoint.getAccessPermissionOfContest(slug: slug))
+  }
+
+  public func getContestPolls(slug: String) async throws -> CatalystContestPollsWrapper {
+    return try await client.request(CatalystEndpoint.getContestPolls(slug: slug))
+  }
+
+  public func publishContest(slug: String) async throws {
+    try await client.request(CatalystEndpoint.publishContest(slug: slug))
+  }
+
+  public func addContestVoteToStatus(slug: String, id: String) async throws {
+    try await client.request(CatalystEndpoint.addContestVoteToStatus(slug: slug, id: id))
+  }
+
+  public func removeContestVoteFromStatus(slug: String, id: String) async throws {
+    try await client.request(CatalystEndpoint.removeContestVoteFromStatus(slug: slug, id: id))
+  }
+
+  public func getContestVotes(slug: String) async throws -> CatalystUserVoteRights {
+    return try await client.request(CatalystEndpoint.getContestVotes(slug: slug))
+  }
+
+  public func searchContest(state: String, q: String? = nil) async throws
+    -> CatalystContestsWrapper
+  {
+    return try await client.request(CatalystEndpoint.searchContest(state: state, q: q))
+  }
+
+  public func getContestsByUser(username: String) async throws -> CatalystContestsWrapper {
+    return try await client.request(CatalystEndpoint.getContestsByUser(username: username))
+  }
+
+  public func createFleet(data: CatalystCreateFleetRequest) async throws {
+    try await client.request(CatalystEndpoint.createFleet(data: data))
+  }
+
+  public func fleetById(id: String) async throws -> CatalystFleet {
+    return try await client.request(CatalystEndpoint.fleetById(id: id))
+  }
+
+  public func deleteFleet(id: String) async throws {
+    try await client.request(CatalystEndpoint.deleteFleet(id: id))
+  }
+
+  public func viewFleet(id: String) async throws {
+    try await client.request(CatalystEndpoint.viewFleet(id: id))
+  }
+
+  public func fleetViewers(id: String) async throws -> [CatalystFleetViewer] {
+    return try await client.request(CatalystEndpoint.fleetViewers(id: id))
+  }
+
+  public func reactFleet(id: String, symbol: String) async throws {
+    try await client.request(CatalystEndpoint.reactFleet(id: id, symbol: symbol))
+  }
+
+  public func unreactFleet(id: String, symbol: String) async throws {
+    try await client.request(CatalystEndpoint.unreactFleet(id: id, symbol: symbol))
+  }
+
+  public func fleets() async throws -> [CatalystFleetRing] {
+    return try await client.request(CatalystEndpoint.fleets)
+  }
+
+  public func fleetByUsername(username: String) async throws -> [CatalystFleet] {
+    return try await client.request(CatalystEndpoint.fleetByUsername(username: username))
   }
 }

@@ -44,6 +44,35 @@ public enum CatalystEndpoint: Endpoint {
     username: String, trimUser: Bool?, excludeSensitive: Bool?, since: String?, until: String?)
   case userGalleryTimeline(username: String, since: String?, until: String?)
   case trend
+  case createContest(data: CatalystCreateContestRequest)
+  case getContestsByMe
+  case getCurrentContests
+  case getContestBySlug(slug: String)
+  case editContest(slug: String, data: CatalystEditContestRequest)
+  case getContestAwards(slug: String)
+  case setContestAward(slug: String, id: String, data: CatalystSetContestAwardRequest)
+  case unsetContestAward(slug: String, id: String, data: CatalystUnsetContestAwardRequest)
+  case getContestCollaborators(slug: String)
+  case addContestCollaborator(slug: String, data: CatalystContestAddCollaboratorRequest)
+  case removeContestCollaborator(slug: String, data: CatalystContestRemoveCollaboratorRequest)
+  case copyContest(slug: String)
+  case getAccessPermissionOfContest(slug: String)
+  case getContestPolls(slug: String)
+  case publishContest(slug: String)
+  case addContestVoteToStatus(slug: String, id: String)
+  case removeContestVoteFromStatus(slug: String, id: String)
+  case getContestVotes(slug: String)
+  case searchContest(state: String, q: String?)
+  case getContestsByUser(username: String)
+  case createFleet(data: CatalystCreateFleetRequest)
+  case fleetById(id: String)
+  case deleteFleet(id: String)
+  case viewFleet(id: String)
+  case fleetViewers(id: String)
+  case reactFleet(id: String, symbol: String)
+  case unreactFleet(id: String, symbol: String)
+  case fleets
+  case fleetByUsername(username: String)
 
   public var path: String {
     switch self {
@@ -131,6 +160,73 @@ public enum CatalystEndpoint: Endpoint {
 
     case .trend:
       return "/catalyst/v1/trend"
+
+    case .createContest(_):
+      return "/catalyst/v1/contest"
+
+    case .getContestsByMe:
+      return "/catalyst/v1/contest/by/me"
+
+    case .getCurrentContests:
+      return "/catalyst/v1/contest/current"
+
+    case .getContestBySlug(let slug), .editContest(let slug, _):
+      return "/catalyst/v1/contest/by/slug/\(slug)"
+
+    case .getContestAwards(let slug):
+      return "/catalyst/v1/contest/by/slug/\(slug)/awards"
+
+    case .setContestAward(let slug, let id, _), .unsetContestAward(let slug, let id, _):
+      return "/catalyst/v1/contest/by/slug/\(slug)/awards/\(id)"
+
+    case .getContestCollaborators(let slug), .addContestCollaborator(let slug, _),
+      .removeContestCollaborator(let slug, _):
+      return "/catalyst/v1/contest/by/slug/\(slug)/collaborators"
+
+    case .copyContest(let slug):
+      return "/catalyst/v1/contest/by/slug/\(slug)/copy"
+
+    case .getAccessPermissionOfContest(let slug):
+      return "/catalyst/v1/contest/by/slug/\(slug)/dashboard"
+
+    case .getContestPolls(let slug):
+      return "/catalyst/v1/contest/by/slug/\(slug)/polls"
+
+    case .publishContest(let slug):
+      return "/catalyst/v1/contest/by/slug/\(slug)/publish"
+
+    case .addContestVoteToStatus(let slug, let id), .removeContestVoteFromStatus(let slug, let id):
+      return "/catalyst/v1/contest/by/slug/\(slug)/vote/\(id)"
+
+    case .getContestVotes(let slug):
+      return "/catalyst/v1/contest/by/slug/\(slug)/vote"
+
+    case .searchContest(_, _):
+      return "/catalyst/v1/contest/search"
+
+    case .getContestsByUser(let username):
+      return "/catalyst/v1/contest/by/user/\(username)"
+
+    case .createFleet(_):
+      return "/catalyst/v1/fleet"
+
+    case .fleetById(let id), .deleteFleet(let id):
+      return "/catalyst/v1/fleet/\(id)"
+
+    case .viewFleet(let id):
+      return "/catalyst/v1/fleet/\(id)/view"
+
+    case .fleetViewers(let id):
+      return "/catalyst/v1/fleet/\(id)/viewers"
+
+    case .reactFleet(let id, let symbol), .unreactFleet(let id, let symbol):
+      return "/catalyst/v1/fleet/\(id)/reactions/\(symbol)"
+
+    case .fleets:
+      return "/catalyst/v1/fleet/ring"
+
+    case .fleetByUsername(let username):
+      return "/catalyst/v1/fleet/by/user/\(username)"
     }
   }
 
@@ -156,7 +252,21 @@ public enum CatalystEndpoint: Endpoint {
       .searchTimeline(_, _, _, _),
       .userTimeline(_, _, _, _, _),
       .userGalleryTimeline(_, _, _),
-      .trend:
+      .trend,
+      .getContestsByMe,
+      .getCurrentContests,
+      .getContestBySlug(_),
+      .getContestAwards(_),
+      .getContestCollaborators(_),
+      .getAccessPermissionOfContest(_),
+      .getContestPolls(_),
+      .getContestVotes(_),
+      .searchContest(_, _),
+      .getContestsByUser(_),
+      .fleetById(_),
+      .fleetViewers(_),
+      .fleets,
+      .fleetByUsername(_):
       return .get
 
     case .createAlbum(_),
@@ -164,13 +274,23 @@ public enum CatalystEndpoint: Endpoint {
       .createSmartAlbum(_),
       .createStatus(_),
       .favorite(_),
-      .react(_, _):
+      .react(_, _),
+      .createContest(_),
+      .setContestAward(_, _, _),
+      .addContestCollaborator(_, _),
+      .copyContest(_),
+      .publishContest(_),
+      .addContestVoteToStatus(_, _),
+      .createFleet(_),
+      .viewFleet(_),
+      .reactFleet(_, _):
       return .post
 
     case .editAlbum(_, _),
       .editSmartAlbum(_, _),
       .editStatus(_, _),
-      .updateCustomReaction(_, _):
+      .updateCustomReaction(_, _),
+      .editContest(_, _):
       return .patch
 
     case .insertToAlbum(_, _),
@@ -183,7 +303,12 @@ public enum CatalystEndpoint: Endpoint {
       .deleteStatus(_),
       .unfavorite(_),
       .unreact(_, _),
-      .deleteCustomReaction(_):
+      .deleteCustomReaction(_),
+      .unsetContestAward(_, _, _),
+      .removeContestCollaborator(_, _),
+      .removeContestVoteFromStatus(_, _),
+      .deleteFleet(_),
+      .unreactFleet(_, _):
       return .delete
     }
   }
@@ -261,6 +386,9 @@ public enum CatalystEndpoint: Endpoint {
 
       return params.isEmpty ? nil : params
 
+    case .searchContest(let state, let q):
+      return ["state": state, "q": q ?? ""]
+
     default:
       return nil
     }
@@ -296,6 +424,27 @@ public enum CatalystEndpoint: Endpoint {
       return data
 
     case .updateCustomReaction(_, let data):
+      return data
+
+    case .createContest(let data):
+      return data
+
+    case .editContest(_, let data):
+      return data
+
+    case .setContestAward(_, _, let data):
+      return data
+
+    case .unsetContestAward(_, _, let data):
+      return data
+
+    case .addContestCollaborator(_, let data):
+      return data
+
+    case .removeContestCollaborator(_, let data):
+      return data
+
+    case .createFleet(let data):
       return data
 
     default:

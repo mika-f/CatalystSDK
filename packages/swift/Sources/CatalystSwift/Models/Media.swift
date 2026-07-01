@@ -6,6 +6,8 @@ public struct Media: Decodable, Sendable, Equatable, Hashable {
   public let id: String
   public let alt: String
   public let url: String
+  public let order: Int
+  public let blurhash: String?
   public let metadata: MediaMetadata?
   public let privacyMetadata: Bool?
 }
