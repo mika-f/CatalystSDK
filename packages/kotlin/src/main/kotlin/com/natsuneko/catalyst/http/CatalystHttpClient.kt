@@ -108,7 +108,7 @@ class CatalystHttpClient(
      */
     suspend inline fun <reified T> postMultipartWithResult(
         path: String,
-        block: FormBuilder.() -> Unit
+        noinline block: FormBuilder.() -> Unit
     ): T {
         val response: HttpResponse = client.submitFormWithBinaryData(
             url = "$baseUrl$path",

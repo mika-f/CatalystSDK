@@ -14,6 +14,8 @@ data class Media(
     val id: String,
     val alt: String,
     val url: String,
+    val order: Int,
+    val blurhash: String? = null,
     val metadata: MediaMetadata? = null,
     val privacyMetadata: Boolean? = null
 )
