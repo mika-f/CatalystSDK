@@ -231,9 +231,9 @@ public class CatalystClient
         }, cancellationToken);
     }
 
-    public async Task<IReadOnlyList<CatalystStatus>> GetFirehoseTimelineAsync(string? since = null, string? until = null, CancellationToken cancellationToken = default)
+    public async Task<IReadOnlyList<CatalystStatusV1_1>> GetFirehoseTimelineAsync(string? since = null, string? until = null, CancellationToken cancellationToken = default)
     {
-        return await _httpClient.GetAsync<IReadOnlyList<CatalystStatus>>("/catalyst/v1.1/timeline/firehose", new Dictionary<string, string?>
+        return await _httpClient.GetAsync<IReadOnlyList<CatalystStatusV1_1>>("/catalyst/v1.1/timeline/firehose", new Dictionary<string, string?>
         {
             ["since"] = since,
             ["until"] = until
@@ -249,9 +249,9 @@ public class CatalystClient
         }, cancellationToken);
     }
 
-    public async Task<IReadOnlyList<CatalystStatus>> GetHomeTimelineAsync(string? since = null, string? until = null, CancellationToken cancellationToken = default)
+    public async Task<IReadOnlyList<CatalystStatusV1_1>> GetHomeTimelineAsync(string? since = null, string? until = null, CancellationToken cancellationToken = default)
     {
-        return await _httpClient.GetAsync<IReadOnlyList<CatalystStatus>>("/catalyst/v1.1/timeline/home", new Dictionary<string, string?>
+        return await _httpClient.GetAsync<IReadOnlyList<CatalystStatusV1_1>>("/catalyst/v1.1/timeline/home", new Dictionary<string, string?>
         {
             ["since"] = since,
             ["until"] = until
@@ -296,6 +296,163 @@ public class CatalystClient
     public async Task<IReadOnlyList<string>> GetTrendsAsync(CancellationToken cancellationToken = default)
     {
         return await _httpClient.GetAsync<IReadOnlyList<string>>("/catalyst/v1/trend", cancellationToken);
+    }
+
+    #endregion
+
+    #region Contest
+
+    public async Task<Identity> CreateContestAsync(CatalystCreateContestRequest request, CancellationToken cancellationToken = default)
+    {
+        return await _httpClient.PostAsync<Identity>("/catalyst/v1/contest", request, cancellationToken);
+    }
+
+    public async Task<IReadOnlyList<CatalystContest>> GetContestsByMeAsync(CancellationToken cancellationToken = default)
+    {
+        return await _httpClient.GetAsync<IReadOnlyList<CatalystContest>>("/catalyst/v1/contest/by/me", cancellationToken);
+    }
+
+    public async Task<CatalystContestsWrapper> GetCurrentContestsAsync(CancellationToken cancellationToken = default)
+    {
+        return await _httpClient.GetAsync<CatalystContestsWrapper>("/catalyst/v1/contest/current", cancellationToken);
+    }
+
+    public async Task<CatalystContestWrapper> GetContestBySlugAsync(string slug, CancellationToken cancellationToken = default)
+    {
+        return await _httpClient.GetAsync<CatalystContestWrapper>($"/catalyst/v1/contest/by/slug/{slug}", cancellationToken);
+    }
+
+    public async Task EditContestAsync(string slug, CatalystEditContestRequest request, CancellationToken cancellationToken = default)
+    {
+        await _httpClient.PatchAsync($"/catalyst/v1/contest/by/slug/{slug}", request, cancellationToken);
+    }
+
+    public async Task<CatalystContestAwardsWrapper> GetContestAwardsAsync(string slug, CancellationToken cancellationToken = default)
+    {
+        return await _httpClient.GetAsync<CatalystContestAwardsWrapper>($"/catalyst/v1/contest/by/slug/{slug}/awards", cancellationToken);
+    }
+
+    public async Task SetContestAwardAsync(string slug, string id, CatalystSetContestAwardRequest request, CancellationToken cancellationToken = default)
+    {
+        await _httpClient.PostAsync($"/catalyst/v1/contest/by/slug/{slug}/awards/{id}", request, cancellationToken);
+    }
+
+    public async Task UnsetContestAwardAsync(string slug, string id, CatalystUnsetContestAwardRequest request, CancellationToken cancellationToken = default)
+    {
+        await _httpClient.DeleteAsync($"/catalyst/v1/contest/by/slug/{slug}/awards/{id}", request, cancellationToken);
+    }
+
+    public async Task<CatalystContestCollaboratorsWrapper> GetContestCollaboratorsAsync(string slug, CancellationToken cancellationToken = default)
+    {
+        return await _httpClient.GetAsync<CatalystContestCollaboratorsWrapper>($"/catalyst/v1/contest/by/slug/{slug}/collaborators", cancellationToken);
+    }
+
+    public async Task AddContestCollaboratorAsync(string slug, CatalystContestAddCollaboratorRequest request, CancellationToken cancellationToken = default)
+    {
+        await _httpClient.PostAsync($"/catalyst/v1/contest/by/slug/{slug}/collaborators", request, cancellationToken);
+    }
+
+    public async Task RemoveContestCollaboratorAsync(string slug, CatalystContestRemoveCollaboratorRequest request, CancellationToken cancellationToken = default)
+    {
+        await _httpClient.DeleteAsync($"/catalyst/v1/contest/by/slug/{slug}/collaborators", request, cancellationToken);
+    }
+
+    public async Task<Identity> CopyContestAsync(string slug, CancellationToken cancellationToken = default)
+    {
+        return await _httpClient.PostAsync<Identity>($"/catalyst/v1/contest/by/slug/{slug}/copy", null, cancellationToken);
+    }
+
+    public async Task<CatalystContestAccessPermission> GetAccessPermissionOfContestAsync(string slug, CancellationToken cancellationToken = default)
+    {
+        return await _httpClient.GetAsync<CatalystContestAccessPermission>($"/catalyst/v1/contest/by/slug/{slug}/dashboard", cancellationToken);
+    }
+
+    public async Task<CatalystContestPollsWrapper> GetContestPollsAsync(string slug, CancellationToken cancellationToken = default)
+    {
+        return await _httpClient.GetAsync<CatalystContestPollsWrapper>($"/catalyst/v1/contest/by/slug/{slug}/polls", cancellationToken);
+    }
+
+    public async Task<Identity> PublishContestAsync(string slug, CancellationToken cancellationToken = default)
+    {
+        return await _httpClient.PostAsync<Identity>($"/catalyst/v1/contest/by/slug/{slug}/publish", null, cancellationToken);
+    }
+
+    public async Task AddContestVoteToStatusAsync(string slug, string id, CancellationToken cancellationToken = default)
+    {
+        await _httpClient.PostAsync($"/catalyst/v1/contest/by/slug/{slug}/vote/{id}", null, cancellationToken);
+    }
+
+    public async Task RemoveContestVoteFromStatusAsync(string slug, string id, CancellationToken cancellationToken = default)
+    {
+        await _httpClient.DeleteAsync($"/catalyst/v1/contest/by/slug/{slug}/vote/{id}", cancellationToken);
+    }
+
+    public async Task<CatalystUserVoteRights> GetContestVotesAsync(string slug, CancellationToken cancellationToken = default)
+    {
+        return await _httpClient.GetAsync<CatalystUserVoteRights>($"/catalyst/v1/contest/by/slug/{slug}/vote", cancellationToken);
+    }
+
+    public async Task<CatalystContestsWrapper> SearchContestAsync(string state, string? query = null, CancellationToken cancellationToken = default)
+    {
+        return await _httpClient.GetAsync<CatalystContestsWrapper>("/catalyst/v1/contest/search", new Dictionary<string, string?>
+        {
+            ["state"] = state,
+            ["q"] = query ?? ""
+        }, cancellationToken);
+    }
+
+    public async Task<CatalystContestsWrapper> GetContestsByUserAsync(string username, CancellationToken cancellationToken = default)
+    {
+        return await _httpClient.GetAsync<CatalystContestsWrapper>($"/catalyst/v1/contest/by/user/{username}", cancellationToken);
+    }
+
+    #endregion
+
+    #region Fleet
+
+    public async Task CreateFleetAsync(CatalystCreateFleetRequest request, CancellationToken cancellationToken = default)
+    {
+        await _httpClient.PostAsync("/catalyst/v1/fleet", request, cancellationToken);
+    }
+
+    public async Task<CatalystFleet> GetFleetByIdAsync(string id, CancellationToken cancellationToken = default)
+    {
+        return await _httpClient.GetAsync<CatalystFleet>($"/catalyst/v1/fleet/{id}", cancellationToken);
+    }
+
+    public async Task DeleteFleetAsync(string id, CancellationToken cancellationToken = default)
+    {
+        await _httpClient.DeleteAsync($"/catalyst/v1/fleet/{id}", cancellationToken);
+    }
+
+    public async Task ViewFleetAsync(string id, CancellationToken cancellationToken = default)
+    {
+        await _httpClient.PostAsync($"/catalyst/v1/fleet/{id}/view", null, cancellationToken);
+    }
+
+    public async Task<IReadOnlyList<CatalystFleetViewer>> GetFleetViewersAsync(string id, CancellationToken cancellationToken = default)
+    {
+        return await _httpClient.GetAsync<IReadOnlyList<CatalystFleetViewer>>($"/catalyst/v1/fleet/{id}/viewers", cancellationToken);
+    }
+
+    public async Task ReactFleetAsync(string id, string symbol, CancellationToken cancellationToken = default)
+    {
+        await _httpClient.PostAsync($"/catalyst/v1/fleet/{id}/reactions/{symbol}", null, cancellationToken);
+    }
+
+    public async Task UnreactFleetAsync(string id, string symbol, CancellationToken cancellationToken = default)
+    {
+        await _httpClient.DeleteAsync($"/catalyst/v1/fleet/{id}/reactions/{symbol}", cancellationToken);
+    }
+
+    public async Task<IReadOnlyList<CatalystFleetRing>> GetFleetsAsync(CancellationToken cancellationToken = default)
+    {
+        return await _httpClient.GetAsync<IReadOnlyList<CatalystFleetRing>>("/catalyst/v1/fleet/ring", cancellationToken);
+    }
+
+    public async Task<IReadOnlyList<CatalystFleet>> GetFleetByUsernameAsync(string username, CancellationToken cancellationToken = default)
+    {
+        return await _httpClient.GetAsync<IReadOnlyList<CatalystFleet>>($"/catalyst/v1/fleet/by/user/{username}", cancellationToken);
     }
 
     #endregion

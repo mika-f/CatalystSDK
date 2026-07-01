@@ -6,6 +6,8 @@ public record Media(
     [property: JsonPropertyName("id")] string Id,
     [property: JsonPropertyName("alt")] string Alt,
     [property: JsonPropertyName("url")] string Url,
+    [property: JsonPropertyName("order")] int Order,
     [property: JsonPropertyName("metadata")] MediaMetadata? Metadata,
-    [property: JsonPropertyName("privacyMetadata")] bool? PrivacyMetadata
+    [property: JsonPropertyName("privacyMetadata")] bool? PrivacyMetadata,
+    [property: JsonPropertyName("blurhash")] string? Blurhash
 );
