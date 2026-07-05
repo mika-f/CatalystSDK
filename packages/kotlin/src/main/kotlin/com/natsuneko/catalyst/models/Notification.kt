@@ -51,3 +51,9 @@ data class NotificationGroup(
 data class NotificationUnreadCount(
     val unread: Int
 )
+
+/**
+ * Wrapper for the `{"notifications": [...]}` response shape
+ */
+@Serializable
+internal data class Notifications(val notifications: List<Notification>)

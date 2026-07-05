@@ -7,6 +7,7 @@ package com.natsuneko.catalyst.clients
 import com.natsuneko.catalyst.http.CatalystHttpClient
 import com.natsuneko.catalyst.models.EgeriaUser
 import com.natsuneko.catalyst.models.EgeriaUserWrapper
+import com.natsuneko.catalyst.models.EgeriaUsersWrapper
 
 /**
  * Client for Egeria (User Management) API endpoints
@@ -21,8 +22,13 @@ class EgeriaClient internal constructor(
 
     /**
      * Updates the current user's profile
+     *
+     * Note: [iconUrl]/[bannerUrl]/[bio]/[website]/[additionalWebsites] are nested under the
+     * `profile` key in the request body, matching the `User` request schema.
      */
     suspend fun updateProfile(
+        screenName: String? = null,
+        displayName: String? = null,
         iconUrl: String? = null,
         bannerUrl: String? = null,
         bio: String? = null,
@@ -31,21 +37,25 @@ class EgeriaClient internal constructor(
     ) = httpClient.patch(
         "/egeria/v1/me",
         mapOf(
-            "iconUrl" to iconUrl,
-            "bannerUrl" to bannerUrl,
-            "bio" to bio,
-            "website" to website,
-            "additionalWebsites" to additionalWebsites
+            "screenName" to screenName,
+            "displayName" to displayName,
+            "profile" to mapOf(
+                "iconUrl" to iconUrl,
+                "bannerUrl" to bannerUrl,
+                "bio" to bio,
+                "website" to website,
+                "additionalWebsites" to additionalWebsites
+            ).filterValues { it != null }.ifEmpty { null }
         ).filterValues { it != null }
     )
 
     /**
      * Searches for users by query
      */
-    suspend fun searchUsers(query: String): List<EgeriaUser> = httpClient.get(
+    suspend fun searchUsers(query: String): List<EgeriaUser> = httpClient.get<EgeriaUsersWrapper>(
         "/egeria/v1/search",
         mapOf("q" to query)
-    )
+    ).users
 
     /**
      * Gets a user by ID

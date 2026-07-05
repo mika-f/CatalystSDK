@@ -19,3 +19,9 @@ data class CatalystAlbum(
     val user: EgeriaUser,
     val statuses: List<CatalystStatus>
 )
+
+/**
+ * Wrapper for the `{"albums": [...]}` response shape
+ */
+@Serializable
+internal data class CatalystAlbumsWrapper(val albums: List<CatalystAlbum>)

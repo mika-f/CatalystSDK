@@ -14,23 +14,20 @@ class MediaClient internal constructor(
     private val httpClient: CatalystHttpClient
 ) {
     /**
-     * Downloads media by URL
+     * Gets a signed URL for uploading media (v1)
      */
-    suspend fun download(url: String): ByteArray = httpClient.postWithResult(
-        "/media/v1/download",
+    suspend fun getUploadUrl(): MediaUploadUrls = httpClient.postWithResult("/media/v1/upload")
+
+    /**
+     * Deletes media by URL
+     */
+    suspend fun delete(url: String): Boolean = httpClient.deleteWithResult(
+        "/media/v1/upload",
         mapOf("url" to url)
     )
 
     /**
-     * Deletes media by ID
+     * Gets a signed URL for uploading media (v2)
      */
-    suspend fun delete(mediaId: String) = httpClient.delete(
-        "/media/v1/upload",
-        mapOf("mediaId" to mediaId)
-    )
-
-    /**
-     * Gets a signed URL for uploading media
-     */
-    suspend fun getUploadUrl(): MediaUploadUrls = httpClient.postWithResult("/media/v2/upload")
+    suspend fun getUploadUrlV2(): MediaUploadUrls = httpClient.postWithResult("/media/v2/upload")
 }

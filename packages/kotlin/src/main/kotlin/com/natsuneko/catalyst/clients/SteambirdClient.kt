@@ -5,8 +5,10 @@
 package com.natsuneko.catalyst.clients
 
 import com.natsuneko.catalyst.http.CatalystHttpClient
+import com.natsuneko.catalyst.models.CatalystResult
 import com.natsuneko.catalyst.models.Notification
 import com.natsuneko.catalyst.models.NotificationUnreadCount
+import com.natsuneko.catalyst.models.Notifications
 
 /**
  * Client for Steambird (Notifications) API endpoints
@@ -21,36 +23,43 @@ class SteambirdClient internal constructor(
     }
 
     /**
-     * Gets notifications for a specific issuer
+     * Gets notifications for a specific issuer, or all issuers if omitted
      */
     suspend fun getNotifications(
-        issuer: String,
+        issuer: String? = null,
         since: String? = null,
         until: String? = null
-    ): List<Notification> = httpClient.get(
+    ): List<Notification> = httpClient.get<Notifications>(
         "/steambird/v1/notifications",
         mapOf(
             "issuer" to issuer,
             "since" to since,
             "until" to until
         )
-    )
+    ).notifications
 
     /**
      * Marks a notification as read
      */
-    suspend fun markAsRead(notificationId: String) = httpClient.post("/steambird/v1/notifications/$notificationId")
+    suspend fun markAsRead(notificationId: String): CatalystResult =
+        httpClient.postWithResult("/steambird/v1/notifications/$notificationId")
 
     /**
      * Marks all notifications as read
      */
-    suspend fun markAllAsRead(issuer: String? = null) = httpClient.post("/steambird/v1/notifications/all")
+    suspend fun markAllAsRead(issuer: String? = null): CatalystResult = httpClient.postWithResult(
+        "/steambird/v1/notifications/all",
+        queryParams = mapOf("issuer" to issuer)
+    )
 
     /**
      * Gets the unread notification count
      */
-    suspend fun getUnreadCount(issuers: List<String>? = null): NotificationUnreadCount = httpClient.get(
+    suspend fun getUnreadCount(
+        issuer: String? = null,
+        issuers: List<String>? = null
+    ): NotificationUnreadCount = httpClient.get(
         "/steambird/v1/notifications/unread",
-        issuers?.let { mapOf("issuers" to it.joinToString(",")) } ?: emptyMap()
+        mapOf("issuer" to issuer, "issuers" to issuers?.joinToString(","))
     )
 }

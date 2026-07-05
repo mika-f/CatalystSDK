@@ -70,13 +70,31 @@ data class CatalystStatusV1_1 @OptIn(ExperimentalTime::class) constructor(
 )
 
 /**
- * Wrapper for the `{"status": {...}}` response shape
+ * Wrapper for the `{"status": {...}}` response shape (v1.1 shape, used by `/catalyst/v1.1/status/{id}`)
  */
 @Serializable
-data class CatalystStatusV1_1Wrapper(val status: CatalystStatusV1_1)
+internal data class CatalystStatusV1_1Wrapper(val status: CatalystStatusV1_1)
+
+/**
+ * Wrapper for the `{"status": {...}}` response shape (v1 shape, used by `/catalyst/v1/status/{id}`)
+ */
+@Serializable
+internal data class CatalystStatusV1Wrapper(val status: CatalystStatus)
+
+/**
+ * Wrapper for the `{"status": {...} | null}` response shape, used by `/catalyst/v1/random`
+ */
+@Serializable
+internal data class CatalystNullableStatusV1Wrapper(val status: CatalystStatus? = null)
 
 /**
  * Wrapper for the `{"statuses": [...]}` response shape
  */
 @Serializable
-data class CatalystStatuses(val statuses: List<CatalystStatus>)
+internal data class CatalystStatuses(val statuses: List<CatalystStatus>)
+
+/**
+ * Wrapper for the `{"statuses": [...]}` response shape (v1.1 shape)
+ */
+@Serializable
+internal data class CatalystStatusesV1_1(val statuses: List<CatalystStatusV1_1>)

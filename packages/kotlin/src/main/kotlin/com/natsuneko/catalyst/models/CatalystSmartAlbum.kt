@@ -27,3 +27,9 @@ data class CatalystSmartAlbum @OptIn(ExperimentalTime::class) constructor(
     val statuses: List<CatalystStatus>,
     val hashtags: List<String>
 )
+
+/**
+ * Wrapper for the `{"albums": [...]}` response shape
+ */
+@Serializable
+internal data class CatalystSmartAlbums(val albums: List<CatalystSmartAlbum>)

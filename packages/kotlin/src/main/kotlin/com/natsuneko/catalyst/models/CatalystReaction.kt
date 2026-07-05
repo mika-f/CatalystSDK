@@ -15,7 +15,8 @@ data class CatalystReaction(
     val symbol: String,
     val url: String,
     val count: Int,
-    val hasSelfReaction: Boolean? = null
+    val hasSelfReaction: Boolean? = null,
+    val customReactionId: String? = null
 )
 
 /**
@@ -30,7 +31,11 @@ data class CatalystCustomReaction(
 )
 
 /**
- * User-defined custom reaction (items in GET /catalyst/v1/custom-reactions)
+ * User-defined custom reaction (items in GET /catalyst/v1/custom-reactions, POST
+ * /catalyst/v1/custom-reactions, PATCH /catalyst/v1/custom-reactions/{id})
+ *
+ * [status] is one of "active" | "moderated" | "hidden" | "disabled"
+ * [visibility] is one of "private" | "followers" | "public"
  */
 @Serializable
 data class CatalystUserCustomReaction(
@@ -41,6 +46,7 @@ data class CatalystUserCustomReaction(
     val mimeType: String,
     val sortOrder: Int,
     val status: String,
+    val visibility: String,
     val createdAt: String
 )
 
@@ -54,3 +60,9 @@ data class CatalystCustomReactionList(
     val used: Int,
     val items: List<CatalystUserCustomReaction>
 )
+
+/**
+ * Wrapper for the `{"reactions": {symbol: Reaction}}` response shape
+ */
+@Serializable
+internal data class CatalystReactions(val reactions: Map<String, CatalystReaction>)

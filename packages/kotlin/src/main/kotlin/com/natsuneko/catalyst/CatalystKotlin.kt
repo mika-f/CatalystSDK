@@ -7,6 +7,8 @@ package com.natsuneko.catalyst
 import com.natsuneko.catalyst.auth.OAuthClient
 import com.natsuneko.catalyst.clients.CatalystClient
 import com.natsuneko.catalyst.clients.EgeriaClient
+import com.natsuneko.catalyst.clients.EpicleseClient
+import com.natsuneko.catalyst.clients.FeatureFlagsClient
 import com.natsuneko.catalyst.clients.MediaClient
 import com.natsuneko.catalyst.clients.SteambirdClient
 import com.natsuneko.catalyst.http.CatalystHttpClient
@@ -58,6 +60,16 @@ class CatalystKotlin(
      * Steambird client for notification operations
      */
     val steambird: SteambirdClient get() = SteambirdClient(httpClient)
+
+    /**
+     * Epiclese client for world/author metadata operations
+     */
+    val epiclese: EpicleseClient get() = EpicleseClient(httpClient)
+
+    /**
+     * Feature flags client for retrieving the current user's enabled feature flags
+     */
+    val featureFlags: FeatureFlagsClient get() = FeatureFlagsClient(httpClient)
 
     /**
      * Sets the authentication credentials

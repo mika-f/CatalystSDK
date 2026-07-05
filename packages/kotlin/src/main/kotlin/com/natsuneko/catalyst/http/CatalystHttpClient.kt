@@ -81,11 +81,15 @@ class CatalystHttpClient(
      */
     suspend inline fun <reified T> postWithResult(
         path: String,
-        body: Any? = null
+        body: Any? = null,
+        queryParams: Map<String, String?> = emptyMap()
     ): T {
         val response: HttpResponse = client.post("$baseUrl$path") {
             contentType(ContentType.Application.Json)
             body?.let { setBody(it) }
+            queryParams.forEach { (key, value) ->
+                value?.let { parameter(key, it) }
+            }
         }
         return response.body()
     }
@@ -95,11 +99,15 @@ class CatalystHttpClient(
      */
     suspend fun post(
         path: String,
-        body: Any? = null
+        body: Any? = null,
+        queryParams: Map<String, String?> = emptyMap()
     ) {
         client.post("$baseUrl$path") {
             contentType(ContentType.Application.Json)
             body?.let { setBody(it) }
+            queryParams.forEach { (key, value) ->
+                value?.let { parameter(key, it) }
+            }
         }
     }
 
@@ -131,6 +139,20 @@ class CatalystHttpClient(
     }
 
     /**
+     * Performs a PATCH request with typed return value
+     */
+    suspend inline fun <reified T> patchWithResult(
+        path: String,
+        body: Any
+    ): T {
+        val response: HttpResponse = client.patch("$baseUrl$path") {
+            contentType(ContentType.Application.Json)
+            setBody(body)
+        }
+        return response.body()
+    }
+
+    /**
      * Performs a PUT request
      */
     suspend fun put(
@@ -141,6 +163,20 @@ class CatalystHttpClient(
             contentType(ContentType.Application.Json)
             setBody(body)
         }
+    }
+
+    /**
+     * Performs a PUT request with typed return value
+     */
+    suspend inline fun <reified T> putWithResult(
+        path: String,
+        body: Any
+    ): T {
+        val response: HttpResponse = client.put("$baseUrl$path") {
+            contentType(ContentType.Application.Json)
+            setBody(body)
+        }
+        return response.body()
     }
 
     /**
@@ -161,6 +197,22 @@ class CatalystHttpClient(
             contentType(ContentType.Application.Json)
             setBody(body)
         }
+    }
+
+    /**
+     * Performs a DELETE request with typed return value
+     */
+    suspend inline fun <reified T> deleteWithResult(
+        path: String,
+        body: Any? = null
+    ): T {
+        val response: HttpResponse = client.delete("$baseUrl$path") {
+            body?.let {
+                contentType(ContentType.Application.Json)
+                setBody(it)
+            }
+        }
+        return response.body()
     }
 
     /**
