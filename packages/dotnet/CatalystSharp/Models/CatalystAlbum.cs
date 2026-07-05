@@ -11,3 +11,7 @@ public record CatalystAlbum(
     [property: JsonPropertyName("user")] EgeriaUser User,
     [property: JsonPropertyName("statuses")] IReadOnlyList<CatalystStatus> Statuses
 );
+
+public record CatalystAlbumsWrapper(
+    [property: JsonPropertyName("albums")] IReadOnlyList<CatalystAlbum> Albums
+);

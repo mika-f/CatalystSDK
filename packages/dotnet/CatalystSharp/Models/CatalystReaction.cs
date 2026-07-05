@@ -7,7 +7,8 @@ public record CatalystReaction(
     [property: JsonPropertyName("symbol")] string Symbol,
     [property: JsonPropertyName("url")] string Url,
     [property: JsonPropertyName("count")] int Count,
-    [property: JsonPropertyName("hasSelfReaction")] bool? HasSelfReaction
+    [property: JsonPropertyName("hasSelfReaction")] bool? HasSelfReaction = null,
+    [property: JsonPropertyName("customReactionId")] string? CustomReactionId = null
 );
 
 public record CatalystReactions(

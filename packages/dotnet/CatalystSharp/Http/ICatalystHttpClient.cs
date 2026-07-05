@@ -19,6 +19,8 @@ internal interface ICatalystHttpClient
 
     Task DeleteAsync(string path, CancellationToken cancellationToken = default);
     Task DeleteAsync(string path, object? body, CancellationToken cancellationToken = default);
+    Task<T> DeleteAsync<T>(string path, CancellationToken cancellationToken = default);
+    Task<T> DeleteAsync<T>(string path, object? body, CancellationToken cancellationToken = default);
 
     Task<byte[]> GetBytesAsync(string path, CancellationToken cancellationToken = default);
     Task<byte[]> PostBytesAsync(string path, object? body = null, CancellationToken cancellationToken = default);

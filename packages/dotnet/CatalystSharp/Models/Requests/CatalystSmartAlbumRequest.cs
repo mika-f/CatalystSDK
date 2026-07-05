@@ -10,7 +10,7 @@ public record CatalystCreateSmartAlbumRequest(
     [property: JsonPropertyName("until")] DateTimeOffset? Until,
     [property: JsonPropertyName("isAllowNsfw")] bool? IsAllowNsfw,
     [property: JsonPropertyName("isAllowOthers")] bool? IsAllowOthers,
-    [property: JsonPropertyName("isPublic")] bool IsPublic,
+    [property: JsonPropertyName("isPublic")] bool? IsPublic,
     [property: JsonPropertyName("mode")] CatalystAlbumDisplayMode? Mode
 );
 
@@ -22,6 +22,6 @@ public record CatalystEditSmartAlbumRequest(
     [property: JsonPropertyName("until")] DateTimeOffset? Until,
     [property: JsonPropertyName("isAllowNsfw")] bool? IsAllowNsfw,
     [property: JsonPropertyName("isAllowOthers")] bool? IsAllowOthers,
-    [property: JsonPropertyName("isPublic")] bool IsPublic,
+    [property: JsonPropertyName("isPublic")] bool? IsPublic,
     [property: JsonPropertyName("mode")] CatalystAlbumDisplayMode? Mode
 );

@@ -14,14 +14,6 @@ public enum CatalystContestState
     [JsonPropertyName("closed")] Closed
 }
 
-[JsonConverter(typeof(JsonStringEnumConverter<CatalystContestCollaboratorRole>))]
-public enum CatalystContestCollaboratorRole
-{
-    [JsonPropertyName("admin")] Admin,
-    [JsonPropertyName("collaborator")] Collaborator,
-    [JsonPropertyName("contributor")] Contributor
-}
-
 public record CatalystContestVoting(
     [property: JsonPropertyName("since")] string Since,
     [property: JsonPropertyName("until")] string Until,
@@ -60,43 +52,6 @@ public record CatalystContest(
     [property: JsonPropertyName("ranks")] IReadOnlyList<CatalystContestRank> Ranks
 );
 
-public record CatalystContestAwardAttachment(
-    [property: JsonPropertyName("name")] string Name,
-    [property: JsonPropertyName("id")] string Id
-);
-
-public record CatalystContestAwardWinner(
-    [property: JsonPropertyName("id")] string Id,
-    [property: JsonPropertyName("body")] string Body,
-    [property: JsonPropertyName("user")] EgeriaUser? User,
-    [property: JsonPropertyName("medias")] IReadOnlyList<Media> Medias,
-    [property: JsonPropertyName("contest")] CatalystStatusContest? Contest,
-    [property: JsonPropertyName("createdAt")] DateTimeOffset CreatedAt,
-    [property: JsonPropertyName("reactions")] IReadOnlyList<object>? Reactions,
-    [property: JsonPropertyName("message")] string? Message,
-    [property: JsonPropertyName("commentary")] string? Commentary,
-    [property: JsonPropertyName("attachment")] CatalystContestAwardAttachment? Attachment
-);
-
-public record CatalystContestAward(
-    [property: JsonPropertyName("id")] string Id,
-    [property: JsonPropertyName("name")] string Name,
-    [property: JsonPropertyName("winners")] IReadOnlyList<CatalystContestAwardWinner> Winners,
-    [property: JsonPropertyName("order")] int Order,
-    [property: JsonPropertyName("count")] int Count,
-    [property: JsonPropertyName("remaining")] int Remaining
-);
-
-public record CatalystContestCollaborator(
-    [property: JsonPropertyName("user")] EgeriaUser User,
-    [property: JsonPropertyName("role")] CatalystContestCollaboratorRole Role
-);
-
-public record CatalystContestPoll(
-    [property: JsonPropertyName("status")] CatalystStatus Status,
-    [property: JsonPropertyName("count")] int Count
-);
-
 public record CatalystUserVoteRights(
     [property: JsonPropertyName("remaining")] int Remaining,
     [property: JsonPropertyName("statuses")] IReadOnlyList<string> Statuses
@@ -108,21 +63,4 @@ public record CatalystContestWrapper(
 
 public record CatalystContestsWrapper(
     [property: JsonPropertyName("contests")] IReadOnlyList<CatalystContest> Contests
-);
-
-public record CatalystContestAwardsWrapper(
-    [property: JsonPropertyName("awards")] IReadOnlyList<CatalystContestAward> Awards
-);
-
-public record CatalystContestCollaboratorsWrapper(
-    [property: JsonPropertyName("collaborators")] IReadOnlyList<CatalystContestCollaborator> Collaborators
-);
-
-public record CatalystContestPollsWrapper(
-    [property: JsonPropertyName("polls")] IReadOnlyList<CatalystContestPoll> Polls
-);
-
-public record CatalystContestAccessPermission(
-    // "admin" | "collaborator" | "contributor" | "guest"
-    [property: JsonPropertyName("result")] string Result
 );

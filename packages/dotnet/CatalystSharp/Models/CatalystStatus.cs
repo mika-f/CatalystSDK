@@ -42,6 +42,18 @@ public record CatalystStatusWrapper(
     [property: JsonPropertyName("status")] CatalystStatusV1_1 Status
 );
 
+public record CatalystStatusV1Wrapper(
+    [property: JsonPropertyName("status")] CatalystStatus Status
+);
+
+public record CatalystNullableStatusV1Wrapper(
+    [property: JsonPropertyName("status")] CatalystStatus? Status
+);
+
 public record CatalystStatuses(
     [property: JsonPropertyName("statuses")] IReadOnlyList<CatalystStatus> Statuses
+);
+
+public record CatalystStatusesV1_1(
+    [property: JsonPropertyName("statuses")] IReadOnlyList<CatalystStatusV1_1> Statuses
 );

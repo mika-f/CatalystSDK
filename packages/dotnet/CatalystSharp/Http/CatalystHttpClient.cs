@@ -124,6 +124,21 @@ internal class CatalystHttpClient : ICatalystHttpClient
         await SendAsync(request, cancellationToken);
     }
 
+    public async Task<T> DeleteAsync<T>(string path, CancellationToken cancellationToken = default)
+    {
+        return await DeleteAsync<T>(path, null, cancellationToken);
+    }
+
+    public async Task<T> DeleteAsync<T>(string path, object? body, CancellationToken cancellationToken = default)
+    {
+        using var request = CreateRequest(HttpMethod.Delete, BuildUrl(path));
+        if (body != null)
+        {
+            request.Content = CreateJsonContent(body);
+        }
+        return await SendAsync<T>(request, cancellationToken);
+    }
+
     public async Task<byte[]> GetBytesAsync(string path, CancellationToken cancellationToken = default)
     {
         using var request = CreateRequest(HttpMethod.Get, BuildUrl(path));

@@ -16,7 +16,7 @@ public class SteambirdClient
         _httpClient = httpClient;
     }
 
-    public async Task<Notifications> GetNotificationsAsync(string issuer, string? since = null, string? until = null, CancellationToken cancellationToken = default)
+    public async Task<Notifications> GetNotificationsAsync(string? issuer = null, string? since = null, string? until = null, CancellationToken cancellationToken = default)
     {
         return await _httpClient.GetAsync<Notifications>("/steambird/v1/notifications", new Dictionary<string, string?>
         {
@@ -26,19 +26,22 @@ public class SteambirdClient
         }, cancellationToken);
     }
 
-    public async Task MarkAsReadAsync(string notificationId, CancellationToken cancellationToken = default)
+    public async Task<CatalystResult> MarkAsReadAsync(string notificationId, CancellationToken cancellationToken = default)
     {
-        await _httpClient.PostAsync($"/steambird/v1/notifications/{notificationId}", null, cancellationToken);
+        return await _httpClient.PostAsync<CatalystResult>($"/steambird/v1/notifications/{notificationId}", null, cancellationToken);
     }
 
-    public async Task MarkAllAsReadAsync(string? issuer = null, CancellationToken cancellationToken = default)
+    public async Task<CatalystResult> MarkAllAsReadAsync(string? issuer = null, CancellationToken cancellationToken = default)
     {
-        await _httpClient.PostAsync("/steambird/v1/notifications/all", null, cancellationToken);
+        var path = issuer != null
+            ? $"/steambird/v1/notifications/all?issuer={Uri.EscapeDataString(issuer)}"
+            : "/steambird/v1/notifications/all";
+        return await _httpClient.PostAsync<CatalystResult>(path, null, cancellationToken);
     }
 
-    public async Task<NotificationUnreadCount> GetUnreadCountAsync(IEnumerable<string>? issuers = null, CancellationToken cancellationToken = default)
+    public async Task<NotificationUnreadCount> GetUnreadCountAsync(string? issuer = null, IEnumerable<string>? issuers = null, CancellationToken cancellationToken = default)
     {
-        var queryParams = new Dictionary<string, string?>();
+        var queryParams = new Dictionary<string, string?> { ["issuer"] = issuer };
         if (issuers != null)
         {
             queryParams["issuers"] = string.Join(",", issuers);

@@ -10,7 +10,9 @@ public record CatalystCustomReaction(
     [property: JsonPropertyName("url")] string Url
 );
 
-// GET /catalyst/v1/custom-reactions の items に含まれるユーザー独自リアクション
+// GET /catalyst/v1/custom-reactions, POST /catalyst/v1/custom-reactions, PATCH /catalyst/v1/custom-reactions/{id} の items に含まれるユーザー独自リアクション
+// status: "active" | "moderated" | "hidden" | "disabled"
+// visibility: "private" | "followers" | "public"
 public record CatalystUserCustomReaction(
     [property: JsonPropertyName("id")] string Id,
     [property: JsonPropertyName("shortcode")] string Shortcode,
@@ -19,5 +21,6 @@ public record CatalystUserCustomReaction(
     [property: JsonPropertyName("mimeType")] string MimeType,
     [property: JsonPropertyName("sortOrder")] int SortOrder,
     [property: JsonPropertyName("status")] string Status,
+    [property: JsonPropertyName("visibility")] string Visibility,
     [property: JsonPropertyName("createdAt")] string CreatedAt
 );

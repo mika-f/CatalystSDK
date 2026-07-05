@@ -16,6 +16,8 @@ public class CatalystSharpClient : IDisposable
     private EgeriaClient? _egeria;
     private MediaClient? _media;
     private SteambirdClient? _steambird;
+    private EpicleseClient? _epiclese;
+    private FeatureFlagsClient? _featureFlags;
     private OAuthClient? _oauth;
 
     public string ClientId { get; }
@@ -28,6 +30,8 @@ public class CatalystSharpClient : IDisposable
     public EgeriaClient Egeria => _egeria ??= new EgeriaClient(_catalystHttpClient);
     public MediaClient Media => _media ??= new MediaClient(_catalystHttpClient);
     public SteambirdClient Steambird => _steambird ??= new SteambirdClient(_catalystHttpClient);
+    public EpicleseClient Epiclese => _epiclese ??= new EpicleseClient(_catalystHttpClient);
+    public FeatureFlagsClient FeatureFlags => _featureFlags ??= new FeatureFlagsClient(_catalystHttpClient);
     public OAuthClient OAuth => _oauth ??= new OAuthClient(_httpClient, ClientId, ClientSecret);
 
     public CatalystSharpClient(string clientId, string clientSecret)
