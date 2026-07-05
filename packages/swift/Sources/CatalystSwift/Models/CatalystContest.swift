@@ -59,52 +59,7 @@ public struct CatalystContest: Decodable, Sendable, Equatable, Hashable {
   public let ranks: [CatalystContestRank]
 }
 
-public struct CatalystContestAwardAttachment: Decodable, Sendable, Equatable, Hashable {
-  public let name: String
-  public let id: String
-}
-
-public struct CatalystContestAwardWinner: Decodable, Sendable, Equatable, Hashable {
-  public let id: String
-  public let body: String
-  public let user: EgeriaUser?
-  public let medias: [Media]
-  public let contest: CatalystStatusContest?
-  public let createdAt: Date
-
-  /// - Deprecated: The real API always serializes this as an empty array; contents are not modeled.
-  public let reactions: [String]?
-
-  public let message: String?
-  public let commentary: String?
-  public let attachment: CatalystContestAwardAttachment?
-}
-
-public struct CatalystContestAward: Decodable, Sendable, Equatable, Hashable {
-  public let id: String
-  public let name: String
-  public let winners: [CatalystContestAwardWinner]
-  public let order: Int
-  public let count: Int
-  public let remaining: Int
-}
-
-public enum CatalystContestCollaboratorRole: String, Codable, Sendable, Equatable, Hashable {
-  case admin
-  case collaborator
-  case contributor
-}
-
-public struct CatalystContestCollaborator: Decodable, Sendable, Equatable, Hashable {
-  public let user: EgeriaUser
-  public let role: CatalystContestCollaboratorRole
-}
-
-public struct CatalystContestPoll: Decodable, Sendable, Equatable, Hashable {
-  public let status: CatalystStatus
-  public let count: Int
-}
-
+/// The current user's remaining vote allowance for a contest.
 public struct CatalystUserVoteRights: Decodable, Sendable, Equatable, Hashable {
   public let remaining: Int
   public let statuses: [String]
@@ -116,21 +71,4 @@ public struct CatalystContestWrapper: Decodable, Sendable {
 
 public struct CatalystContestsWrapper: Decodable, Sendable {
   public let contests: [CatalystContest]
-}
-
-public struct CatalystContestAwardsWrapper: Decodable, Sendable {
-  public let awards: [CatalystContestAward]
-}
-
-public struct CatalystContestCollaboratorsWrapper: Decodable, Sendable {
-  public let collaborators: [CatalystContestCollaborator]
-}
-
-public struct CatalystContestPollsWrapper: Decodable, Sendable {
-  public let polls: [CatalystContestPoll]
-}
-
-public struct CatalystContestAccessPermission: Decodable, Sendable, Equatable, Hashable {
-  /// One of "admin", "collaborator", "contributor", "guest".
-  public let result: String
 }

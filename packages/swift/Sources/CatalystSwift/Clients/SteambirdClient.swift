@@ -14,22 +14,30 @@ public final class SteambirdClient: Sendable {
     self.client = client
   }
 
-  public func notifications(issuer: String, since: String? = nil, until: String? = nil) async throws
-    -> Notifications
+  /// Gets notifications for a specific issuer, or all issuers if omitted.
+  public func notifications(issuer: String? = nil, since: String? = nil, until: String? = nil)
+    async throws -> [Notification]
+  {
+    let response: Notifications = try await client.request(
+      SteambirdEndpoint.notifications(issuer: issuer, since: since, until: until))
+    return response.notifications
+  }
+
+  /// Marks a notification as read.
+  public func read(by id: String) async throws -> CatalystResult {
+    return try await client.request(SteambirdEndpoint.read(id: id))
+  }
+
+  /// Marks all notifications as read.
+  public func readAll(issuer: String? = nil) async throws -> CatalystResult {
+    return try await client.request(SteambirdEndpoint.readAll(issuer: issuer))
+  }
+
+  /// Gets the unread notification count.
+  public func unreads(issuer: String? = nil, issuers: [String] = []) async throws
+    -> NotificationUnreadCount
   {
     return try await client.request(
-      SteambirdEndpoint.notifications(issuer: issuer, since: since, until: until))
-  }
-
-  public func read(by id: String) async throws {
-    try await client.request(SteambirdEndpoint.read(id: id))
-  }
-
-  public func readAll(issuer: String? = nil) async throws {
-    try await client.request(SteambirdEndpoint.readAll(issuer: issuer))
-  }
-
-  public func unreads(issuers: [String] = []) async throws -> NotificationUnreadCount {
-    return try await client.request(SteambirdEndpoint.unreads(issuers: issuers))
+      SteambirdEndpoint.unreads(issuer: issuer, issuers: issuers.isEmpty ? nil : issuers))
   }
 }

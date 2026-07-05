@@ -10,7 +10,11 @@ public struct CatalystCustomReaction: Decodable, Sendable, Equatable, Hashable {
   public let url: String
 }
 
-// GET /catalyst/v1/custom-reactions の items に含まれるユーザー独自リアクション
+// GET /catalyst/v1/custom-reactions, POST /catalyst/v1/custom-reactions, PATCH
+// /catalyst/v1/custom-reactions/{id} の items に含まれるユーザー独自リアクション
+//
+// `status` is one of "active" | "moderated" | "hidden" | "disabled".
+// `visibility` is one of "private" | "followers" | "public".
 public struct CatalystUserCustomReaction: Decodable, Sendable, Equatable, Hashable {
   public let id: String
   public let shortcode: String
@@ -19,6 +23,7 @@ public struct CatalystUserCustomReaction: Decodable, Sendable, Equatable, Hashab
   public let mimeType: String
   public let sortOrder: Int
   public let status: String
+  public let visibility: String
   public let createdAt: String
 }
 

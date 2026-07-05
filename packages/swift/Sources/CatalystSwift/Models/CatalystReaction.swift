@@ -8,4 +8,5 @@ public struct CatalystReaction: Decodable, Sendable, Equatable, Hashable {
   public let url: String
   public let count: Int
   public let hasSelfReaction: Bool?
+  public let customReactionId: String?
 }

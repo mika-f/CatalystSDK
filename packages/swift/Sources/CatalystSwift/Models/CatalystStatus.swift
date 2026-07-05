@@ -22,3 +22,13 @@ public struct CatalystStatus: Decodable, Sendable, Equatable, Hashable {
   /// - Deprecated: The real API always serializes this as an empty array; contents are not modeled.
   public let reactions: [String]?
 }
+
+/// Wrapper for the `{"status": {...}}` response shape, used by `GET /catalyst/v1/status/{id}`.
+public struct CatalystStatusV1Wrapper: Decodable, Sendable {
+  public let status: CatalystStatus
+}
+
+/// Wrapper for the `{"status": {...} | null}` response shape, used by `GET /catalyst/v1/random`.
+public struct CatalystNullableStatusV1Wrapper: Decodable, Sendable {
+  public let status: CatalystStatus?
+}

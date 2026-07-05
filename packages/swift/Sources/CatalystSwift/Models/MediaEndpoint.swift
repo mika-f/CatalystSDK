@@ -3,16 +3,13 @@
 // Copyright (c) 2025 Natsune Mochizuki
 
 public enum MediaEndpoint: Endpoint {
-  case download(data: MediaDownloadRequest)
+  case uploadV1
   case delete(data: MediaDeleteRequest)
   case upload
 
   public var path: String {
     switch self {
-    case .download:
-      return "/media/v1/download"
-
-    case .delete:
+    case .uploadV1, .delete:
       return "/media/v1/upload"
 
     case .upload:
@@ -22,7 +19,7 @@ public enum MediaEndpoint: Endpoint {
 
   public var method: HTTPMethod {
     switch self {
-    case .download, .upload:
+    case .uploadV1, .upload:
       return .post
 
     case .delete:
@@ -46,9 +43,6 @@ public enum MediaEndpoint: Endpoint {
 
   public var body: (any Encodable)? {
     switch self {
-    case .download(let data):
-      return data
-
     case .delete(let data):
       return data
 

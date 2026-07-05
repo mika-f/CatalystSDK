@@ -11,14 +11,17 @@ public final class MediaClient: Sendable {
     self.client = client
   }
 
-  public func download(data: MediaDownloadRequest) async throws -> Data {
-    return try await client.requestRaw(MediaEndpoint.download(data: data))
+  /// Gets a signed URL for uploading media (v1).
+  public func uploadV1() async throws -> MediaUploadUrls {
+    return try await client.request(MediaEndpoint.uploadV1)
   }
 
-  public func delete(data: MediaDeleteRequest) async throws {
-    try await client.request(MediaEndpoint.delete(data: data))
+  /// Deletes media by URL.
+  public func delete(url: String) async throws -> Bool {
+    return try await client.request(MediaEndpoint.delete(data: MediaDeleteRequest(url: url)))
   }
 
+  /// Gets a signed URL for uploading media (v2).
   public func upload() async throws -> MediaUploadUrls {
     return try await client.request(MediaEndpoint.upload)
   }

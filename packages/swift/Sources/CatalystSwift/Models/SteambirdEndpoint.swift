@@ -4,10 +4,10 @@
 import Foundation
 
 public enum SteambirdEndpoint: Endpoint {
-  case notifications(issuer: String, since: String?, until: String?)
+  case notifications(issuer: String?, since: String?, until: String?)
   case read(id: String)
   case readAll(issuer: String?)
-  case unreads(issuers: [String]?)
+  case unreads(issuer: String?, issuers: [String]?)
 
   public var path: String {
     switch self {
@@ -45,27 +45,22 @@ public enum SteambirdEndpoint: Endpoint {
   public var queryParameters: [String: String]? {
     switch self {
     case .notifications(let issuer, let since, let until):
-      var params: [String: String] = [
-        "issuer": issuer
-      ]
-
-      if since != nil {
-        params["since"] = since
-      }
-
-      if until != nil {
-        params["until"] = until
-      }
-
-      return params
+      var params: [String: String] = [:]
+      if let issuer { params["issuer"] = issuer }
+      if let since { params["since"] = since }
+      if let until { params["until"] = until }
+      return params.isEmpty ? nil : params
 
     case .readAll(let issuer):
-      let params: [String: String] = issuer.map { ["issuer": $0] } ?? [:]
-      return params
+      var params: [String: String] = [:]
+      if let issuer { params["issuer"] = issuer }
+      return params.isEmpty ? nil : params
 
-    case .unreads(let issuers):
-      let params: [String: String] = issuers.map { ["issuers": $0.joined(separator: ",")] } ?? [:]
-      return params
+    case .unreads(let issuer, let issuers):
+      var params: [String: String] = [:]
+      if let issuer { params["issuer"] = issuer }
+      if let issuers { params["issuers"] = issuers.joined(separator: ",") }
+      return params.isEmpty ? nil : params
 
     default:
       return nil

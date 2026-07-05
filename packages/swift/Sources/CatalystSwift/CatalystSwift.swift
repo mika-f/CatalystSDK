@@ -135,4 +135,6 @@ public final actor CatalystSwift {
   public var egeria: EgeriaClient { .init(client: self) }
   public var media: MediaClient { .init(client: self) }
   public var steambird: SteambirdClient { .init(client: self) }
+  public var epiclese: EpicleseClient { .init(client: self) }
+  public var featureFlags: FeatureFlagsClient { .init(client: self) }
 }

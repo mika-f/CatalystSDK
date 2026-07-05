@@ -11,3 +11,9 @@ public struct CatalystAlbum: Decodable, Equatable, Hashable, Sendable {
   public let user: EgeriaUser
   public let statuses: [CatalystStatus]
 }
+
+/// Wrapper for the `{"albums": [...]}` response shape, used by
+/// `GET /catalyst/v1/status/{id}/albums`.
+public struct CatalystAlbumsWrapper: Decodable, Sendable {
+  public let albums: [CatalystAlbum]
+}
