@@ -12,7 +12,8 @@
       "Bash(gh pr view:*)",
       "Edit(packages/**)",
       "WebFetch(domain:github.com)",
-      "WebFetch(domain:npmjs.com)"
+      "WebFetch(domain:npmjs.com)",
+      "Bash(dotnet build *)"
     ],
     "deny": [
       "Read(./.env)",
@@ -32,6 +33,8 @@
       "Edit(yarn.lock)",
       "Edit(package-lock.json)"
     ],
-    "additionalDirectories": ["../teyvat"]
+    "additionalDirectories": [
+      "../teyvat"
+    ]
   }
 }
