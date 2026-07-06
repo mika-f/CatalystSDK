@@ -35,6 +35,21 @@ jobs:
       - name: Update npm
         run: npm install -g npm@latest
 
+      - name: Determine npm dist-tag
+        id: dist-tag
+        run: |
+          version=$(node -p "require('./package.json').version")
+
+          if [[ "$version" == *-* ]]; then
+            npm_tag="${version#*-}"
+            npm_tag="${npm_tag%%.*}"
+          else
+            npm_tag="latest"
+          fi
+
+          echo "npm-tag=$npm_tag" >> "$GITHUB_OUTPUT"
+        working-directory: packages/nodejs
+
       - name: Publish package
-        run: npm publish
+        run: npm publish --tag "${{ steps.dist-tag.outputs.npm-tag }}"
         working-directory: packages/nodejs
