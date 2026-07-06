@@ -19,6 +19,16 @@ class MediaClient internal constructor(
     suspend fun getUploadUrl(): MediaUploadUrls = httpClient.postWithResult("/media/v1/upload")
 
     /**
+     * Downloads media by URL
+     *
+     * Not documented in the current OpenAPI spec, but still supported by the live API.
+     */
+    suspend fun download(url: String): ByteArray = httpClient.postWithResult(
+        "/media/v1/download",
+        mapOf("url" to url)
+    )
+
+    /**
      * Deletes media by URL
      */
     suspend fun delete(url: String): Boolean = httpClient.deleteWithResult(

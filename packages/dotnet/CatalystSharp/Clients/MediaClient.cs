@@ -18,6 +18,12 @@ public class MediaClient
         return await _httpClient.PostAsync<MediaUploadUrls>("/media/v1/upload", null, cancellationToken);
     }
 
+    // OpenAPI 仕様には記載されていないが、実 API では引き続き利用可能なため復元
+    public async Task<byte[]> DownloadAsync(MediaDownloadRequest request, CancellationToken cancellationToken = default)
+    {
+        return await _httpClient.PostBytesAsync("/media/v1/download", request, cancellationToken);
+    }
+
     public async Task<bool> DeleteAsync(MediaDeleteRequest request, CancellationToken cancellationToken = default)
     {
         return await _httpClient.DeleteAsync<bool>("/media/v1/upload", request, cancellationToken);

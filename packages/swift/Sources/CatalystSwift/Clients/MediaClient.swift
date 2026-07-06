@@ -16,6 +16,13 @@ public final class MediaClient: Sendable {
     return try await client.request(MediaEndpoint.uploadV1)
   }
 
+  /// Downloads media by URL.
+  ///
+  /// Not documented in the current OpenAPI spec, but still supported by the live API.
+  public func download(data: MediaDownloadRequest) async throws -> Data {
+    return try await client.requestRaw(MediaEndpoint.download(data: data))
+  }
+
   /// Deletes media by URL.
   public func delete(url: String) async throws -> Bool {
     return try await client.request(MediaEndpoint.delete(data: MediaDeleteRequest(url: url)))

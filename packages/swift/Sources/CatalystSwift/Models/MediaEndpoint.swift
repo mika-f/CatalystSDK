@@ -4,6 +4,8 @@
 
 public enum MediaEndpoint: Endpoint {
   case uploadV1
+  // Not documented in the current OpenAPI spec, but still supported by the live API.
+  case download(data: MediaDownloadRequest)
   case delete(data: MediaDeleteRequest)
   case upload
 
@@ -12,6 +14,9 @@ public enum MediaEndpoint: Endpoint {
     case .uploadV1, .delete:
       return "/media/v1/upload"
 
+    case .download:
+      return "/media/v1/download"
+
     case .upload:
       return "/media/v2/upload"
     }
@@ -19,7 +24,7 @@ public enum MediaEndpoint: Endpoint {
 
   public var method: HTTPMethod {
     switch self {
-    case .uploadV1, .upload:
+    case .uploadV1, .upload, .download:
       return .post
 
     case .delete:
@@ -43,6 +48,9 @@ public enum MediaEndpoint: Endpoint {
 
   public var body: (any Encodable)? {
     switch self {
+    case .download(let data):
+      return data
+
     case .delete(let data):
       return data
 

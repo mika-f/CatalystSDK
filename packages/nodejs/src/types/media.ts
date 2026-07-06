@@ -31,3 +31,8 @@ export interface CatalystMediaWithMetadata {
 export interface MediaDeleteRequest {
   url: string;
 }
+
+// Not documented in the current OpenAPI spec, but still supported by the live API.
+export interface MediaDownloadRequest {
+  url: string;
+}
