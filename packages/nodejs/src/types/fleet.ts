@@ -1,45 +1,47 @@
 import { CatalystReactions } from "./reactions.js";
 import { EgeriaUser } from "./users.js";
 
+export interface CatalystCreateFleetMediaPlacement {
+  posX: number;
+  posY: number;
+  scale?: number;
+  rotation?: number;
+}
+
 export interface CatalystCreateFleetMedia {
   url: string;
+  alt?: string;
   width: number;
   height: number;
   bytes: number;
-  placement: {
-    posX: number;
-    posY: number;
-    scale: number;
-    rotation: number;
-  };
-  alt?: string | undefined;
+  placement: CatalystCreateFleetMediaPlacement;
 }
 
 export interface CatalystCreateFleetText {
-  backgroundColor: string;
   body: string;
-  textStyle: "default" | "bold" | "serif" | "handwriting";
-  textAlignment: "left" | "center" | "right";
-  color: string;
+  backgroundColor?: string;
+  textStyle?: "default" | "bold" | "serif" | "handwriting";
+  textAlignment?: "left" | "center" | "right";
+  color?: string;
   posX: number;
   posY: number;
-  scale: number;
-  rotation: number;
+  scale?: number;
+  rotation?: number;
 }
 
 export interface CatalystCreateFleetSticker {
   posX: number;
   posY: number;
-  scale: number;
-  rotation: number;
+  scale?: number;
+  rotation?: number;
   emoji: string;
 }
 
 export interface CatalystCreateFleetRequest {
-  backgroundColor: string;
-  texts: CatalystCreateFleetText[];
+  backgroundColor?: string;
+  texts?: CatalystCreateFleetText[];
   media: CatalystCreateFleetMedia;
-  stickers: CatalystCreateFleetSticker[];
+  stickers?: CatalystCreateFleetSticker[];
 }
 
 export interface CatalystFleetText {

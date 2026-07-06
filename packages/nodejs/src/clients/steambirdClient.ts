@@ -1,6 +1,7 @@
 import { SteambirdEndpoint } from "../endpoints/steambirdEndpoint.js";
 import type { HttpClient } from "./httpClient.js";
-import type { Notifications, NotificationUnreadCount } from "../types/notifications.js";
+import type { Notification, Notifications, NotificationUnreadCount } from "../types/notifications.js";
+import type { CatalystResult } from "../types/common.js";
 
 export const ISSUER_CATALYST_SYSTEM_MESSAGE = "natsuneko-laboratory:catalyst";
 export const ISSUER_CATALYST_USER_MESSAGE = "natsuneko-laboratory:catalyst-message";
@@ -13,19 +14,26 @@ export class SteambirdClient {
 
   constructor(private readonly http: HttpClient) {}
 
-  notifications(issuer: string, opts: { since?: string; until?: string } = {}): Promise<Notifications> {
-    return this.http.request(SteambirdEndpoint.notifications(issuer, opts));
+  /** Gets notifications for a specific issuer, or all issuers if omitted. */
+  async notifications(
+    issuer?: string,
+    opts: { since?: string; until?: string } = {},
+  ): Promise<Notification[]> {
+    const response = await this.http.request<Notifications>(
+      SteambirdEndpoint.notifications(issuer, opts),
+    );
+    return response.notifications;
   }
 
-  read(id: string): Promise<void> {
-    return this.http.requestVoid(SteambirdEndpoint.read(id));
+  read(id: string): Promise<CatalystResult> {
+    return this.http.request(SteambirdEndpoint.read(id));
   }
 
-  readAll(issuer?: string): Promise<void> {
-    return this.http.requestVoid(SteambirdEndpoint.readAll(issuer));
+  readAll(issuer?: string): Promise<CatalystResult> {
+    return this.http.request(SteambirdEndpoint.readAll(issuer));
   }
 
-  unreads(issuers: string[] = []): Promise<NotificationUnreadCount> {
-    return this.http.request(SteambirdEndpoint.unreads(issuers));
+  unreads(issuer?: string, issuers: string[] = []): Promise<NotificationUnreadCount> {
+    return this.http.request(SteambirdEndpoint.unreads(issuer, issuers));
   }
 }

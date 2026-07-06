@@ -22,16 +22,12 @@ export interface MediaUploadUrls {
 
 export interface CatalystMediaWithMetadata {
   url: string;
-  alt: string;
+  alt?: string;
   width: number;
   height: number;
   bytes: number;
 }
 
 export interface MediaDeleteRequest {
-  url: string;
-}
-
-export interface MediaDownloadRequest {
   url: string;
 }

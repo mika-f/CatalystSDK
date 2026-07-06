@@ -1,40 +1,4 @@
-import { CatalystStatus } from "./status";
-import { EgeriaUser } from "./users";
-
-export interface CatalystCreateContestRequest {
-  title: string;
-  description: string;
-  theme: string;
-}
-
-export interface CatalystEditContestRequest {
-  title?: string;
-  description?: string;
-  theme?: string;
-  terms?: string;
-  headerUrl?: string;
-  bannerUrl?: string;
-  winnersOpenAt?: string;
-  winnersMessageSendAt?: string;
-  publishedAt?: string;
-  application?: {
-    since?: string;
-    until?: string;
-    allowSensitive: boolean;
-    maxMediaPerEntry?: number | null;
-  };
-  voting?: {
-    since?: string;
-    until?: string;
-    maxVotes?: number;
-    isEnableVoting?: boolean;
-  };
-  winners?: {
-    since?: string;
-    until?: string;
-  };
-  ranks?: Omit<CatalystContestRank, "id" | "winners">[];
-}
+import { EgeriaUser } from "./users.js";
 
 export interface CatalystContestRank {
   id: string;
@@ -54,6 +18,8 @@ export type CatalystContestState =
   | "electing"
   | "closed";
 
+// NOTE: the spec only exposes read + vote operations for contests. Contest management
+// (create/edit/awards/collaborators/copy/dashboard/publish/polls) is no longer part of the API.
 export interface CatalystContest {
   slug: string;
   draft: boolean;
@@ -76,50 +42,15 @@ export interface CatalystContest {
   ranks: CatalystContestRank[];
 }
 
-export interface CatalystContestAward {
-  id: string;
-  name: string;
-  winners: (CatalystStatus & {
-    message?: string | null;
-    commentary?: string | null;
-    attachment?: { name: string; id: string } | null;
-  })[];
-  order: number;
-  count: number;
-  remaining: number;
+export interface CatalystContestWrapper {
+  contest: CatalystContest;
 }
 
-export interface CatalystSetContestAwardRequest {
-  status: string;
-  message?: string;
-  commentary?: string;
+export interface CatalystContestsWrapper {
+  contests: CatalystContest[];
 }
 
-export interface CatalystUnsetContestAwardRequest {
-  status: string;
-  message?: string;
-  commentary?: string;
-}
-
-export interface CatalystContestCollaborator {
-  user: Omit<EgeriaUser, "profile">;
-  role: "admin" | "collaborator" | "contributor";
-}
-
-export interface CatalystContestAddCollaboratorRequest {
-  userId: string;
-  role: "collaborator" | "contributor";
-}
-
-export interface CatalystContestRemoveCollaboratorRequest {
-  userId: string;
-}
-
-export interface CatalystContestPolls {
-  status: CatalystStatus;
-  count: number;
-}
-
+/** The current user's remaining vote allowance for a contest. */
 export interface CatalystUserVoteRights {
   remaining: number;
   statuses: string[];

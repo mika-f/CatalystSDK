@@ -40,12 +40,27 @@ export interface CatalystStatusV1_1 {
   privacy: CatalystStatusPrivacy;
 }
 
-export interface CatalystStatusWrapper {
+/** Wrapper for `GET /catalyst/v1/status/{id}` (`{"status": StatusV1_0Response}`). */
+export interface CatalystStatusV1Wrapper {
+  status: CatalystStatus;
+}
+
+/** Wrapper for `GET /catalyst/v1.1/status/{id}` (`{"status": StatusV1_1Response}`). */
+export interface CatalystStatusV1_1Wrapper {
   status: CatalystStatusV1_1;
+}
+
+/** Wrapper for `GET /catalyst/v1/random` (`{"status": StatusV1_0Response | null}`). */
+export interface CatalystRandomStatusWrapper {
+  status: CatalystStatus | null;
 }
 
 export interface CatalystStatuses {
   statuses: CatalystStatus[];
+}
+
+export interface CatalystStatusesV1_1 {
+  statuses: CatalystStatusV1_1[];
 }
 
 export interface CatalystCreateStatusRequest {

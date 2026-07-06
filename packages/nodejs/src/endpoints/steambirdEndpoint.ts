@@ -1,11 +1,19 @@
 import type { Endpoint } from "./endpoint.js";
 
 export const SteambirdEndpoint = {
-  notifications(issuer: string, opts: { since?: string; until?: string } = {}): Endpoint {
-    const params: Record<string, string> = { issuer };
+  notifications(
+    issuer?: string,
+    opts: { since?: string; until?: string } = {},
+  ): Endpoint {
+    const params: Record<string, string> = {};
+    if (issuer != null) params["issuer"] = issuer;
     if (opts.since != null) params["since"] = opts.since;
     if (opts.until != null) params["until"] = opts.until;
-    return { path: "/steambird/v1/notifications", method: "GET", queryParameters: params };
+    return {
+      path: "/steambird/v1/notifications",
+      method: "GET",
+      queryParameters: Object.keys(params).length > 0 ? params : undefined,
+    };
   },
 
   read(id: string): Endpoint {
@@ -20,11 +28,14 @@ export const SteambirdEndpoint = {
     };
   },
 
-  unreads(issuers: string[] = []): Endpoint {
+  unreads(issuer?: string, issuers: string[] = []): Endpoint {
+    const params: Record<string, string> = {};
+    if (issuer != null) params["issuer"] = issuer;
+    if (issuers.length > 0) params["issuers"] = issuers.join(",");
     return {
       path: "/steambird/v1/notifications/unread",
       method: "GET",
-      queryParameters: issuers.length > 0 ? { issuers: issuers.join(",") } : undefined,
+      queryParameters: Object.keys(params).length > 0 ? params : undefined,
     };
   },
 } as const;

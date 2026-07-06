@@ -19,7 +19,7 @@ export interface Notification {
   id: string;
   title: string;
   isGrouped: boolean;
-  belongsTo: Record<string, unknown>;
+  belongsTo?: Record<string, unknown>;
   entities: NotificationGroup[];
   hasMore: boolean;
   read: boolean;

@@ -3,24 +3,30 @@ import type { HttpClient } from "./httpClient.js";
 import type { Identity } from "../types/identity.js";
 import type {
   CatalystAlbum,
+  CatalystAlbumsWrapper,
+  CatalystAlbumBook,
+  CatalystAlbumOrSmartAlbum,
+  CatalystAlbumOrSmartAlbums,
   CatalystSmartAlbum,
   CatalystSmartAlbums,
   CatalystCreateAlbumRequest,
   CatalystEditAlbumRequest,
-  CatalystInsertToAlbumRequest,
-  CatalystRemoveFromAlbumRequest,
   CatalystCreateSmartAlbumRequest,
   CatalystEditSmartAlbumRequest,
+  CatalystCreateAlbumBookRequest,
 } from "../types/albums.js";
 import type {
   CatalystStatus,
   CatalystStatusV1_1,
-  CatalystStatusWrapper,
+  CatalystStatusV1Wrapper,
+  CatalystStatusV1_1Wrapper,
+  CatalystRandomStatusWrapper,
   CatalystStatuses,
+  CatalystStatusesV1_1,
   CatalystCreateStatusRequest,
-  CatalystEditStatusRequest,
 } from "../types/status.js";
 import type {
+  CatalystReaction,
   CatalystReactions,
   CatalystCustomReaction,
   CatalystCustomReactionList,
@@ -29,7 +35,8 @@ import type {
 } from "../types/reactions.js";
 import type {
   CatalystRelationships,
-  CatalystRelationshipRequest,
+  CatalystRelationshipsCount,
+  CatalystFollowingOrFollowersList,
 } from "../types/relationships.js";
 import {
   CatalystCreateFleetRequest,
@@ -37,31 +44,28 @@ import {
   CatalystFleetRing,
   CatalystFleetViewer,
 } from "../types/fleet.js";
-import {
-  CatalystContest,
-  CatalystContestAddCollaboratorRequest,
-  CatalystContestAward,
-  CatalystContestCollaborator,
-  CatalystContestRemoveCollaboratorRequest,
-  CatalystCreateContestRequest,
-  CatalystEditContestRequest,
-  CatalystSetContestAwardRequest,
-  CatalystUnsetContestAwardRequest,
-  CatalystUserVoteRights,
-} from "../types/contest.js";
+import { CatalystContest, CatalystContestWrapper, CatalystContestsWrapper, CatalystUserVoteRights } from "../types/contest.js";
 import { ReportRequest } from "../types/report.js";
-import { EgeriaUser } from "../types/users.js";
 import {
   CatalystPrivacySettings,
   CatalystPrivacySettingsRequest,
 } from "../types/privacy.js";
-import { CatalystAnnouncement } from "../types/announcements.js";
+import { CatalystAnnouncement, CatalystAnnouncementsWrapper } from "../types/announcements.js";
 import {
   ProfileTag,
+  ProfileTagsWrapper,
   ProfileTagSuggestion,
-  ProfileTagUser,
+  ProfileTagSuggestionsWrapper,
+  ProfileTagUsersResult,
   UpdateProfileTagsRequest,
 } from "../types/profileTags.js";
+import { CatalystArchiveMonth, CatalystArchiveMonths } from "../types/archive.js";
+import { CatalystRichTrendingItem } from "../types/trend.js";
+import {
+  CatalystResult,
+  CatalystReactionValue,
+  CatalystMessage,
+} from "../types/common.js";
 
 export class CatalystClient {
   constructor(private readonly http: HttpClient) {}
@@ -74,415 +78,220 @@ export class CatalystClient {
 
   getAlbum(
     id: string,
-    opts: { since?: string; until?: string } = {},
+    opts: { limit?: number; since?: string; until?: string } = {},
   ): Promise<CatalystAlbum> {
     return this.http.request(CatalystEndpoint.getAlbum(id, opts));
   }
 
-  editAlbum(id: string, data: CatalystEditAlbumRequest): Promise<void> {
-    return this.http.requestVoid(CatalystEndpoint.editAlbum(id, data));
+  insertToAlbum(id: string, statusId: string): Promise<CatalystResult> {
+    return this.http.request(CatalystEndpoint.insertToAlbum(id, statusId));
   }
 
-  insertToAlbum(id: string, data: CatalystInsertToAlbumRequest): Promise<void> {
-    return this.http.requestVoid(CatalystEndpoint.insertToAlbum(id, data));
+  removeFromAlbum(id: string, statusId: string): Promise<CatalystResult> {
+    return this.http.request(CatalystEndpoint.removeFromAlbum(id, statusId));
   }
 
-  removeFromAlbum(
+  editAlbum(id: string, data: CatalystEditAlbumRequest): Promise<CatalystResult> {
+    return this.http.request(CatalystEndpoint.editAlbum(id, data));
+  }
+
+  deleteAlbum(id: string): Promise<CatalystResult> {
+    return this.http.request(CatalystEndpoint.deleteAlbum(id));
+  }
+
+  getAlbumBooks(id: string): Promise<CatalystAlbumBook[]> {
+    return this.http.request(CatalystEndpoint.getAlbumBooks(id));
+  }
+
+  createAlbumBook(
     id: string,
-    data: CatalystRemoveFromAlbumRequest,
-  ): Promise<void> {
-    return this.http.requestVoid(CatalystEndpoint.removeFromAlbum(id, data));
+    data: CatalystCreateAlbumBookRequest,
+  ): Promise<CatalystAlbumBook> {
+    return this.http.request(CatalystEndpoint.createAlbumBook(id, data));
   }
 
-  deleteAlbum(id: string): Promise<void> {
-    return this.http.requestVoid(CatalystEndpoint.deleteAlbum(id));
+  getAlbumBook(id: string, bookId: string): Promise<CatalystAlbumBook> {
+    return this.http.request(CatalystEndpoint.getAlbumBook(id, bookId));
   }
 
-  listAlbums(
+  regenerateAlbumBook(id: string, bookId: string): Promise<CatalystAlbumBook> {
+    return this.http.request(CatalystEndpoint.regenerateAlbumBook(id, bookId));
+  }
+
+  async getAlbumsByMe(includeSmartAlbums = false): Promise<CatalystAlbumOrSmartAlbum[]> {
+    const response = await this.http.request<CatalystAlbumOrSmartAlbums>(
+      CatalystEndpoint.getAlbumsByMe(includeSmartAlbums),
+    );
+    return response.albums;
+  }
+
+  async listAlbums(
     username: string,
-    includeSmartAlbums = true,
-  ): Promise<CatalystSmartAlbums> {
-    return this.http.request(
-      CatalystEndpoint.listAlbums(username, includeSmartAlbums),
+    includeSmartAlbum = true,
+  ): Promise<CatalystAlbumOrSmartAlbum[]> {
+    const response = await this.http.request<CatalystAlbumOrSmartAlbums>(
+      CatalystEndpoint.listAlbums(username, includeSmartAlbum),
     );
+    return response.albums;
   }
 
-  searchAlbums(
-    q: string,
-    includeSmartAlbums = true,
-  ): Promise<CatalystSmartAlbums> {
-    return this.http.request(
-      CatalystEndpoint.searchAlbum(q, includeSmartAlbums),
+  async searchAlbums(
+    q?: string,
+    includeSmartAlbum = true,
+    until?: string,
+  ): Promise<CatalystAlbumOrSmartAlbum[]> {
+    const response = await this.http.request<CatalystAlbumOrSmartAlbums>(
+      CatalystEndpoint.searchAlbums(q, includeSmartAlbum, until),
     );
+    return response.albums;
   }
 
-  // Reactions
+  // Announcements
 
-  customReactions(): Promise<CatalystCustomReaction[]> {
-    return this.http.request(CatalystEndpoint.customReactions());
-  }
-
-  customUserReactions(): Promise<CatalystCustomReactionList> {
-    return this.http.request(CatalystEndpoint.customUserReactions());
-  }
-
-  createCustomReaction(data: FormData): Promise<CatalystUserCustomReaction> {
-    return this.http.request(CatalystEndpoint.createCustomReaction(data));
-  }
-
-  updateCustomReaction(id: string, data: UpdateCustomReactionRequest): Promise<void> {
-    return this.http.requestVoid(CatalystEndpoint.updateCustomReaction(id, data));
-  }
-
-  deleteCustomReaction(id: string): Promise<void> {
-    return this.http.requestVoid(CatalystEndpoint.deleteCustomReaction(id));
-  }
-
-  // Relationships
-
-  block(data: CatalystRelationshipRequest): Promise<void> {
-    return this.http.requestVoid(CatalystEndpoint.block(data));
-  }
-
-  unblock(data: CatalystRelationshipRequest): Promise<void> {
-    return this.http.requestVoid(CatalystEndpoint.unblock(data));
-  }
-
-  relationships(id: string): Promise<CatalystRelationships> {
-    return this.http.request(CatalystEndpoint.relationships(id));
-  }
-
-  follow(data: CatalystRelationshipRequest): Promise<void> {
-    return this.http.requestVoid(CatalystEndpoint.follow(data));
-  }
-
-  remove(data: CatalystRelationshipRequest): Promise<void> {
-    return this.http.requestVoid(CatalystEndpoint.remove(data));
-  }
-
-  followings(
-    id: string,
-    opts?: { page?: number },
-  ): Promise<{
-    items: EgeriaUser[];
-    count: { total: number; offset: number };
-    page: {
-      min: number;
-      max: number;
-      current: number;
-      next: number | null;
-      prev: number | null;
-    };
-  }> {
-    return this.http.request(CatalystEndpoint.followings(id, opts));
-  }
-
-  followers(
-    id: string,
-    opts?: { page?: number },
-  ): Promise<{
-    items: EgeriaUser[];
-    count: { total: number; offset: number };
-    page: {
-      min: number;
-      max: number;
-      current: number;
-      next: number | null;
-      prev: number | null;
-    };
-  }> {
-    return this.http.request(CatalystEndpoint.followers(id, opts));
-  }
-
-  relationshipCounts(
-    id: string,
-  ): Promise<{ followers: number | null; followings: number | null }> {
-    return this.http.request(CatalystEndpoint.relationshipCounts(id));
-  }
-
-  // Smart Albums
-
-  createSmartAlbum(data: CatalystCreateSmartAlbumRequest): Promise<Identity> {
-    return this.http.request(CatalystEndpoint.createSmartAlbum(data));
-  }
-
-  getSmartAlbum(
-    id: string,
-    opts: { since?: string; until?: string } = {},
-  ): Promise<CatalystSmartAlbum> {
-    return this.http.request(CatalystEndpoint.getSmartAlbum(id, opts));
-  }
-
-  editSmartAlbum(
-    id: string,
-    data: CatalystEditSmartAlbumRequest,
-  ): Promise<void> {
-    return this.http.requestVoid(CatalystEndpoint.editSmartAlbum(id, data));
-  }
-
-  deleteSmartAlbum(id: string): Promise<void> {
-    return this.http.requestVoid(CatalystEndpoint.deleteSmartAlbum(id));
-  }
-
-  searchSmartAlbum(q: string): Promise<CatalystSmartAlbums> {
-    return this.http.request(CatalystEndpoint.searchSmartAlbum(q));
-  }
-
-  // Statuses
-
-  createStatus(data: CatalystCreateStatusRequest): Promise<Identity> {
-    return this.http.request(CatalystEndpoint.createStatus(data));
-  }
-
-  getStatus(id: string): Promise<CatalystStatusWrapper> {
-    return this.http.request(CatalystEndpoint.getStatus(id));
-  }
-
-  editStatus(id: string, data: CatalystEditStatusRequest): Promise<void> {
-    return this.http.requestVoid(CatalystEndpoint.editStatus(id, data));
-  }
-
-  deleteStatus(id: string): Promise<void> {
-    return this.http.requestVoid(CatalystEndpoint.deleteStatus(id));
-  }
-
-  isFavorited(id: string): Promise<boolean> {
-    return this.http.request(CatalystEndpoint.isFavorited(id));
-  }
-
-  favorite(id: string): Promise<void> {
-    return this.http.requestVoid(CatalystEndpoint.favorite(id));
-  }
-
-  unfavorite(id: string): Promise<void> {
-    return this.http.requestVoid(CatalystEndpoint.unfavorite(id));
-  }
-
-  reactions(id: string): Promise<CatalystReactions> {
-    return this.http.request(CatalystEndpoint.reactions(id));
-  }
-
-  albumsInStatus(id: string): Promise<CatalystSmartAlbums> {
-    return this.http.request(CatalystEndpoint.albumsInStatus(id));
-  }
-
-  react(id: string, symbol: string): Promise<void> {
-    return this.http.requestVoid(CatalystEndpoint.react(id, symbol));
-  }
-
-  unreact(id: string, symbol: string): Promise<void> {
-    return this.http.requestVoid(CatalystEndpoint.unreact(id, symbol));
-  }
-
-  // Timelines
-
-  contestTimeline(
-    slug: string,
-    opts: { since?: string; until?: string } = {},
-  ): Promise<CatalystStatuses> {
-    return this.http.request(CatalystEndpoint.contestTimeline(slug, opts));
-  }
-
-  favoriteTimeline(
-    opts: { since?: string; until?: string } = {},
-  ): Promise<CatalystStatuses> {
-    return this.http.request(CatalystEndpoint.favoriteTimeline(opts));
-  }
-
-  firehoseTimeline(
-    opts: { since?: string; until?: string } = {},
-  ): Promise<CatalystStatusV1_1[]> {
-    return this.http.request(CatalystEndpoint.firehoseTimeline(opts));
-  }
-
-  galleryTimeline(
-    opts: { since?: string; until?: string } = {},
-  ): Promise<CatalystStatuses> {
-    return this.http.request(CatalystEndpoint.galleryTimeline(opts));
-  }
-
-  homeTimeline(
-    opts: { since?: string; until?: string } = {},
-  ): Promise<CatalystStatusV1_1[]> {
-    return this.http.request(CatalystEndpoint.homeTimeline(opts));
-  }
-
-  searchTimeline(
-    opts: { q?: string; exact?: boolean; since?: string; until?: string } = {},
-  ): Promise<CatalystStatuses> {
-    return this.http.request(CatalystEndpoint.searchTimeline(opts));
-  }
-
-  userTimeline(
-    username: string,
-    opts: {
-      trimUser?: boolean;
-      excludeSensitive?: boolean;
-      since?: string;
-      until?: string;
-    } = {},
-  ): Promise<CatalystStatuses> {
-    return this.http.request(CatalystEndpoint.userTimeline(username, opts));
-  }
-
-  userGalleryTimeline(
-    username: string,
-    opts: { since?: string; until?: string } = {},
-  ): Promise<CatalystStatuses> {
-    return this.http.request(
-      CatalystEndpoint.userGalleryTimeline(username, opts),
+  async announcements(): Promise<CatalystAnnouncement[]> {
+    const response = await this.http.request<CatalystAnnouncementsWrapper>(
+      CatalystEndpoint.announcements(),
     );
+    return response.announcements;
   }
 
-  trend(): Promise<string[]> {
-    return this.http.request(CatalystEndpoint.trend());
+  // Blocks
+
+  block(userId: string): Promise<CatalystResult> {
+    return this.http.request(CatalystEndpoint.block(userId));
   }
 
-  createFleet(data: CatalystCreateFleetRequest): Promise<void> {
-    return this.http.requestVoid(CatalystEndpoint.createFleet(data));
+  unblock(userId: string): Promise<CatalystResult> {
+    return this.http.request(CatalystEndpoint.unblock(userId));
   }
 
-  fleetById(id: string): Promise<CatalystFleet> {
-    return this.http.request(CatalystEndpoint.fleetById(id));
-  }
+  // Contest
+  // NOTE: the spec only exposes read + vote operations for contests; contest management
+  // (create/edit/awards/collaborators/copy/dashboard/publish/polls) is no longer part of the API.
 
-  deleteFleet(id: string): Promise<void> {
-    return this.http.requestVoid(CatalystEndpoint.deleteFleet(id));
-  }
-
-  viewFleet(id: string): Promise<void> {
-    return this.http.requestVoid(CatalystEndpoint.viewFleet(id));
-  }
-
-  fleetViewers(id: string): Promise<CatalystFleetViewer[]> {
-    return this.http.request(CatalystEndpoint.fleetViewers(id));
-  }
-
-  reactFleet(id: string, symbol: string): Promise<void> {
-    return this.http.requestVoid(CatalystEndpoint.reactFleet(id, symbol));
-  }
-
-  unreactFleet(id: string, symbol: string): Promise<void> {
-    return this.http.requestVoid(CatalystEndpoint.unreactFleet(id, symbol));
-  }
-
-  fleets(): Promise<CatalystFleetRing[]> {
-    return this.http.request(CatalystEndpoint.fleets());
-  }
-
-  fleetByUsername(username: string): Promise<CatalystFleet[]> {
-    return this.http.request(CatalystEndpoint.fleetByUsername(username));
-  }
-
-  createContest(data: CatalystCreateContestRequest): Promise<Identity> {
-    return this.http.request(CatalystEndpoint.createContest(data));
-  }
-
-  getContestsByMe(): Promise<CatalystContest[]> {
-    return this.http.request(CatalystEndpoint.getContestsByMe());
-  }
-
-  getContestBySlug(slug: string): Promise<{ contest: CatalystContest }> {
-    return this.http.request(CatalystEndpoint.getContestBySlug(slug));
-  }
-
-  editContest(slug: string, data: CatalystEditContestRequest): Promise<void> {
-    return this.http.requestVoid(CatalystEndpoint.editContest(slug, data));
-  }
-
-  getContestAwards(slug: string): Promise<{ awards: CatalystContestAward[] }> {
-    return this.http.request(CatalystEndpoint.getContestAwards(slug));
-  }
-
-  setContestAward(
-    slug: string,
-    id: string,
-    data: CatalystSetContestAwardRequest,
-  ): Promise<void> {
-    return this.http.requestVoid(
-      CatalystEndpoint.setContestAward(slug, id, data),
+  async getContestsByMe(): Promise<CatalystContest[]> {
+    const response = await this.http.request<CatalystContestsWrapper>(
+      CatalystEndpoint.getContestsByMe(),
     );
+    return response.contests;
   }
 
-  unsetContestAward(
-    slug: string,
-    id: string,
-    data: CatalystUnsetContestAwardRequest,
-  ): Promise<void> {
-    return this.http.requestVoid(
-      CatalystEndpoint.unsetContestAward(slug, id, data),
+  async getContestBySlug(slug: string): Promise<CatalystContest> {
+    const response = await this.http.request<CatalystContestWrapper>(
+      CatalystEndpoint.getContestBySlug(slug),
     );
+    return response.contest;
   }
 
-  getContestCollaborators(
-    slug: string,
-  ): Promise<{ collaborators: CatalystContestCollaborator[] }> {
-    return this.http.request(CatalystEndpoint.getContestCollaborators(slug));
-  }
-
-  addContestCollaborator(
-    slug: string,
-    data: CatalystContestAddCollaboratorRequest,
-  ): Promise<void> {
-    return this.http.requestVoid(
-      CatalystEndpoint.addContestCollaborator(slug, data),
+  async contestTimeline(slug: string): Promise<CatalystStatus[]> {
+    const response = await this.http.request<CatalystStatuses>(
+      CatalystEndpoint.contestTimeline(slug),
     );
-  }
-
-  removeContestCollaborator(
-    slug: string,
-    data: CatalystContestRemoveCollaboratorRequest,
-  ): Promise<void> {
-    return this.http.requestVoid(
-      CatalystEndpoint.removeContestCollaborator(slug, data),
-    );
-  }
-
-  copyContest(slug: string): Promise<Identity> {
-    return this.http.request(CatalystEndpoint.copyContest(slug));
-  }
-
-  getAccessPermissionOfContest(slug: string): Promise<{
-    result: "admin" | "collaborator" | "contributor" | "guest";
-  }> {
-    return this.http.request(
-      CatalystEndpoint.getAccessPermissionOfContest(slug),
-    );
-  }
-
-  publishContest(slug: string): Promise<Identity> {
-    return this.http.request(CatalystEndpoint.publishContest(slug));
-  }
-
-  addContestVoteToStatus(slug: string, id: string): Promise<void> {
-    return this.http.requestVoid(
-      CatalystEndpoint.addContestVoteToStatus(slug, id),
-    );
-  }
-
-  removeContestVoteFromStatus(slug: string, id: string): Promise<void> {
-    return this.http.requestVoid(
-      CatalystEndpoint.removeContestVoteFromStatus(slug, id),
-    );
+    return response.statuses;
   }
 
   getContestVotes(slug: string): Promise<CatalystUserVoteRights> {
     return this.http.request(CatalystEndpoint.getContestVotes(slug));
   }
 
-  searchContest(
-    state: string,
-    q?: string,
-  ): Promise<{ contests: CatalystContest[] }> {
-    return this.http.request(CatalystEndpoint.searchContest(state, q));
+  addContestVote(slug: string, status: string): Promise<CatalystResult> {
+    return this.http.request(CatalystEndpoint.addContestVote(slug, status));
   }
 
-  // report
-  reportStatus(id: string, data: ReportRequest): Promise<void> {
-    return this.http.requestVoid(CatalystEndpoint.reportStatus(id, data));
+  removeContestVote(slug: string, status: string): Promise<CatalystResult> {
+    return this.http.request(CatalystEndpoint.removeContestVote(slug, status));
   }
 
-  // privacy
+  async getContestsByUser(userId: string): Promise<CatalystContest[]> {
+    const response = await this.http.request<CatalystContestsWrapper>(
+      CatalystEndpoint.getContestsByUser(userId),
+    );
+    return response.contests;
+  }
+
+  async currentContests(): Promise<CatalystContest[]> {
+    const response = await this.http.request<CatalystContestsWrapper>(
+      CatalystEndpoint.currentContests(),
+    );
+    return response.contests;
+  }
+
+  async searchContests(q?: string, state?: string, id?: string): Promise<CatalystContest[]> {
+    const response = await this.http.request<CatalystContestsWrapper>(
+      CatalystEndpoint.searchContests(q, state, id),
+    );
+    return response.contests;
+  }
+
+  // Custom reactions
+
+  customReactions(): Promise<CatalystCustomReaction[]> {
+    return this.http.request(CatalystEndpoint.customReactions());
+  }
+
+  getCustomUserReactions(): Promise<CatalystCustomReactionList> {
+    return this.http.request(CatalystEndpoint.getCustomUserReactions());
+  }
+
+  /**
+   * Creates a custom reaction. `data` must include the `image`, `shortcode`, `displayName` and
+   * `visibility` ("private" | "followers" | "public") fields as multipart form fields.
+   */
+  createCustomReaction(data: FormData): Promise<CatalystUserCustomReaction> {
+    return this.http.request(CatalystEndpoint.createCustomReaction(data));
+  }
+
+  updateCustomReaction(
+    id: string,
+    data: UpdateCustomReactionRequest,
+  ): Promise<CatalystUserCustomReaction> {
+    return this.http.request(CatalystEndpoint.updateCustomReaction(id, data));
+  }
+
+  deleteCustomReaction(id: string): Promise<void> {
+    return this.http.requestVoid(CatalystEndpoint.deleteCustomReaction(id));
+  }
+
+  // Fleet
+
+  createFleet(data: CatalystCreateFleetRequest): Promise<Identity> {
+    return this.http.request(CatalystEndpoint.createFleet(data));
+  }
+
+  fleetByUsername(username: string): Promise<CatalystFleet[]> {
+    return this.http.request(CatalystEndpoint.fleetByUsername(username));
+  }
+
+  fleets(): Promise<CatalystFleetRing[]> {
+    return this.http.request(CatalystEndpoint.fleets());
+  }
+
+  fleetById(id: string): Promise<CatalystFleet> {
+    return this.http.request(CatalystEndpoint.fleetById(id));
+  }
+
+  deleteFleet(id: string): Promise<CatalystResult> {
+    return this.http.request(CatalystEndpoint.deleteFleet(id));
+  }
+
+  reactFleet(id: string, symbol: string): Promise<CatalystReactionValue> {
+    return this.http.request(CatalystEndpoint.reactFleet(id, symbol));
+  }
+
+  unreactFleet(id: string, symbol: string): Promise<CatalystReactionValue> {
+    return this.http.request(CatalystEndpoint.unreactFleet(id, symbol));
+  }
+
+  viewFleet(id: string): Promise<CatalystResult> {
+    return this.http.request(CatalystEndpoint.viewFleet(id));
+  }
+
+  fleetViewers(id: string): Promise<CatalystFleetViewer[]> {
+    return this.http.request(CatalystEndpoint.fleetViewers(id));
+  }
+
+  // Privacy
+
   getPrivacySettings(): Promise<CatalystPrivacySettings> {
     return this.http.request(CatalystEndpoint.getPrivacySettings());
   }
@@ -493,65 +302,233 @@ export class CatalystClient {
     return this.http.request(CatalystEndpoint.updatePrivacySettings(data));
   }
 
-  // announcements
+  // Profile tags
 
-  announcements(): Promise<{ announcements: CatalystAnnouncement[] }> {
-    return this.http.request(CatalystEndpoint.announcements());
+  async updateProfileTags(data: UpdateProfileTagsRequest): Promise<ProfileTag[]> {
+    const response = await this.http.request<ProfileTagsWrapper>(
+      CatalystEndpoint.updateProfileTags(data),
+    );
+    return response.tags;
   }
 
-  // profile tags
-
-  updateProfileTags(
-    data: UpdateProfileTagsRequest,
-  ): Promise<{ tags: ProfileTag[] }> {
-    return this.http.request(CatalystEndpoint.updateProfileTags(data));
+  async profileTagSuggestions(q: string): Promise<ProfileTagSuggestion[]> {
+    const response = await this.http.request<ProfileTagSuggestionsWrapper>(
+      CatalystEndpoint.profileTagSuggestions(q),
+    );
+    return response.tags;
   }
 
-  profileTagSuggestions(
-    q: string,
-  ): Promise<{ tags: ProfileTagSuggestion[] }> {
-    return this.http.request(CatalystEndpoint.profileTagSuggestions(q));
+  getUsersByProfileTag(name: string, cursor?: string): Promise<ProfileTagUsersResult> {
+    return this.http.request(CatalystEndpoint.getUsersByProfileTag(name, cursor));
   }
 
-  getUsersByProfileTag(
-    name: string,
-    cursor?: string,
-  ): Promise<{
-    items: ProfileTagUser[];
-    cursor: string | null;
-  }> {
+  async getProfileTagsByUser(id: string): Promise<ProfileTag[]> {
+    const response = await this.http.request<ProfileTagsWrapper>(
+      CatalystEndpoint.getProfileTagsByUser(id),
+    );
+    return response.tags;
+  }
+
+  // Random
+
+  async randomStatus(): Promise<CatalystStatus | null> {
+    const response = await this.http.request<CatalystRandomStatusWrapper>(
+      CatalystEndpoint.randomStatus(),
+    );
+    return response.status;
+  }
+
+  randomStatusV1_1(): Promise<CatalystStatusV1_1> {
+    return this.http.request(CatalystEndpoint.randomStatusV1_1());
+  }
+
+  onThisDay(): Promise<CatalystStatusV1_1> {
+    return this.http.request(CatalystEndpoint.onThisDay());
+  }
+
+  // Status
+
+  createStatus(data: CatalystCreateStatusRequest): Promise<Identity> {
+    return this.http.request(CatalystEndpoint.createStatus(data));
+  }
+
+  async getStatus(id: string): Promise<CatalystStatus> {
+    const response = await this.http.request<CatalystStatusV1Wrapper>(
+      CatalystEndpoint.getStatus(id),
+    );
+    return response.status;
+  }
+
+  async getStatusV1_1(id: string): Promise<CatalystStatusV1_1> {
+    const response = await this.http.request<CatalystStatusV1_1Wrapper>(
+      CatalystEndpoint.getStatusV1_1(id),
+    );
+    return response.status;
+  }
+
+  editStatus(id: string, description: string): Promise<Identity> {
     return this.http.request(
-      CatalystEndpoint.getUsersByProfileTag(name, cursor),
+      CatalystEndpoint.editStatus(id, { description }),
     );
   }
 
-  getProfileTagsByUser(id: string): Promise<{ tags: ProfileTag[] }> {
-    return this.http.request(CatalystEndpoint.getProfileTagsByUser(id));
+  deleteStatus(id: string): Promise<CatalystMessage> {
+    return this.http.request(CatalystEndpoint.deleteStatus(id));
   }
 
-  // random
-
-  randomStatus(): Promise<{ status: CatalystStatus | null }> {
-    return this.http.request(CatalystEndpoint.randomStatus());
+  async albumsInStatus(id: string): Promise<CatalystAlbum[]> {
+    const response = await this.http.request<CatalystAlbumsWrapper>(
+      CatalystEndpoint.albumsInStatus(id),
+    );
+    return response.albums;
   }
 
-  randomStatusByHashtag(
-    q: string,
-  ): Promise<{ status: CatalystStatus | null }> {
-    return this.http.request(CatalystEndpoint.randomStatusByHashtag(q));
+  isFavorited(id: string): Promise<boolean> {
+    return this.http.request(CatalystEndpoint.isFavorited(id));
   }
 
-  // bulk reactions
+  favorite(id: string): Promise<CatalystResult> {
+    return this.http.request(CatalystEndpoint.favorite(id));
+  }
 
-  bulkStatusReactions(
+  unfavorite(id: string): Promise<CatalystResult> {
+    return this.http.request(CatalystEndpoint.unfavorite(id));
+  }
+
+  async reactions(id: string): Promise<Record<string, CatalystReaction>> {
+    const response = await this.http.request<CatalystReactions>(
+      CatalystEndpoint.reactions(id),
+    );
+    return response.reactions;
+  }
+
+  reactWithCustomReaction(id: string, customReactionId: string): Promise<void> {
+    return this.http.requestVoid(
+      CatalystEndpoint.reactWithCustomReaction(id, customReactionId),
+    );
+  }
+
+  unreactWithCustomReaction(id: string, customReactionId: string): Promise<void> {
+    return this.http.requestVoid(
+      CatalystEndpoint.unreactWithCustomReaction(id, customReactionId),
+    );
+  }
+
+  react(id: string, symbol: string): Promise<CatalystReactionValue> {
+    return this.http.request(CatalystEndpoint.react(id, symbol));
+  }
+
+  unreact(id: string, symbol: string): Promise<CatalystReactionValue> {
+    return this.http.request(CatalystEndpoint.unreact(id, symbol));
+  }
+
+  reportStatus(id: string, data: ReportRequest): Promise<Identity> {
+    return this.http.request(CatalystEndpoint.reportStatus(id, data));
+  }
+
+  // Bulk status reactions
+
+  async bulkStatusReactions(
     ids: string[],
-  ): Promise<{ reactions: Record<string, CatalystReactions> }> {
-    return this.http.request(CatalystEndpoint.bulkStatusReactions(ids));
+  ): Promise<Record<string, Record<string, CatalystReaction>>> {
+    const response = await this.http.request<{
+      reactions: Record<string, Record<string, CatalystReaction>>;
+    }>(CatalystEndpoint.bulkStatusReactions(ids));
+    return response.reactions;
   }
 
-  // archive timeline
+  // Relationships
 
-  archiveTimeline(opts: {
+  follow(userId: string): Promise<CatalystResult> {
+    return this.http.request(CatalystEndpoint.follow(userId));
+  }
+
+  remove(userId: string): Promise<CatalystResult> {
+    return this.http.request(CatalystEndpoint.remove(userId));
+  }
+
+  relationshipCounts(username: string): Promise<CatalystRelationshipsCount> {
+    return this.http.request(CatalystEndpoint.relationshipCounts(username));
+  }
+
+  followers(
+    username: string,
+    opts?: { page?: number },
+  ): Promise<CatalystFollowingOrFollowersList> {
+    return this.http.request(CatalystEndpoint.followers(username, opts));
+  }
+
+  followings(
+    username: string,
+    opts?: { page?: number },
+  ): Promise<CatalystFollowingOrFollowersList> {
+    return this.http.request(CatalystEndpoint.followings(username, opts));
+  }
+
+  relationships(id: string): Promise<CatalystRelationships> {
+    return this.http.request(CatalystEndpoint.relationships(id));
+  }
+
+  // Smart albums
+
+  createSmartAlbum(data: CatalystCreateSmartAlbumRequest): Promise<Identity> {
+    return this.http.request(CatalystEndpoint.createSmartAlbum(data));
+  }
+
+  getSmartAlbum(
+    id: string,
+    opts: { limit?: number; since?: string; until?: string } = {},
+  ): Promise<CatalystSmartAlbum> {
+    return this.http.request(CatalystEndpoint.getSmartAlbum(id, opts));
+  }
+
+  editSmartAlbum(
+    id: string,
+    data: CatalystEditSmartAlbumRequest,
+  ): Promise<CatalystSmartAlbum> {
+    return this.http.request(CatalystEndpoint.editSmartAlbum(id, data));
+  }
+
+  deleteSmartAlbum(id: string): Promise<CatalystResult> {
+    return this.http.request(CatalystEndpoint.deleteSmartAlbum(id));
+  }
+
+  getSmartAlbumBooks(id: string): Promise<CatalystAlbumBook[]> {
+    return this.http.request(CatalystEndpoint.getSmartAlbumBooks(id));
+  }
+
+  createSmartAlbumBook(
+    id: string,
+    data: CatalystCreateAlbumBookRequest,
+  ): Promise<CatalystAlbumBook> {
+    return this.http.request(CatalystEndpoint.createSmartAlbumBook(id, data));
+  }
+
+  getSmartAlbumBook(id: string, bookId: string): Promise<CatalystAlbumBook> {
+    return this.http.request(CatalystEndpoint.getSmartAlbumBook(id, bookId));
+  }
+
+  regenerateSmartAlbumBook(id: string, bookId: string): Promise<CatalystAlbumBook> {
+    return this.http.request(CatalystEndpoint.regenerateSmartAlbumBook(id, bookId));
+  }
+
+  async listSmartAlbumsByUser(userId: string): Promise<CatalystSmartAlbum[]> {
+    const response = await this.http.request<CatalystSmartAlbums>(
+      CatalystEndpoint.listSmartAlbumsByUser(userId),
+    );
+    return response.albums;
+  }
+
+  async searchSmartAlbums(q?: string): Promise<CatalystSmartAlbum[]> {
+    const response = await this.http.request<CatalystSmartAlbums>(
+      CatalystEndpoint.searchSmartAlbums(q),
+    );
+    return response.albums;
+  }
+
+  // Timelines
+
+  async archiveTimeline(opts: {
     year: number;
     month: number;
     day?: number;
@@ -559,43 +536,118 @@ export class CatalystClient {
     until?: string;
     userId?: string;
     limit?: number;
-    trimUser?: boolean;
     excludeSensitive?: boolean;
-  }): Promise<{ statuses: CatalystStatus[] }> {
-    return this.http.request(CatalystEndpoint.archiveTimeline(opts));
+  }): Promise<CatalystStatus[]> {
+    const response = await this.http.request<CatalystStatuses>(
+      CatalystEndpoint.archiveTimeline(opts),
+    );
+    return response.statuses;
   }
 
-  archiveMonths(): Promise<{
-    months: { year: number; month: number; count: number }[];
-  }> {
-    return this.http.request(CatalystEndpoint.archiveMonths());
+  async archiveMonths(): Promise<CatalystArchiveMonth[]> {
+    const response = await this.http.request<CatalystArchiveMonths>(
+      CatalystEndpoint.archiveMonths(),
+    );
+    return response.months;
   }
 
-  // contests
-
-  currentContests(): Promise<{ contests: CatalystContest[] }> {
-    return this.http.request(CatalystEndpoint.currentContests());
+  async timelineByContestSlug(
+    slug: string,
+    opts: { since?: string; until?: string } = {},
+  ): Promise<CatalystStatus[]> {
+    const response = await this.http.request<CatalystStatuses>(
+      CatalystEndpoint.timelineByContestSlug(slug, opts),
+    );
+    return response.statuses;
   }
 
-  getContestsByUser(username: string): Promise<{ contests: CatalystContest[] }> {
-    return this.http.request(CatalystEndpoint.getContestsByUser(username));
+  async favoriteTimeline(
+    opts: { since?: string; until?: string } = {},
+  ): Promise<CatalystStatusV1_1[]> {
+    const response = await this.http.request<CatalystStatusesV1_1>(
+      CatalystEndpoint.favoriteTimeline(opts),
+    );
+    return response.statuses;
   }
 
-  getContestPolls(slug: string): Promise<{
-    polls: { status: CatalystStatus; count: number }[];
-  }> {
-    return this.http.request(CatalystEndpoint.getContestPolls(slug));
+  async firehoseTimelineV1(
+    opts: { since?: string; until?: string } = {},
+  ): Promise<CatalystStatus[]> {
+    const response = await this.http.request<CatalystStatuses>(
+      CatalystEndpoint.firehoseTimelineV1(opts),
+    );
+    return response.statuses;
   }
 
-  // album by me
-
-  getAlbumsByMe(includeSmartAlbums = false): Promise<{ albums: CatalystAlbum[] }> {
-    return this.http.request(CatalystEndpoint.getAlbumsByMe(includeSmartAlbums));
+  async galleryTimeline(
+    opts: { since?: string; until?: string } = {},
+  ): Promise<CatalystStatus[]> {
+    const response = await this.http.request<CatalystStatuses>(
+      CatalystEndpoint.galleryTimeline(opts),
+    );
+    return response.statuses;
   }
 
-  // smart album by user
+  async homeTimelineV1(): Promise<CatalystStatus[]> {
+    const response = await this.http.request<CatalystStatuses>(
+      CatalystEndpoint.homeTimelineV1(),
+    );
+    return response.statuses;
+  }
 
-  listSmartAlbumsByUser(username: string): Promise<{ albums: CatalystSmartAlbum[] }> {
-    return this.http.request(CatalystEndpoint.listSmartAlbumsByUser(username));
+  async searchTimeline(
+    opts: { q?: string; exact?: boolean; since?: string; until?: string } = {},
+  ): Promise<CatalystStatus[]> {
+    const response = await this.http.request<CatalystStatuses>(
+      CatalystEndpoint.searchTimeline(opts),
+    );
+    return response.statuses;
+  }
+
+  async userTimeline(
+    username: string,
+    opts: {
+      since?: string;
+      until?: string;
+      limit?: number;
+      excludeSensitive?: boolean;
+    } = {},
+  ): Promise<CatalystStatus[]> {
+    const response = await this.http.request<CatalystStatuses>(
+      CatalystEndpoint.userTimeline(username, opts),
+    );
+    return response.statuses;
+  }
+
+  async userGalleryTimeline(
+    username: string,
+    opts: { since?: string; until?: string } = {},
+  ): Promise<CatalystStatus[]> {
+    const response = await this.http.request<CatalystStatuses>(
+      CatalystEndpoint.userGalleryTimeline(username, opts),
+    );
+    return response.statuses;
+  }
+
+  firehoseTimeline(
+    opts: { since?: string; until?: string; trimVisitor?: boolean } = {},
+  ): Promise<CatalystStatusV1_1[]> {
+    return this.http.request(CatalystEndpoint.firehoseTimeline(opts));
+  }
+
+  homeTimeline(
+    opts: { since?: string; until?: string; trimVisitor?: boolean } = {},
+  ): Promise<CatalystStatusV1_1[]> {
+    return this.http.request(CatalystEndpoint.homeTimeline(opts));
+  }
+
+  // Trend
+
+  trend(): Promise<string[] | null> {
+    return this.http.request(CatalystEndpoint.trend());
+  }
+
+  richTrend(): Promise<CatalystRichTrendingItem[] | null> {
+    return this.http.request(CatalystEndpoint.richTrend());
   }
 }

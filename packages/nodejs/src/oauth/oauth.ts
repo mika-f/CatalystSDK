@@ -92,11 +92,14 @@ export class OAuth {
       throw new OAuthError("Invalid token response", "invalidTokenResponse");
     }
 
-    const json = await response.json() as Record<string, string>;
+    const json = await response.json() as Record<string, string | number>;
     return {
-      accessToken: json["access_token"]!,
-      refreshToken: json["refresh_token"]!,
-      tokenType: json["token_type"]!,
+      accessToken: json["access_token"] as string,
+      refreshToken: json["refresh_token"] as string,
+      tokenType: json["token_type"] as string,
+      scope: json["scope"] as string | undefined,
+      expiresAt: json["expires_at"] as string | undefined,
+      expiresIn: json["expires_in"] as number | undefined,
     };
   }
 }

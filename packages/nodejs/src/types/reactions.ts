@@ -4,6 +4,7 @@ export interface CatalystReaction {
   url: string;
   count: number;
   hasSelfReaction?: boolean;
+  customReactionId?: string;
 }
 
 export interface CatalystReactions {
@@ -24,6 +25,8 @@ export type CatalystCustomReactionStatus =
   | "hidden"
   | "disabled";
 
+export type CatalystCustomReactionVisibility = "private" | "followers" | "public";
+
 export type SupporterTier =
   | "none"
   | "tier_0"
@@ -33,7 +36,8 @@ export type SupporterTier =
   | "tier_4"
   | "tier_5";
 
-// GET /catalyst/v1/custom-reactions の items に含まれるユーザー独自リアクション
+// GET /catalyst/v1/custom-reactions, POST /catalyst/v1/custom-reactions,
+// PATCH /catalyst/v1/custom-reactions/{id} の items に含まれるユーザー独自リアクション
 export interface CatalystUserCustomReaction {
   id: string;
   shortcode: string;
@@ -42,6 +46,7 @@ export interface CatalystUserCustomReaction {
   mimeType: string;
   sortOrder: number;
   status: CatalystCustomReactionStatus;
+  visibility: CatalystCustomReactionVisibility;
   createdAt: string;
 }
 

@@ -1,6 +1,8 @@
 import { HttpClient } from "./clients/httpClient.js";
 import { CatalystClient } from "./clients/catalystClient.js";
 import { EgeriaClient } from "./clients/egeriaClient.js";
+import { EpicleseClient } from "./clients/epicleseClient.js";
+import { FeatureFlagsClient } from "./clients/featureFlagsClient.js";
 import { MediaClient } from "./clients/mediaClient.js";
 import { SteambirdClient } from "./clients/steambirdClient.js";
 import { AuthInterceptor } from "./interceptors/authInterceptor.js";
@@ -81,5 +83,13 @@ export class CatalystTS {
 
   get steambird(): SteambirdClient {
     return new SteambirdClient(this.http);
+  }
+
+  get epiclese(): EpicleseClient {
+    return new EpicleseClient(this.http);
+  }
+
+  get featureFlags(): FeatureFlagsClient {
+    return new FeatureFlagsClient(this.http);
   }
 }

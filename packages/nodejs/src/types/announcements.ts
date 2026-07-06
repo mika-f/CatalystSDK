@@ -7,3 +7,8 @@ export interface CatalystAnnouncement {
   until: string;
   url: string | null;
 }
+
+/** Wrapper for the `{"announcements": [...]}` response shape. */
+export interface CatalystAnnouncementsWrapper {
+  announcements: CatalystAnnouncement[];
+}
