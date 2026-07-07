@@ -1,19 +1,14 @@
-import type { RequestInterceptor } from "./requestInterceptor.js";
+import type { Interceptor, RequestInterceptorFn } from "./interceptor.js";
 
-export class UserAgentInterceptor implements RequestInterceptor {
+export class UserAgentInterceptor implements Interceptor {
   private readonly agent: string;
 
   constructor() {
-    this.agent = "CatalystTS/0.1.0";
+    this.agent = "CatalystTS/1.0.0-alpha.4";
   }
 
-  async adapt(request: Request): Promise<Request> {
-    const headers = new Headers(request.headers);
-    headers.set("User-Agent", this.agent);
-    return new Request(request, { headers });
-  }
-
-  async retry(_request: Request, _error: unknown): Promise<boolean> {
-    return false;
-  }
+  onRequest: RequestInterceptorFn = async (request) => {
+    request.headers.set("User-Agent", this.agent);
+    return request;
+  };
 }

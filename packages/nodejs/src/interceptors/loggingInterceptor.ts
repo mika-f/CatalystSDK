@@ -1,13 +1,28 @@
-import type { RequestInterceptor } from "./requestInterceptor.js";
+import type {
+  ErrorInterceptorFn,
+  Interceptor,
+  RequestInterceptorFn,
+  ResponseInterceptorFn,
+} from "./interceptor.js";
 
-export class LoggingInterceptor implements RequestInterceptor {
-  async adapt(request: Request): Promise<Request> {
+export class LoggingInterceptor implements Interceptor {
+  onRequest: RequestInterceptorFn = async (request) => {
     console.log(`[CatalystTS] ${request.method} ${request.url}`);
     return request;
-  }
+  };
 
-  async retry(request: Request, error: unknown): Promise<boolean> {
-    console.log(`[CatalystTS] Retry ${request.method} ${request.url}`, error);
-    return false;
-  }
+  onResponse: ResponseInterceptorFn = async (response, request) => {
+    console.log(
+      `[CatalystTS] ${response.status} ${request.method} ${request.url}`,
+    );
+    return response;
+  };
+
+  onError: ErrorInterceptorFn = (error, _response, request) => {
+    console.log(
+      `[CatalystTS] Error ${request?.method ?? ""} ${request?.url ?? ""}`,
+      error,
+    );
+    return error;
+  };
 }
