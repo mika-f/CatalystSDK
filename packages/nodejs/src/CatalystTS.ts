@@ -4,12 +4,18 @@ import { OAuth } from "./oauth/oauth.js";
 import type { Interceptor } from "./interceptors/interceptor.js";
 import type { Token } from "./types/token.js";
 import {
+  Catalyst,
   Catalyst2,
   CatalystClient,
+  Egeria,
   Egeria2,
+  Epiclese,
   Epiclese2,
+  FeatureFlags,
   FeatureFlags2,
+  Media,
   Media2,
+  Steambird,
   Steambird2,
 } from "./generated/sdk.gen.js";
 import { client } from "./generated/client.gen.js";
@@ -46,9 +52,12 @@ export class CatalystTS {
     ];
 
     for (const interceptor of interceptors) {
-      if (interceptor.onRequest) client.interceptors.request.use(interceptor.onRequest);
-      if (interceptor.onResponse) client.interceptors.response.use(interceptor.onResponse);
-      if (interceptor.onError) client.interceptors.error.use(interceptor.onError);
+      if (interceptor.onRequest)
+        client.interceptors.request.use(interceptor.onRequest);
+      if (interceptor.onResponse)
+        client.interceptors.response.use(interceptor.onResponse);
+      if (interceptor.onError)
+        client.interceptors.error.use(interceptor.onError);
     }
 
     client.setConfig({ fetch: this.fetchWithAuthRetry });
@@ -61,7 +70,9 @@ export class CatalystTS {
 
     for (
       let attempt = 0;
-      attempt < this.maxAuthRetryCount && response.status === 401 && this._refreshToken != null;
+      attempt < this.maxAuthRetryCount &&
+      response.status === 401 &&
+      this._refreshToken != null;
       attempt++
     ) {
       try {
@@ -72,7 +83,10 @@ export class CatalystTS {
 
       const retryRequest = request.clone();
       if (this._accessToken != null) {
-        retryRequest.headers.set("Authorization", `Bearer ${this._accessToken}`);
+        retryRequest.headers.set(
+          "Authorization",
+          `Bearer ${this._accessToken}`,
+        );
       }
 
       response = await fetch(retryRequest);
@@ -116,27 +130,27 @@ export class CatalystTS {
     return new OAuth(this.clientId, this.clientSecret);
   }
 
-  get catalyst(): Catalyst2 {
-    return this.http.catalyst;
+  get catalyst(): Catalyst {
+    return this.http.catalyst.catalyst;
   }
 
-  get egeria(): Egeria2 {
-    return this.http.egeria;
+  get egeria(): Egeria {
+    return this.http.egeria.egeria;
   }
 
-  get epiclese(): Epiclese2 {
-    return this.http.epiclese;
+  get epiclese(): Epiclese {
+    return this.http.epiclese.epiclese;
   }
 
-  get featureFlags(): FeatureFlags2 {
-    return this.http.featureFlags;
+  get featureFlags(): FeatureFlags {
+    return this.http.featureFlags.featureFlags;
   }
 
-  get media(): Media2 {
-    return this.http.media;
+  get media(): Media {
+    return this.http.media.media;
   }
 
-  get steambird(): Steambird2 {
-    return this.http.steambird;
+  get steambird(): Steambird {
+    return this.http.steambird.steambird;
   }
 }
