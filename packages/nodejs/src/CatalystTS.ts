@@ -28,7 +28,9 @@ export class CatalystTS {
 
   private _accessToken: string | undefined;
   private _refreshToken: string | undefined;
+  private _refreshing: Promise<Token> | undefined;
 
+  private readonly maxAuthRetryCount = 5;
   private readonly http: CatalystClient;
 
   constructor(opts: CatalystTSOptions) {
@@ -49,7 +51,41 @@ export class CatalystTS {
       if (interceptor.onError) client.interceptors.error.use(interceptor.onError);
     }
 
+    client.setConfig({ fetch: this.fetchWithAuthRetry });
     this.http = new CatalystClient({ client });
+  }
+
+  private readonly fetchWithAuthRetry: typeof fetch = async (input, init) => {
+    const request = new Request(input, init);
+    let response = await fetch(request.clone());
+
+    for (
+      let attempt = 0;
+      attempt < this.maxAuthRetryCount && response.status === 401 && this._refreshToken != null;
+      attempt++
+    ) {
+      try {
+        await this.refreshShared();
+      } catch {
+        break;
+      }
+
+      const retryRequest = request.clone();
+      if (this._accessToken != null) {
+        retryRequest.headers.set("Authorization", `Bearer ${this._accessToken}`);
+      }
+
+      response = await fetch(retryRequest);
+    }
+
+    return response;
+  };
+
+  private refreshShared(): Promise<Token> {
+    this._refreshing ??= this.refresh().finally(() => {
+      this._refreshing = undefined;
+    });
+    return this._refreshing;
   }
 
   get accessToken(): string | undefined {
