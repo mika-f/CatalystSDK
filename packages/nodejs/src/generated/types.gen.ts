@@ -315,6 +315,14 @@ export type AnnouncementResponse = {
     url: string | null;
 };
 
+export type ContentSettingsResponse = {
+    showSensitiveMedia: boolean;
+};
+
+export type CatalystContentSettings = {
+    showSensitiveMedia: boolean;
+};
+
 export type ContestResponse = {
     slug: string;
     draft: boolean;
@@ -476,6 +484,7 @@ export type CustomReactionListResponse = {
 export type FleetResponse = {
     id: string;
     backgroundColor: string;
+    isSensitive: boolean;
     renderedImageUrl: string | null;
     user: {
         id: string;
@@ -610,6 +619,7 @@ export type FleetRingResponse = {
 
 export type Fleet = {
     backgroundColor?: string;
+    isNsfw?: boolean;
     texts?: Array<{
         body: string;
         textStyle?: 'default' | 'bold' | 'serif' | 'handwriting';
@@ -1391,6 +1401,7 @@ export type GetCatalystV11TimelineHomeData = {
         since?: string;
         until?: string;
         trim_visitor?: boolean;
+        exclude_sensitive?: boolean;
     };
     url: '/catalyst/v1.1/timeline/home';
 };
@@ -1979,6 +1990,60 @@ export type PostCatalystV1BlocksResponses = {
 };
 
 export type PostCatalystV1BlocksResponse = PostCatalystV1BlocksResponses[keyof PostCatalystV1BlocksResponses];
+
+export type GetCatalystV1ContentSettingsData = {
+    body?: never;
+    path?: never;
+    query?: never;
+    url: '/catalyst/v1/content/settings';
+};
+
+export type GetCatalystV1ContentSettingsErrors = {
+    /**
+     * Unauthorized
+     */
+    401: ErrorResponse;
+};
+
+export type GetCatalystV1ContentSettingsError = GetCatalystV1ContentSettingsErrors[keyof GetCatalystV1ContentSettingsErrors];
+
+export type GetCatalystV1ContentSettingsResponses = {
+    /**
+     * OK
+     */
+    200: ContentSettingsResponse;
+};
+
+export type GetCatalystV1ContentSettingsResponse = GetCatalystV1ContentSettingsResponses[keyof GetCatalystV1ContentSettingsResponses];
+
+export type PatchCatalystV1ContentSettingsData = {
+    body?: CatalystContentSettings;
+    path?: never;
+    query?: never;
+    url: '/catalyst/v1/content/settings';
+};
+
+export type PatchCatalystV1ContentSettingsErrors = {
+    /**
+     * Bad Request
+     */
+    400: ErrorResponse;
+    /**
+     * Unauthorized
+     */
+    401: ErrorResponse;
+};
+
+export type PatchCatalystV1ContentSettingsError = PatchCatalystV1ContentSettingsErrors[keyof PatchCatalystV1ContentSettingsErrors];
+
+export type PatchCatalystV1ContentSettingsResponses = {
+    /**
+     * OK
+     */
+    200: ContentSettingsResponse;
+};
+
+export type PatchCatalystV1ContentSettingsResponse = PatchCatalystV1ContentSettingsResponses[keyof PatchCatalystV1ContentSettingsResponses];
 
 export type GetCatalystV1ContestByMeData = {
     body?: never;
@@ -2651,7 +2716,9 @@ export type GetCatalystV1FleetByUserByUsernameData = {
     path: {
         username: string;
     };
-    query?: never;
+    query?: {
+        exclude_sensitive?: boolean;
+    };
     url: '/catalyst/v1/fleet/by/user/{username}';
 };
 
@@ -2680,7 +2747,9 @@ export type GetCatalystV1FleetByUserByUsernameResponse = GetCatalystV1FleetByUse
 export type GetCatalystV1FleetRingData = {
     body?: never;
     path?: never;
-    query?: never;
+    query?: {
+        exclude_sensitive?: boolean;
+    };
     url: '/catalyst/v1/fleet/ring';
 };
 
