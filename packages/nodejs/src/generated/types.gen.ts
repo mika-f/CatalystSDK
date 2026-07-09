@@ -129,6 +129,11 @@ export type CreateAlbumBook = {
     colophonText?: string | null;
 };
 
+export type CreateCatalystReport = {
+    reason: 'nsfw' | 'tos_violation' | 'harassment' | 'spam' | 'other';
+    description?: string;
+};
+
 export type AlbumResponse = {
     id: string;
     name: string;
@@ -876,11 +881,6 @@ export type StatusReactionResponse = {
     customReactionId?: string;
 };
 
-export type CreateCatalystReport = {
-    reason: 'nsfw' | 'tos_violation' | 'harassment' | 'spam' | 'other';
-    description?: string;
-};
-
 export type EditStatus = {
     description: string;
 };
@@ -1593,6 +1593,51 @@ export type PostCatalystV1AlbumByIdByIdBookResponses = {
 };
 
 export type PostCatalystV1AlbumByIdByIdBookResponse = PostCatalystV1AlbumByIdByIdBookResponses[keyof PostCatalystV1AlbumByIdByIdBookResponses];
+
+export type PostCatalystV1AlbumByIdByIdReportData = {
+    body?: CreateCatalystReport;
+    path: {
+        id: string;
+    };
+    query?: never;
+    url: '/catalyst/v1/album/by/id/{id}/report';
+};
+
+export type PostCatalystV1AlbumByIdByIdReportErrors = {
+    /**
+     * Bad Request
+     */
+    400: ErrorResponse;
+    /**
+     * Unauthorized
+     */
+    401: ErrorResponse;
+    /**
+     * Not Found
+     */
+    404: ErrorResponse;
+    /**
+     * Conflict
+     */
+    409: ErrorResponse;
+    /**
+     * Internal Server Error
+     */
+    500: ErrorResponse;
+};
+
+export type PostCatalystV1AlbumByIdByIdReportError = PostCatalystV1AlbumByIdByIdReportErrors[keyof PostCatalystV1AlbumByIdByIdReportErrors];
+
+export type PostCatalystV1AlbumByIdByIdReportResponses = {
+    /**
+     * OK
+     */
+    200: {
+        id: string;
+    };
+};
+
+export type PostCatalystV1AlbumByIdByIdReportResponse = PostCatalystV1AlbumByIdByIdReportResponses[keyof PostCatalystV1AlbumByIdByIdReportResponses];
 
 export type DeleteCatalystV1AlbumByIdByIdData = {
     body?: never;
@@ -2563,6 +2608,51 @@ export type PostCatalystV1FleetByIdReactionsBySymbolResponses = {
 
 export type PostCatalystV1FleetByIdReactionsBySymbolResponse = PostCatalystV1FleetByIdReactionsBySymbolResponses[keyof PostCatalystV1FleetByIdReactionsBySymbolResponses];
 
+export type PostCatalystV1FleetByIdReportData = {
+    body?: CreateCatalystReport;
+    path: {
+        id: string;
+    };
+    query?: never;
+    url: '/catalyst/v1/fleet/{id}/report';
+};
+
+export type PostCatalystV1FleetByIdReportErrors = {
+    /**
+     * Bad Request
+     */
+    400: ErrorResponse;
+    /**
+     * Unauthorized
+     */
+    401: ErrorResponse;
+    /**
+     * Not Found
+     */
+    404: ErrorResponse;
+    /**
+     * Conflict
+     */
+    409: ErrorResponse;
+    /**
+     * Internal Server Error
+     */
+    500: ErrorResponse;
+};
+
+export type PostCatalystV1FleetByIdReportError = PostCatalystV1FleetByIdReportErrors[keyof PostCatalystV1FleetByIdReportErrors];
+
+export type PostCatalystV1FleetByIdReportResponses = {
+    /**
+     * OK
+     */
+    200: {
+        id: string;
+    };
+};
+
+export type PostCatalystV1FleetByIdReportResponse = PostCatalystV1FleetByIdReportResponses[keyof PostCatalystV1FleetByIdReportResponses];
+
 export type DeleteCatalystV1FleetByIdData = {
     body?: never;
     path: {
@@ -3345,6 +3435,51 @@ export type PostCatalystV1SmartAlbumByIdByIdBookResponses = {
 };
 
 export type PostCatalystV1SmartAlbumByIdByIdBookResponse = PostCatalystV1SmartAlbumByIdByIdBookResponses[keyof PostCatalystV1SmartAlbumByIdByIdBookResponses];
+
+export type PostCatalystV1SmartAlbumByIdByIdReportData = {
+    body?: CreateCatalystReport;
+    path: {
+        id: string;
+    };
+    query?: never;
+    url: '/catalyst/v1/smart-album/by/id/{id}/report';
+};
+
+export type PostCatalystV1SmartAlbumByIdByIdReportErrors = {
+    /**
+     * Bad Request
+     */
+    400: ErrorResponse;
+    /**
+     * Unauthorized
+     */
+    401: ErrorResponse;
+    /**
+     * Not Found
+     */
+    404: ErrorResponse;
+    /**
+     * Conflict
+     */
+    409: ErrorResponse;
+    /**
+     * Internal Server Error
+     */
+    500: ErrorResponse;
+};
+
+export type PostCatalystV1SmartAlbumByIdByIdReportError = PostCatalystV1SmartAlbumByIdByIdReportErrors[keyof PostCatalystV1SmartAlbumByIdByIdReportErrors];
+
+export type PostCatalystV1SmartAlbumByIdByIdReportResponses = {
+    /**
+     * OK
+     */
+    200: {
+        id: string;
+    };
+};
+
+export type PostCatalystV1SmartAlbumByIdByIdReportResponse = PostCatalystV1SmartAlbumByIdByIdReportResponses[keyof PostCatalystV1SmartAlbumByIdByIdReportResponses];
 
 export type DeleteCatalystV1SmartAlbumByIdByIdData = {
     body?: never;
@@ -4383,6 +4518,51 @@ export type GetCatalystV1TrendResponses = {
 };
 
 export type GetCatalystV1TrendResponse = GetCatalystV1TrendResponses[keyof GetCatalystV1TrendResponses];
+
+export type PostCatalystV1UserByIdReportData = {
+    body?: CreateCatalystReport;
+    path: {
+        id: string;
+    };
+    query?: never;
+    url: '/catalyst/v1/user/{id}/report';
+};
+
+export type PostCatalystV1UserByIdReportErrors = {
+    /**
+     * Bad Request
+     */
+    400: ErrorResponse;
+    /**
+     * Unauthorized
+     */
+    401: ErrorResponse;
+    /**
+     * Not Found
+     */
+    404: ErrorResponse;
+    /**
+     * Conflict
+     */
+    409: ErrorResponse;
+    /**
+     * Internal Server Error
+     */
+    500: ErrorResponse;
+};
+
+export type PostCatalystV1UserByIdReportError = PostCatalystV1UserByIdReportErrors[keyof PostCatalystV1UserByIdReportErrors];
+
+export type PostCatalystV1UserByIdReportResponses = {
+    /**
+     * OK
+     */
+    200: {
+        id: string;
+    };
+};
+
+export type PostCatalystV1UserByIdReportResponse = PostCatalystV1UserByIdReportResponses[keyof PostCatalystV1UserByIdReportResponses];
 
 export type GetEgeriaV1MeData = {
     body?: never;
