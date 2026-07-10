@@ -486,6 +486,46 @@ export type CustomReactionListResponse = {
     }>;
 };
 
+export type FleetReactionSymbolResponse = {
+    name: string;
+    symbol: string;
+    url: string;
+};
+
+export type FleetReactionResponse = {
+    user: {
+        id: string;
+        screenName: string;
+        displayName: string;
+        profile: {
+            iconUrl: string;
+            bannerUrl: string;
+            bio: string;
+            website: string;
+            additionalWebsites: Array<string>;
+        } | null;
+        profileEmoji?: {
+            type: 'standard';
+            value: string;
+            imageUrl: string;
+        } | {
+            type: 'custom';
+            id: string;
+            shortcode: string;
+            displayName: string;
+            imageUrl: string;
+            width: number;
+            height: number;
+        } | null;
+    };
+    reaction: {
+        name: string;
+        symbol: string;
+        url: string;
+    };
+    reactedAt: string;
+};
+
 export type FleetResponse = {
     id: string;
     backgroundColor: string;
@@ -548,16 +588,11 @@ export type FleetResponse = {
         scale: number;
         rotation: number;
     }>;
-    reactions: {
-        [key: string]: {
-            name: string;
-            symbol: string;
-            url: string;
-            count: number;
-            hasSelfReaction?: boolean;
-            customReactionId?: string;
-        };
-    };
+    selfReaction: {
+        name: string;
+        symbol: string;
+        url: string;
+    } | null;
     viewCount: number;
     createdAt: string;
     expiresAt: string;
@@ -935,6 +970,19 @@ export type User = {
     };
 };
 
+export type EpicleseAuthorResponse = {
+    id: string;
+    platformIdentifier: string;
+    platform: {
+        id: string;
+        name: string;
+        description: string;
+        url: string | null;
+        startAt: string | null;
+    } | null;
+    name: string;
+};
+
 export type EpicleseAuthorsResponse = {
     items: Array<{
         id: string;
@@ -961,24 +1009,126 @@ export type EpicleseAuthorsResponse = {
     };
 };
 
-export type EpicleseAuthorResponse = {
-    id: string;
-    platformIdentifier: string;
-    platform: {
-        id: string;
-        name: string;
-        description: string;
-        url: string | null;
-        startAt: string | null;
-    } | null;
-    name: string;
-};
-
 export type MetadataAuthor = {
     id?: string;
     platformIdentifier: string;
-    platform: string;
+    platform?: string;
     name: string;
+};
+
+export type EpicleseItemResponse = {
+    id: string;
+    type: 'avatar' | 'cloth' | 'accessory' | 'hair' | 'gimmick' | 'other';
+    name: string;
+    description: string;
+    externalUrl: string | null;
+    imageUrl: string | null;
+    author: {
+        id: string;
+        platformIdentifier: string;
+        platform: {
+            id: string;
+            name: string;
+            description: string;
+            url: string | null;
+            startAt: string | null;
+        } | null;
+        name: string;
+    };
+};
+
+export type EpicleseStatusesByItemResponse = {
+    items: Array<{
+        id: string;
+        body: string;
+        createdAt: string;
+        user: {
+            id: string;
+            screenName: string;
+            displayName: string;
+            profile: {
+                iconUrl: string;
+                bannerUrl: string;
+                bio: string;
+                website: string;
+                additionalWebsites: Array<string>;
+            } | null;
+            profileEmoji?: {
+                type: 'standard';
+                value: string;
+                imageUrl: string;
+            } | {
+                type: 'custom';
+                id: string;
+                shortcode: string;
+                displayName: string;
+                imageUrl: string;
+                width: number;
+                height: number;
+            } | null;
+        };
+        medias: Array<{
+            id: string;
+            alt: string;
+            url: string;
+            order: number;
+            metadata: {
+                width: number | null;
+                height: number | null;
+                isSensitive: boolean;
+                isSpoiler: boolean;
+            } | null;
+            privacyMetadata?: boolean;
+            blurhash?: string | null;
+        }>;
+        contest?: unknown;
+        reactions?: unknown;
+    }>;
+    count: {
+        total: number;
+        offset: number;
+    };
+    page: {
+        min: number;
+        max: number;
+        current: number;
+        next: number | null;
+        prev: number | null;
+    };
+};
+
+export type EpicleseItemsResponse = {
+    items: Array<{
+        id: string;
+        type: 'avatar' | 'cloth' | 'accessory' | 'hair' | 'gimmick' | 'other';
+        name: string;
+        description: string;
+        externalUrl: string | null;
+        imageUrl: string | null;
+        author: {
+            id: string;
+            platformIdentifier: string;
+            platform: {
+                id: string;
+                name: string;
+                description: string;
+                url: string | null;
+                startAt: string | null;
+            } | null;
+            name: string;
+        };
+    }>;
+    count: {
+        total: number;
+        offset: number;
+    };
+    page: {
+        min: number;
+        max: number;
+        current: number;
+        next: number | null;
+        prev: number | null;
+    };
 };
 
 export type EpiclesePlatformResponse = {
@@ -1042,10 +1192,11 @@ export type EpicleseStatusMetadataResponse = {
             } | null;
         }>;
         reference: Array<{
-            type: string;
+            type: 'avatar' | 'cloth' | 'accessory' | 'hair' | 'gimmick' | 'other';
             name: string;
             description: string;
             externalUrl: string | null;
+            imageUrl: string | null;
             author: {
                 id: string;
                 platformIdentifier: string;
@@ -1060,6 +1211,7 @@ export type EpicleseStatusMetadataResponse = {
             };
             x: number;
             y: number;
+            order: number;
             reference: string;
         }>;
         additionalData?: {
@@ -1085,7 +1237,7 @@ export type CreateMetadata = Array<{
         author: {
             id?: string;
             platformIdentifier: string;
-            platform: string;
+            platform?: string;
             name: string;
         } | null;
     };
@@ -1095,20 +1247,46 @@ export type CreateMetadata = Array<{
     reference: Array<{
         x: number;
         y: number;
+        order?: number;
         reference?: string;
-        type: string;
+        type: 'avatar' | 'cloth' | 'accessory' | 'hair' | 'gimmick' | 'other';
         name: string;
         description?: string;
         externalUrl?: string;
         author?: {
             id?: string;
             platformIdentifier: string;
-            platform: string;
+            platform?: string;
             name: string;
         };
     }>;
     privacyMetadata?: boolean;
 }>;
+
+export type EpicleseWorldResponse = {
+    id: string;
+    platformIdentifier: string;
+    platform: {
+        id: string;
+        name: string;
+        description: string;
+        url: string | null;
+        startAt: string | null;
+    } | null;
+    name: string;
+    author: {
+        id: string;
+        platformIdentifier: string;
+        platform: {
+            id: string;
+            name: string;
+            description: string;
+            url: string | null;
+            startAt: string | null;
+        } | null;
+        name: string;
+    } | null;
+};
 
 export type EpicleseWorldsResponse = {
     items: Array<{
@@ -1137,31 +1315,6 @@ export type EpicleseWorldsResponse = {
     }>;
 };
 
-export type EpicleseWorldResponse = {
-    id: string;
-    platformIdentifier: string;
-    platform: {
-        id: string;
-        name: string;
-        description: string;
-        url: string | null;
-        startAt: string | null;
-    } | null;
-    name: string;
-    author: {
-        id: string;
-        platformIdentifier: string;
-        platform: {
-            id: string;
-            name: string;
-            description: string;
-            url: string | null;
-            startAt: string | null;
-        } | null;
-        name: string;
-    } | null;
-};
-
 export type MetadataWorld = {
     id?: string;
     platformIdentifier: string;
@@ -1170,7 +1323,7 @@ export type MetadataWorld = {
     author: {
         id?: string;
         platformIdentifier: string;
-        platform: string;
+        platform?: string;
         name: string;
     } | null;
 };
@@ -2560,7 +2713,7 @@ export type DeleteCatalystV1FleetByIdReactionsBySymbolResponses = {
      * OK
      */
     200: {
-        value: number;
+        value: boolean;
     };
 };
 
@@ -2586,10 +2739,6 @@ export type PostCatalystV1FleetByIdReactionsBySymbolErrors = {
      */
     404: ErrorResponse;
     /**
-     * Conflict
-     */
-    409: ErrorResponse;
-    /**
      * Internal Server Error
      */
     500: ErrorResponse;
@@ -2602,11 +2751,50 @@ export type PostCatalystV1FleetByIdReactionsBySymbolResponses = {
      * OK
      */
     200: {
-        value: number;
+        value: FleetReactionSymbolResponse;
     };
 };
 
 export type PostCatalystV1FleetByIdReactionsBySymbolResponse = PostCatalystV1FleetByIdReactionsBySymbolResponses[keyof PostCatalystV1FleetByIdReactionsBySymbolResponses];
+
+export type GetCatalystV1FleetByIdReactionsData = {
+    body?: never;
+    path: {
+        id: string;
+    };
+    query?: never;
+    url: '/catalyst/v1/fleet/{id}/reactions';
+};
+
+export type GetCatalystV1FleetByIdReactionsErrors = {
+    /**
+     * Unauthorized
+     */
+    401: ErrorResponse;
+    /**
+     * Forbidden
+     */
+    403: ErrorResponse;
+    /**
+     * Not Found
+     */
+    404: ErrorResponse;
+    /**
+     * Internal Server Error
+     */
+    500: ErrorResponse;
+};
+
+export type GetCatalystV1FleetByIdReactionsError = GetCatalystV1FleetByIdReactionsErrors[keyof GetCatalystV1FleetByIdReactionsErrors];
+
+export type GetCatalystV1FleetByIdReactionsResponses = {
+    /**
+     * OK
+     */
+    200: Array<FleetReactionResponse>;
+};
+
+export type GetCatalystV1FleetByIdReactionsResponse = GetCatalystV1FleetByIdReactionsResponses[keyof GetCatalystV1FleetByIdReactionsResponses];
 
 export type PostCatalystV1FleetByIdReportData = {
     body?: CreateCatalystReport;
@@ -4755,6 +4943,35 @@ export type GetEgeriaV1UserByUsernameByUsernameResponses = {
 
 export type GetEgeriaV1UserByUsernameByUsernameResponse = GetEgeriaV1UserByUsernameByUsernameResponses[keyof GetEgeriaV1UserByUsernameByUsernameResponses];
 
+export type GetEpicleseV1AuthorsByIdData = {
+    body?: never;
+    path: {
+        id: string;
+    };
+    query?: never;
+    url: '/epiclese/v1/authors/{id}';
+};
+
+export type GetEpicleseV1AuthorsByIdErrors = {
+    /**
+     * Not Found
+     */
+    404: ErrorResponse;
+};
+
+export type GetEpicleseV1AuthorsByIdError = GetEpicleseV1AuthorsByIdErrors[keyof GetEpicleseV1AuthorsByIdErrors];
+
+export type GetEpicleseV1AuthorsByIdResponses = {
+    /**
+     * OK
+     */
+    200: {
+        author: EpicleseAuthorResponse;
+    };
+};
+
+export type GetEpicleseV1AuthorsByIdResponse = GetEpicleseV1AuthorsByIdResponses[keyof GetEpicleseV1AuthorsByIdResponses];
+
 export type GetEpicleseV1AuthorsData = {
     body?: never;
     path?: never;
@@ -4800,6 +5017,75 @@ export type PostEpicleseV1AuthorsResponses = {
 };
 
 export type PostEpicleseV1AuthorsResponse = PostEpicleseV1AuthorsResponses[keyof PostEpicleseV1AuthorsResponses];
+
+export type GetEpicleseV1ItemsByIdData = {
+    body?: never;
+    path: {
+        id: string;
+    };
+    query?: never;
+    url: '/epiclese/v1/items/{id}';
+};
+
+export type GetEpicleseV1ItemsByIdErrors = {
+    /**
+     * Not Found
+     */
+    404: ErrorResponse;
+};
+
+export type GetEpicleseV1ItemsByIdError = GetEpicleseV1ItemsByIdErrors[keyof GetEpicleseV1ItemsByIdErrors];
+
+export type GetEpicleseV1ItemsByIdResponses = {
+    /**
+     * OK
+     */
+    200: {
+        item: EpicleseItemResponse;
+    };
+};
+
+export type GetEpicleseV1ItemsByIdResponse = GetEpicleseV1ItemsByIdResponses[keyof GetEpicleseV1ItemsByIdResponses];
+
+export type GetEpicleseV1ItemsByIdStatusesData = {
+    body?: never;
+    path: {
+        id: string;
+    };
+    query?: {
+        offset?: number | null;
+    };
+    url: '/epiclese/v1/items/{id}/statuses';
+};
+
+export type GetEpicleseV1ItemsByIdStatusesResponses = {
+    /**
+     * OK
+     */
+    200: EpicleseStatusesByItemResponse;
+};
+
+export type GetEpicleseV1ItemsByIdStatusesResponse = GetEpicleseV1ItemsByIdStatusesResponses[keyof GetEpicleseV1ItemsByIdStatusesResponses];
+
+export type GetEpicleseV1ItemsData = {
+    body?: never;
+    path?: never;
+    query?: {
+        q?: string;
+        type?: 'avatar' | 'cloth' | 'accessory' | 'hair' | 'gimmick' | 'other';
+        offset?: number | null;
+    };
+    url: '/epiclese/v1/items';
+};
+
+export type GetEpicleseV1ItemsResponses = {
+    /**
+     * OK
+     */
+    200: EpicleseItemsResponse;
+};
+
+export type GetEpicleseV1ItemsResponse = GetEpicleseV1ItemsResponses[keyof GetEpicleseV1ItemsResponses];
 
 export type GetEpicleseV1PlatformsByIdData = {
     body?: never;
@@ -4891,6 +5177,35 @@ export type PostEpicleseV1TagByStatusByIdResponses = {
 };
 
 export type PostEpicleseV1TagByStatusByIdResponse = PostEpicleseV1TagByStatusByIdResponses[keyof PostEpicleseV1TagByStatusByIdResponses];
+
+export type GetEpicleseV1WorldsByIdData = {
+    body?: never;
+    path: {
+        id: string;
+    };
+    query?: never;
+    url: '/epiclese/v1/worlds/{id}';
+};
+
+export type GetEpicleseV1WorldsByIdErrors = {
+    /**
+     * Not Found
+     */
+    404: ErrorResponse;
+};
+
+export type GetEpicleseV1WorldsByIdError = GetEpicleseV1WorldsByIdErrors[keyof GetEpicleseV1WorldsByIdErrors];
+
+export type GetEpicleseV1WorldsByIdResponses = {
+    /**
+     * OK
+     */
+    200: {
+        world: EpicleseWorldResponse;
+    };
+};
+
+export type GetEpicleseV1WorldsByIdResponse = GetEpicleseV1WorldsByIdResponses[keyof GetEpicleseV1WorldsByIdResponses];
 
 export type GetEpicleseV1WorldsResolveData = {
     body?: never;
