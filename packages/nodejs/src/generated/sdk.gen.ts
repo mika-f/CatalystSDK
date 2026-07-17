@@ -2,7 +2,7 @@
 
 import { client } from './client.gen.js';
 import { type Client, type ClientMeta, formDataBodySerializer, type Options as Options2, type RequestResult, type TDataShape, urlSearchParamsBodySerializer } from './client/index.js';
-import type { DeleteCatalystV1AlbumByIdByIdData, DeleteCatalystV1AlbumByIdByIdErrors, DeleteCatalystV1AlbumByIdByIdResponses, DeleteCatalystV1BlocksData, DeleteCatalystV1BlocksErrors, DeleteCatalystV1BlocksResponses, DeleteCatalystV1ContestBySlugBySlugVoteByStatusData, DeleteCatalystV1ContestBySlugBySlugVoteByStatusErrors, DeleteCatalystV1ContestBySlugBySlugVoteByStatusResponses, DeleteCatalystV1CustomReactionsByIdData, DeleteCatalystV1CustomReactionsByIdErrors, DeleteCatalystV1CustomReactionsByIdResponses, DeleteCatalystV1FleetByIdData, DeleteCatalystV1FleetByIdErrors, DeleteCatalystV1FleetByIdReactionsBySymbolData, DeleteCatalystV1FleetByIdReactionsBySymbolErrors, DeleteCatalystV1FleetByIdReactionsBySymbolResponses, DeleteCatalystV1FleetByIdResponses, DeleteCatalystV1RelationshipsData, DeleteCatalystV1RelationshipsErrors, DeleteCatalystV1RelationshipsResponses, DeleteCatalystV1SmartAlbumByIdByIdData, DeleteCatalystV1SmartAlbumByIdByIdErrors, DeleteCatalystV1SmartAlbumByIdByIdResponses, DeleteCatalystV1StatusByIdData, DeleteCatalystV1StatusByIdErrors, DeleteCatalystV1StatusByIdFavoriteData, DeleteCatalystV1StatusByIdFavoriteErrors, DeleteCatalystV1StatusByIdFavoriteResponses, DeleteCatalystV1StatusByIdReactionsBySymbolData, DeleteCatalystV1StatusByIdReactionsBySymbolErrors, DeleteCatalystV1StatusByIdReactionsBySymbolResponses, DeleteCatalystV1StatusByIdReactionsCustomByCustomReactionIdData, DeleteCatalystV1StatusByIdReactionsCustomByCustomReactionIdErrors, DeleteCatalystV1StatusByIdReactionsCustomByCustomReactionIdResponses, DeleteCatalystV1StatusByIdResponses, DeleteMediaV1UploadData, DeleteMediaV1UploadErrors, DeleteMediaV1UploadResponses, GetCatalystV11OnThisDayData, GetCatalystV11OnThisDayErrors, GetCatalystV11OnThisDayResponses, GetCatalystV11RandomData, GetCatalystV11RandomErrors, GetCatalystV11RandomResponses, GetCatalystV11StatusByIdData, GetCatalystV11StatusByIdErrors, GetCatalystV11StatusByIdResponses, GetCatalystV11TimelineFirehoseData, GetCatalystV11TimelineFirehoseErrors, GetCatalystV11TimelineFirehoseResponses, GetCatalystV11TimelineHomeData, GetCatalystV11TimelineHomeErrors, GetCatalystV11TimelineHomeResponses, GetCatalystV1AlbumByIdByIdBookByBookIdData, GetCatalystV1AlbumByIdByIdBookByBookIdErrors, GetCatalystV1AlbumByIdByIdBookByBookIdResponses, GetCatalystV1AlbumByIdByIdBookData, GetCatalystV1AlbumByIdByIdBookErrors, GetCatalystV1AlbumByIdByIdBookResponses, GetCatalystV1AlbumByIdByIdData, GetCatalystV1AlbumByIdByIdErrors, GetCatalystV1AlbumByIdByIdResponses, GetCatalystV1AlbumByMeData, GetCatalystV1AlbumByMeErrors, GetCatalystV1AlbumByMeResponses, GetCatalystV1AlbumByUserByUsernameData, GetCatalystV1AlbumByUserByUsernameErrors, GetCatalystV1AlbumByUserByUsernameResponses, GetCatalystV1AlbumSearchData, GetCatalystV1AlbumSearchErrors, GetCatalystV1AlbumSearchResponses, GetCatalystV1AnnouncementsData, GetCatalystV1AnnouncementsErrors, GetCatalystV1AnnouncementsResponses, GetCatalystV1ContentSettingsData, GetCatalystV1ContentSettingsErrors, GetCatalystV1ContentSettingsResponses, GetCatalystV1ContestByMeData, GetCatalystV1ContestByMeErrors, GetCatalystV1ContestByMeResponses, GetCatalystV1ContestBySlugBySlugData, GetCatalystV1ContestBySlugBySlugErrors, GetCatalystV1ContestBySlugBySlugResponses, GetCatalystV1ContestBySlugBySlugTimelineData, GetCatalystV1ContestBySlugBySlugTimelineErrors, GetCatalystV1ContestBySlugBySlugTimelineResponses, GetCatalystV1ContestBySlugBySlugVoteData, GetCatalystV1ContestBySlugBySlugVoteErrors, GetCatalystV1ContestBySlugBySlugVoteResponses, GetCatalystV1ContestByUserByIdData, GetCatalystV1ContestByUserByIdErrors, GetCatalystV1ContestByUserByIdResponses, GetCatalystV1ContestCurrentData, GetCatalystV1ContestCurrentErrors, GetCatalystV1ContestCurrentResponses, GetCatalystV1ContestSearchData, GetCatalystV1ContestSearchResponses, GetCatalystV1CustomReactionsData, GetCatalystV1CustomReactionsErrors, GetCatalystV1CustomReactionsResponses, GetCatalystV1FleetByIdData, GetCatalystV1FleetByIdErrors, GetCatalystV1FleetByIdReactionsData, GetCatalystV1FleetByIdReactionsErrors, GetCatalystV1FleetByIdReactionsResponses, GetCatalystV1FleetByIdResponses, GetCatalystV1FleetByIdViewersData, GetCatalystV1FleetByIdViewersErrors, GetCatalystV1FleetByIdViewersResponses, GetCatalystV1FleetByUserByUsernameData, GetCatalystV1FleetByUserByUsernameErrors, GetCatalystV1FleetByUserByUsernameResponses, GetCatalystV1FleetRingData, GetCatalystV1FleetRingErrors, GetCatalystV1FleetRingResponses, GetCatalystV1PrivacySettingsData, GetCatalystV1PrivacySettingsErrors, GetCatalystV1PrivacySettingsResponses, GetCatalystV1ProfileTagsByNameByNameUsersData, GetCatalystV1ProfileTagsByNameByNameUsersErrors, GetCatalystV1ProfileTagsByNameByNameUsersResponses, GetCatalystV1ProfileTagsByUserByIdData, GetCatalystV1ProfileTagsByUserByIdResponses, GetCatalystV1ProfileTagsSuggestionsData, GetCatalystV1ProfileTagsSuggestionsResponses, GetCatalystV1RandomData, GetCatalystV1RandomResponses, GetCatalystV1ReactionsData, GetCatalystV1ReactionsResponses, GetCatalystV1RelationshipsByIdData, GetCatalystV1RelationshipsByIdErrors, GetCatalystV1RelationshipsByIdResponses, GetCatalystV1RelationshipsByUsernameByUsernameCountsData, GetCatalystV1RelationshipsByUsernameByUsernameCountsErrors, GetCatalystV1RelationshipsByUsernameByUsernameCountsResponses, GetCatalystV1RelationshipsByUsernameByUsernameFollowersData, GetCatalystV1RelationshipsByUsernameByUsernameFollowersErrors, GetCatalystV1RelationshipsByUsernameByUsernameFollowersResponses, GetCatalystV1RelationshipsByUsernameByUsernameFollowingsData, GetCatalystV1RelationshipsByUsernameByUsernameFollowingsErrors, GetCatalystV1RelationshipsByUsernameByUsernameFollowingsResponses, GetCatalystV1SmartAlbumByIdByIdBookByBookIdData, GetCatalystV1SmartAlbumByIdByIdBookByBookIdErrors, GetCatalystV1SmartAlbumByIdByIdBookByBookIdResponses, GetCatalystV1SmartAlbumByIdByIdBookData, GetCatalystV1SmartAlbumByIdByIdBookErrors, GetCatalystV1SmartAlbumByIdByIdBookResponses, GetCatalystV1SmartAlbumByIdByIdData, GetCatalystV1SmartAlbumByIdByIdErrors, GetCatalystV1SmartAlbumByIdByIdResponses, GetCatalystV1SmartAlbumByUserByIdData, GetCatalystV1SmartAlbumByUserByIdErrors, GetCatalystV1SmartAlbumByUserByIdResponses, GetCatalystV1SmartAlbumSearchData, GetCatalystV1SmartAlbumSearchResponses, GetCatalystV1StatusByIdAlbumsData, GetCatalystV1StatusByIdAlbumsErrors, GetCatalystV1StatusByIdAlbumsResponses, GetCatalystV1StatusByIdData, GetCatalystV1StatusByIdErrors, GetCatalystV1StatusByIdFavoriteData, GetCatalystV1StatusByIdFavoriteErrors, GetCatalystV1StatusByIdFavoriteResponses, GetCatalystV1StatusByIdReactionsData, GetCatalystV1StatusByIdReactionsErrors, GetCatalystV1StatusByIdReactionsResponses, GetCatalystV1StatusByIdResponses, GetCatalystV1TimelineArchiveData, GetCatalystV1TimelineArchiveErrors, GetCatalystV1TimelineArchiveMonthsData, GetCatalystV1TimelineArchiveMonthsErrors, GetCatalystV1TimelineArchiveMonthsResponses, GetCatalystV1TimelineArchiveResponses, GetCatalystV1TimelineContestBySlugBySlugData, GetCatalystV1TimelineContestBySlugBySlugErrors, GetCatalystV1TimelineContestBySlugBySlugResponses, GetCatalystV1TimelineFavoriteData, GetCatalystV1TimelineFavoriteErrors, GetCatalystV1TimelineFavoriteResponses, GetCatalystV1TimelineFirehoseData, GetCatalystV1TimelineFirehoseResponses, GetCatalystV1TimelineGalleryData, GetCatalystV1TimelineGalleryResponses, GetCatalystV1TimelineHomeData, GetCatalystV1TimelineHomeErrors, GetCatalystV1TimelineHomeResponses, GetCatalystV1TimelineSearchData, GetCatalystV1TimelineSearchResponses, GetCatalystV1TimelineUserByUsernameByUsernameData, GetCatalystV1TimelineUserByUsernameByUsernameErrors, GetCatalystV1TimelineUserByUsernameByUsernameGalleryData, GetCatalystV1TimelineUserByUsernameByUsernameGalleryResponses, GetCatalystV1TimelineUserByUsernameByUsernameResponses, GetCatalystV1TrendData, GetCatalystV1TrendResponses, GetEgeriaV1MeData, GetEgeriaV1MeErrors, GetEgeriaV1MeResponses, GetEgeriaV1SearchData, GetEgeriaV1SearchResponses, GetEgeriaV1UserByIdByIdData, GetEgeriaV1UserByIdByIdErrors, GetEgeriaV1UserByIdByIdResponses, GetEgeriaV1UserByUsernameByUsernameData, GetEgeriaV1UserByUsernameByUsernameErrors, GetEgeriaV1UserByUsernameByUsernameResponses, GetEpicleseV1AuthorsByIdData, GetEpicleseV1AuthorsByIdErrors, GetEpicleseV1AuthorsByIdResponses, GetEpicleseV1AuthorsData, GetEpicleseV1AuthorsResponses, GetEpicleseV1ItemsByIdData, GetEpicleseV1ItemsByIdErrors, GetEpicleseV1ItemsByIdResponses, GetEpicleseV1ItemsByIdStatusesData, GetEpicleseV1ItemsByIdStatusesResponses, GetEpicleseV1ItemsData, GetEpicleseV1ItemsResponses, GetEpicleseV1PlatformsByIdData, GetEpicleseV1PlatformsByIdResponses, GetEpicleseV1PlatformsData, GetEpicleseV1PlatformsResponses, GetEpicleseV1TagByStatusByIdData, GetEpicleseV1TagByStatusByIdResponses, GetEpicleseV1WorldsByIdData, GetEpicleseV1WorldsByIdErrors, GetEpicleseV1WorldsByIdResponses, GetEpicleseV1WorldsData, GetEpicleseV1WorldsResolveData, GetEpicleseV1WorldsResolveErrors, GetEpicleseV1WorldsResolveResponses, GetEpicleseV1WorldsResponses, GetFeatureFlagsV1MeData, GetFeatureFlagsV1MeErrors, GetFeatureFlagsV1MeResponses, GetSteambirdV1NotificationsData, GetSteambirdV1NotificationsErrors, GetSteambirdV1NotificationsResponses, GetSteambirdV1NotificationsUnreadData, GetSteambirdV1NotificationsUnreadErrors, GetSteambirdV1NotificationsUnreadResponses, PatchCatalystV1AlbumByIdByIdData, PatchCatalystV1AlbumByIdByIdErrors, PatchCatalystV1AlbumByIdByIdResponses, PatchCatalystV1ContentSettingsData, PatchCatalystV1ContentSettingsErrors, PatchCatalystV1ContentSettingsResponses, PatchCatalystV1CustomReactionsByIdData, PatchCatalystV1CustomReactionsByIdErrors, PatchCatalystV1CustomReactionsByIdResponses, PatchCatalystV1PrivacySettingsData, PatchCatalystV1PrivacySettingsErrors, PatchCatalystV1PrivacySettingsResponses, PatchCatalystV1SmartAlbumByIdByIdData, PatchCatalystV1SmartAlbumByIdByIdErrors, PatchCatalystV1SmartAlbumByIdByIdResponses, PatchCatalystV1StatusByIdData, PatchCatalystV1StatusByIdErrors, PatchCatalystV1StatusByIdResponses, PatchEgeriaV1MeData, PatchEgeriaV1MeErrors, PatchEgeriaV1MeResponses, PostCatalystV1AlbumByIdByIdBookByBookIdRegenerateData, PostCatalystV1AlbumByIdByIdBookByBookIdRegenerateErrors, PostCatalystV1AlbumByIdByIdBookByBookIdRegenerateResponses, PostCatalystV1AlbumByIdByIdBookData, PostCatalystV1AlbumByIdByIdBookErrors, PostCatalystV1AlbumByIdByIdBookResponses, PostCatalystV1AlbumByIdByIdReportData, PostCatalystV1AlbumByIdByIdReportErrors, PostCatalystV1AlbumByIdByIdReportResponses, PostCatalystV1AlbumData, PostCatalystV1AlbumErrors, PostCatalystV1AlbumResponses, PostCatalystV1BlocksData, PostCatalystV1BlocksErrors, PostCatalystV1BlocksResponses, PostCatalystV1ContestBySlugBySlugVoteByStatusData, PostCatalystV1ContestBySlugBySlugVoteByStatusErrors, PostCatalystV1ContestBySlugBySlugVoteByStatusResponses, PostCatalystV1CustomReactionsData, PostCatalystV1CustomReactionsErrors, PostCatalystV1CustomReactionsResponses, PostCatalystV1FleetByIdReactionsBySymbolData, PostCatalystV1FleetByIdReactionsBySymbolErrors, PostCatalystV1FleetByIdReactionsBySymbolResponses, PostCatalystV1FleetByIdReportData, PostCatalystV1FleetByIdReportErrors, PostCatalystV1FleetByIdReportResponses, PostCatalystV1FleetByIdViewData, PostCatalystV1FleetByIdViewErrors, PostCatalystV1FleetByIdViewResponses, PostCatalystV1FleetData, PostCatalystV1FleetErrors, PostCatalystV1FleetResponses, PostCatalystV1RelationshipsData, PostCatalystV1RelationshipsErrors, PostCatalystV1RelationshipsResponses, PostCatalystV1SmartAlbumByIdByIdBookByBookIdRegenerateData, PostCatalystV1SmartAlbumByIdByIdBookByBookIdRegenerateErrors, PostCatalystV1SmartAlbumByIdByIdBookByBookIdRegenerateResponses, PostCatalystV1SmartAlbumByIdByIdBookData, PostCatalystV1SmartAlbumByIdByIdBookErrors, PostCatalystV1SmartAlbumByIdByIdBookResponses, PostCatalystV1SmartAlbumByIdByIdReportData, PostCatalystV1SmartAlbumByIdByIdReportErrors, PostCatalystV1SmartAlbumByIdByIdReportResponses, PostCatalystV1SmartAlbumData, PostCatalystV1SmartAlbumErrors, PostCatalystV1SmartAlbumResponses, PostCatalystV1StatusByIdFavoriteData, PostCatalystV1StatusByIdFavoriteErrors, PostCatalystV1StatusByIdFavoriteResponses, PostCatalystV1StatusByIdReactionsBySymbolData, PostCatalystV1StatusByIdReactionsBySymbolErrors, PostCatalystV1StatusByIdReactionsBySymbolResponses, PostCatalystV1StatusByIdReactionsCustomByCustomReactionIdData, PostCatalystV1StatusByIdReactionsCustomByCustomReactionIdErrors, PostCatalystV1StatusByIdReactionsCustomByCustomReactionIdResponses, PostCatalystV1StatusByIdReportData, PostCatalystV1StatusByIdReportErrors, PostCatalystV1StatusByIdReportResponses, PostCatalystV1StatusData, PostCatalystV1StatusErrors, PostCatalystV1StatusesReactionsData, PostCatalystV1StatusesReactionsErrors, PostCatalystV1StatusesReactionsResponses, PostCatalystV1StatusResponses, PostCatalystV1UserByIdReportData, PostCatalystV1UserByIdReportErrors, PostCatalystV1UserByIdReportResponses, PostEpicleseV1AuthorsData, PostEpicleseV1AuthorsErrors, PostEpicleseV1AuthorsResponses, PostEpicleseV1TagByStatusByIdData, PostEpicleseV1TagByStatusByIdErrors, PostEpicleseV1TagByStatusByIdResponses, PostEpicleseV1WorldsData, PostEpicleseV1WorldsErrors, PostEpicleseV1WorldsResponses, PostMediaV1UploadData, PostMediaV1UploadErrors, PostMediaV1UploadResponses, PostMediaV2UploadData, PostMediaV2UploadErrors, PostMediaV2UploadResponses, PostSteambirdV1NotificationsAllData, PostSteambirdV1NotificationsAllErrors, PostSteambirdV1NotificationsAllResponses, PostSteambirdV1NotificationsByIdData, PostSteambirdV1NotificationsByIdErrors, PostSteambirdV1NotificationsByIdResponses, PostTokenData, PostTokenErrors, PostTokenResponses, PutCatalystV1AlbumByIdByIdData, PutCatalystV1AlbumByIdByIdErrors, PutCatalystV1AlbumByIdByIdResponses, PutCatalystV1ProfileTagsData, PutCatalystV1ProfileTagsErrors, PutCatalystV1ProfileTagsResponses } from './types.gen.js';
+import type { DeleteCatalystV1AlbumByIdByIdData, DeleteCatalystV1AlbumByIdByIdErrors, DeleteCatalystV1AlbumByIdByIdResponses, DeleteCatalystV1BlocksData, DeleteCatalystV1BlocksErrors, DeleteCatalystV1BlocksResponses, DeleteCatalystV1ContestBySlugBySlugVoteByStatusData, DeleteCatalystV1ContestBySlugBySlugVoteByStatusErrors, DeleteCatalystV1ContestBySlugBySlugVoteByStatusResponses, DeleteCatalystV1CustomReactionsByIdData, DeleteCatalystV1CustomReactionsByIdErrors, DeleteCatalystV1CustomReactionsByIdResponses, DeleteCatalystV1FleetByIdData, DeleteCatalystV1FleetByIdErrors, DeleteCatalystV1FleetByIdReactionsBySymbolData, DeleteCatalystV1FleetByIdReactionsBySymbolErrors, DeleteCatalystV1FleetByIdReactionsBySymbolResponses, DeleteCatalystV1FleetByIdResponses, DeleteCatalystV1RelationshipsData, DeleteCatalystV1RelationshipsErrors, DeleteCatalystV1RelationshipsResponses, DeleteCatalystV1SmartAlbumByIdByIdData, DeleteCatalystV1SmartAlbumByIdByIdErrors, DeleteCatalystV1SmartAlbumByIdByIdResponses, DeleteCatalystV1StatusByIdData, DeleteCatalystV1StatusByIdErrors, DeleteCatalystV1StatusByIdFavoriteData, DeleteCatalystV1StatusByIdFavoriteErrors, DeleteCatalystV1StatusByIdFavoriteResponses, DeleteCatalystV1StatusByIdReactionsBySymbolData, DeleteCatalystV1StatusByIdReactionsBySymbolErrors, DeleteCatalystV1StatusByIdReactionsBySymbolResponses, DeleteCatalystV1StatusByIdReactionsCustomByCustomReactionIdData, DeleteCatalystV1StatusByIdReactionsCustomByCustomReactionIdErrors, DeleteCatalystV1StatusByIdReactionsCustomByCustomReactionIdResponses, DeleteCatalystV1StatusByIdResponses, DeleteMediaV1UploadData, DeleteMediaV1UploadErrors, DeleteMediaV1UploadResponses, GetCatalystV11OnThisDayData, GetCatalystV11OnThisDayErrors, GetCatalystV11OnThisDayResponses, GetCatalystV11RandomData, GetCatalystV11RandomErrors, GetCatalystV11RandomResponses, GetCatalystV11StatusByIdData, GetCatalystV11StatusByIdErrors, GetCatalystV11StatusByIdResponses, GetCatalystV11TimelineFirehoseData, GetCatalystV11TimelineFirehoseErrors, GetCatalystV11TimelineFirehoseResponses, GetCatalystV11TimelineHomeData, GetCatalystV11TimelineHomeErrors, GetCatalystV11TimelineHomeResponses, GetCatalystV12RandomData, GetCatalystV12RandomErrors, GetCatalystV12RandomResponses, GetCatalystV1AlbumByIdByIdBookByBookIdData, GetCatalystV1AlbumByIdByIdBookByBookIdErrors, GetCatalystV1AlbumByIdByIdBookByBookIdResponses, GetCatalystV1AlbumByIdByIdBookData, GetCatalystV1AlbumByIdByIdBookErrors, GetCatalystV1AlbumByIdByIdBookResponses, GetCatalystV1AlbumByIdByIdData, GetCatalystV1AlbumByIdByIdErrors, GetCatalystV1AlbumByIdByIdResponses, GetCatalystV1AlbumByMeData, GetCatalystV1AlbumByMeErrors, GetCatalystV1AlbumByMeResponses, GetCatalystV1AlbumByUserByUsernameData, GetCatalystV1AlbumByUserByUsernameErrors, GetCatalystV1AlbumByUserByUsernameResponses, GetCatalystV1AlbumSearchData, GetCatalystV1AlbumSearchErrors, GetCatalystV1AlbumSearchResponses, GetCatalystV1AnnouncementsData, GetCatalystV1AnnouncementsErrors, GetCatalystV1AnnouncementsResponses, GetCatalystV1ContentSettingsData, GetCatalystV1ContentSettingsErrors, GetCatalystV1ContentSettingsResponses, GetCatalystV1ContestByMeData, GetCatalystV1ContestByMeErrors, GetCatalystV1ContestByMeResponses, GetCatalystV1ContestBySlugBySlugData, GetCatalystV1ContestBySlugBySlugErrors, GetCatalystV1ContestBySlugBySlugResponses, GetCatalystV1ContestBySlugBySlugTimelineData, GetCatalystV1ContestBySlugBySlugTimelineErrors, GetCatalystV1ContestBySlugBySlugTimelineResponses, GetCatalystV1ContestBySlugBySlugVoteData, GetCatalystV1ContestBySlugBySlugVoteErrors, GetCatalystV1ContestBySlugBySlugVoteResponses, GetCatalystV1ContestByUserByIdData, GetCatalystV1ContestByUserByIdErrors, GetCatalystV1ContestByUserByIdResponses, GetCatalystV1ContestCurrentData, GetCatalystV1ContestCurrentErrors, GetCatalystV1ContestCurrentResponses, GetCatalystV1ContestSearchData, GetCatalystV1ContestSearchResponses, GetCatalystV1CustomReactionsData, GetCatalystV1CustomReactionsErrors, GetCatalystV1CustomReactionsResponses, GetCatalystV1FleetByIdData, GetCatalystV1FleetByIdErrors, GetCatalystV1FleetByIdReactionsData, GetCatalystV1FleetByIdReactionsErrors, GetCatalystV1FleetByIdReactionsResponses, GetCatalystV1FleetByIdResponses, GetCatalystV1FleetByIdViewersData, GetCatalystV1FleetByIdViewersErrors, GetCatalystV1FleetByIdViewersResponses, GetCatalystV1FleetByUserByUsernameData, GetCatalystV1FleetByUserByUsernameErrors, GetCatalystV1FleetByUserByUsernameResponses, GetCatalystV1FleetRingData, GetCatalystV1FleetRingErrors, GetCatalystV1FleetRingResponses, GetCatalystV1PrivacySettingsData, GetCatalystV1PrivacySettingsErrors, GetCatalystV1PrivacySettingsResponses, GetCatalystV1ProfileTagsByNameByNameUsersData, GetCatalystV1ProfileTagsByNameByNameUsersErrors, GetCatalystV1ProfileTagsByNameByNameUsersResponses, GetCatalystV1ProfileTagsByUserByIdData, GetCatalystV1ProfileTagsByUserByIdResponses, GetCatalystV1ProfileTagsSuggestionsData, GetCatalystV1ProfileTagsSuggestionsResponses, GetCatalystV1RandomData, GetCatalystV1RandomResponses, GetCatalystV1ReactionsData, GetCatalystV1ReactionsResponses, GetCatalystV1RelationshipsByIdData, GetCatalystV1RelationshipsByIdErrors, GetCatalystV1RelationshipsByIdResponses, GetCatalystV1RelationshipsByUsernameByUsernameCountsData, GetCatalystV1RelationshipsByUsernameByUsernameCountsErrors, GetCatalystV1RelationshipsByUsernameByUsernameCountsResponses, GetCatalystV1RelationshipsByUsernameByUsernameFollowersData, GetCatalystV1RelationshipsByUsernameByUsernameFollowersErrors, GetCatalystV1RelationshipsByUsernameByUsernameFollowersResponses, GetCatalystV1RelationshipsByUsernameByUsernameFollowingsData, GetCatalystV1RelationshipsByUsernameByUsernameFollowingsErrors, GetCatalystV1RelationshipsByUsernameByUsernameFollowingsResponses, GetCatalystV1SmartAlbumByIdByIdBookByBookIdData, GetCatalystV1SmartAlbumByIdByIdBookByBookIdErrors, GetCatalystV1SmartAlbumByIdByIdBookByBookIdResponses, GetCatalystV1SmartAlbumByIdByIdBookData, GetCatalystV1SmartAlbumByIdByIdBookErrors, GetCatalystV1SmartAlbumByIdByIdBookResponses, GetCatalystV1SmartAlbumByIdByIdData, GetCatalystV1SmartAlbumByIdByIdErrors, GetCatalystV1SmartAlbumByIdByIdResponses, GetCatalystV1SmartAlbumByUserByIdData, GetCatalystV1SmartAlbumByUserByIdErrors, GetCatalystV1SmartAlbumByUserByIdResponses, GetCatalystV1SmartAlbumSearchData, GetCatalystV1SmartAlbumSearchResponses, GetCatalystV1StatusByIdAlbumsData, GetCatalystV1StatusByIdAlbumsErrors, GetCatalystV1StatusByIdAlbumsResponses, GetCatalystV1StatusByIdData, GetCatalystV1StatusByIdErrors, GetCatalystV1StatusByIdFavoriteData, GetCatalystV1StatusByIdFavoriteErrors, GetCatalystV1StatusByIdFavoriteResponses, GetCatalystV1StatusByIdReactionsData, GetCatalystV1StatusByIdReactionsErrors, GetCatalystV1StatusByIdReactionsResponses, GetCatalystV1StatusByIdResponses, GetCatalystV1TimelineArchiveData, GetCatalystV1TimelineArchiveErrors, GetCatalystV1TimelineArchiveMonthsData, GetCatalystV1TimelineArchiveMonthsErrors, GetCatalystV1TimelineArchiveMonthsResponses, GetCatalystV1TimelineArchiveResponses, GetCatalystV1TimelineContestBySlugBySlugData, GetCatalystV1TimelineContestBySlugBySlugErrors, GetCatalystV1TimelineContestBySlugBySlugResponses, GetCatalystV1TimelineFavoriteData, GetCatalystV1TimelineFavoriteErrors, GetCatalystV1TimelineFavoriteResponses, GetCatalystV1TimelineFirehoseData, GetCatalystV1TimelineFirehoseResponses, GetCatalystV1TimelineGalleryData, GetCatalystV1TimelineGalleryResponses, GetCatalystV1TimelineHomeData, GetCatalystV1TimelineHomeErrors, GetCatalystV1TimelineHomeResponses, GetCatalystV1TimelineSearchData, GetCatalystV1TimelineSearchResponses, GetCatalystV1TimelineUserByUsernameByUsernameData, GetCatalystV1TimelineUserByUsernameByUsernameErrors, GetCatalystV1TimelineUserByUsernameByUsernameGalleryData, GetCatalystV1TimelineUserByUsernameByUsernameGalleryResponses, GetCatalystV1TimelineUserByUsernameByUsernameResponses, GetCatalystV1TrendData, GetCatalystV1TrendResponses, GetEgeriaV1MeData, GetEgeriaV1MeErrors, GetEgeriaV1MeResponses, GetEgeriaV1SearchData, GetEgeriaV1SearchResponses, GetEgeriaV1UserByIdByIdData, GetEgeriaV1UserByIdByIdErrors, GetEgeriaV1UserByIdByIdResponses, GetEgeriaV1UserByUsernameByUsernameData, GetEgeriaV1UserByUsernameByUsernameErrors, GetEgeriaV1UserByUsernameByUsernameResponses, GetEpicleseV1AuthorsByIdData, GetEpicleseV1AuthorsByIdErrors, GetEpicleseV1AuthorsByIdResponses, GetEpicleseV1AuthorsData, GetEpicleseV1AuthorsResponses, GetEpicleseV1ItemsByIdData, GetEpicleseV1ItemsByIdErrors, GetEpicleseV1ItemsByIdResponses, GetEpicleseV1ItemsByIdStatusesData, GetEpicleseV1ItemsByIdStatusesResponses, GetEpicleseV1ItemsData, GetEpicleseV1ItemsResponses, GetEpicleseV1PlatformsByIdData, GetEpicleseV1PlatformsByIdResponses, GetEpicleseV1PlatformsData, GetEpicleseV1PlatformsResponses, GetEpicleseV1TagByStatusByIdData, GetEpicleseV1TagByStatusByIdResponses, GetEpicleseV1WorldsByIdData, GetEpicleseV1WorldsByIdErrors, GetEpicleseV1WorldsByIdResponses, GetEpicleseV1WorldsData, GetEpicleseV1WorldsResolveData, GetEpicleseV1WorldsResolveErrors, GetEpicleseV1WorldsResolveResponses, GetEpicleseV1WorldsResponses, GetFeatureFlagsV1MeData, GetFeatureFlagsV1MeErrors, GetFeatureFlagsV1MeResponses, GetSteambirdV1NotificationsData, GetSteambirdV1NotificationsErrors, GetSteambirdV1NotificationsResponses, GetSteambirdV1NotificationsUnreadData, GetSteambirdV1NotificationsUnreadErrors, GetSteambirdV1NotificationsUnreadResponses, PatchCatalystV1AlbumByIdByIdData, PatchCatalystV1AlbumByIdByIdErrors, PatchCatalystV1AlbumByIdByIdResponses, PatchCatalystV1ContentSettingsData, PatchCatalystV1ContentSettingsErrors, PatchCatalystV1ContentSettingsResponses, PatchCatalystV1CustomReactionsByIdData, PatchCatalystV1CustomReactionsByIdErrors, PatchCatalystV1CustomReactionsByIdResponses, PatchCatalystV1PrivacySettingsData, PatchCatalystV1PrivacySettingsErrors, PatchCatalystV1PrivacySettingsResponses, PatchCatalystV1SmartAlbumByIdByIdData, PatchCatalystV1SmartAlbumByIdByIdErrors, PatchCatalystV1SmartAlbumByIdByIdResponses, PatchCatalystV1StatusByIdData, PatchCatalystV1StatusByIdErrors, PatchCatalystV1StatusByIdResponses, PatchEgeriaV1MeData, PatchEgeriaV1MeErrors, PatchEgeriaV1MeResponses, PostCatalystV1AlbumByIdByIdBookByBookIdRegenerateData, PostCatalystV1AlbumByIdByIdBookByBookIdRegenerateErrors, PostCatalystV1AlbumByIdByIdBookByBookIdRegenerateResponses, PostCatalystV1AlbumByIdByIdBookData, PostCatalystV1AlbumByIdByIdBookErrors, PostCatalystV1AlbumByIdByIdBookResponses, PostCatalystV1AlbumByIdByIdReportData, PostCatalystV1AlbumByIdByIdReportErrors, PostCatalystV1AlbumByIdByIdReportResponses, PostCatalystV1AlbumData, PostCatalystV1AlbumErrors, PostCatalystV1AlbumResponses, PostCatalystV1BlocksData, PostCatalystV1BlocksErrors, PostCatalystV1BlocksResponses, PostCatalystV1ContestBySlugBySlugVoteByStatusData, PostCatalystV1ContestBySlugBySlugVoteByStatusErrors, PostCatalystV1ContestBySlugBySlugVoteByStatusResponses, PostCatalystV1CustomReactionsData, PostCatalystV1CustomReactionsErrors, PostCatalystV1CustomReactionsResponses, PostCatalystV1FleetByIdReactionsBySymbolData, PostCatalystV1FleetByIdReactionsBySymbolErrors, PostCatalystV1FleetByIdReactionsBySymbolResponses, PostCatalystV1FleetByIdReportData, PostCatalystV1FleetByIdReportErrors, PostCatalystV1FleetByIdReportResponses, PostCatalystV1FleetByIdViewData, PostCatalystV1FleetByIdViewErrors, PostCatalystV1FleetByIdViewResponses, PostCatalystV1FleetData, PostCatalystV1FleetErrors, PostCatalystV1FleetResponses, PostCatalystV1RelationshipsData, PostCatalystV1RelationshipsErrors, PostCatalystV1RelationshipsResponses, PostCatalystV1SmartAlbumByIdByIdBookByBookIdRegenerateData, PostCatalystV1SmartAlbumByIdByIdBookByBookIdRegenerateErrors, PostCatalystV1SmartAlbumByIdByIdBookByBookIdRegenerateResponses, PostCatalystV1SmartAlbumByIdByIdBookData, PostCatalystV1SmartAlbumByIdByIdBookErrors, PostCatalystV1SmartAlbumByIdByIdBookResponses, PostCatalystV1SmartAlbumByIdByIdReportData, PostCatalystV1SmartAlbumByIdByIdReportErrors, PostCatalystV1SmartAlbumByIdByIdReportResponses, PostCatalystV1SmartAlbumData, PostCatalystV1SmartAlbumErrors, PostCatalystV1SmartAlbumResponses, PostCatalystV1StatusByIdFavoriteData, PostCatalystV1StatusByIdFavoriteErrors, PostCatalystV1StatusByIdFavoriteResponses, PostCatalystV1StatusByIdReactionsBySymbolData, PostCatalystV1StatusByIdReactionsBySymbolErrors, PostCatalystV1StatusByIdReactionsBySymbolResponses, PostCatalystV1StatusByIdReactionsCustomByCustomReactionIdData, PostCatalystV1StatusByIdReactionsCustomByCustomReactionIdErrors, PostCatalystV1StatusByIdReactionsCustomByCustomReactionIdResponses, PostCatalystV1StatusByIdReportData, PostCatalystV1StatusByIdReportErrors, PostCatalystV1StatusByIdReportResponses, PostCatalystV1StatusData, PostCatalystV1StatusErrors, PostCatalystV1StatusesReactionsData, PostCatalystV1StatusesReactionsErrors, PostCatalystV1StatusesReactionsResponses, PostCatalystV1StatusResponses, PostCatalystV1UserByIdReportData, PostCatalystV1UserByIdReportErrors, PostCatalystV1UserByIdReportResponses, PostEpicleseV1AuthorsData, PostEpicleseV1AuthorsErrors, PostEpicleseV1AuthorsResponses, PostEpicleseV1MediaByMediaIdDenormalizedMetadataData, PostEpicleseV1MediaByMediaIdDenormalizedMetadataErrors, PostEpicleseV1MediaByMediaIdDenormalizedMetadataResponses, PostEpicleseV1TagByStatusByIdData, PostEpicleseV1TagByStatusByIdErrors, PostEpicleseV1TagByStatusByIdResponses, PostEpicleseV1WorldsData, PostEpicleseV1WorldsErrors, PostEpicleseV1WorldsResponses, PostMediaV1UploadData, PostMediaV1UploadErrors, PostMediaV1UploadResponses, PostMediaV2UploadData, PostMediaV2UploadErrors, PostMediaV2UploadResponses, PostSteambirdV1NotificationsAllData, PostSteambirdV1NotificationsAllErrors, PostSteambirdV1NotificationsAllResponses, PostSteambirdV1NotificationsByIdData, PostSteambirdV1NotificationsByIdErrors, PostSteambirdV1NotificationsByIdResponses, PostTokenData, PostTokenErrors, PostTokenResponses, PutCatalystV1AlbumByIdByIdData, PutCatalystV1AlbumByIdByIdErrors, PutCatalystV1AlbumByIdByIdResponses, PutCatalystV1ProfileTagsData, PutCatalystV1ProfileTagsErrors, PutCatalystV1ProfileTagsResponses } from './types.gen.js';
 
 export type Options<TData extends TDataShape = TDataShape, ThrowOnError extends boolean = boolean, TResponse = unknown> = Options2<TData, ThrowOnError, TResponse> & {
     /**
@@ -159,6 +159,28 @@ export class V11 extends HeyApiClient {
     private _timeline?: Timeline;
     get timeline(): Timeline {
         return this._timeline ??= new Timeline({ client: this.client });
+    }
+}
+
+export class Random2 extends HeyApiClient {
+    /**
+     * GET /catalyst/v1.2/random
+     *
+     * ランダムに公開 UGC（投稿・アルバム・スマートアルバム）を1件取得します
+     */
+    public get<ThrowOnError extends boolean = false>(options?: Options<GetCatalystV12RandomData, ThrowOnError>): RequestResult<GetCatalystV12RandomResponses, GetCatalystV12RandomErrors, ThrowOnError> {
+        return (options?.client ?? this.client).get<GetCatalystV12RandomResponses, GetCatalystV12RandomErrors, ThrowOnError>({
+            security: [{ scheme: 'bearer', type: 'http' }],
+            url: '/catalyst/v1.2/random',
+            ...options
+        });
+    }
+}
+
+export class V12 extends HeyApiClient {
+    private _random?: Random2;
+    get random(): Random2 {
+        return this._random ??= new Random2({ client: this.client });
     }
 }
 
@@ -1138,7 +1160,7 @@ export class ProfileTags extends HeyApiClient {
     }
 }
 
-export class Random2 extends HeyApiClient {
+export class Random3 extends HeyApiClient {
     /**
      * GET /catalyst/v1/random
      *
@@ -2132,9 +2154,9 @@ export class V1 extends HeyApiClient {
         return this._profileTags ??= new ProfileTags({ client: this.client });
     }
     
-    private _random?: Random2;
-    get random(): Random2 {
-        return this._random ??= new Random2({ client: this.client });
+    private _random?: Random3;
+    get random(): Random3 {
+        return this._random ??= new Random3({ client: this.client });
     }
     
     private _reactions?: Reactions2;
@@ -2182,6 +2204,11 @@ export class Catalyst extends HeyApiClient {
     private _v11?: V11;
     get v11(): V11 {
         return this._v11 ??= new V11({ client: this.client });
+    }
+    
+    private _v12?: V12;
+    get v12(): V12 {
+        return this._v12 ??= new V12({ client: this.client });
     }
     
     private _v1?: V1;
@@ -2307,7 +2334,7 @@ export class User8 extends HeyApiClient {
     }
 }
 
-export class V12 extends HeyApiClient {
+export class V13 extends HeyApiClient {
     private _me?: Me3;
     get me(): Me3 {
         return this._me ??= new Me3({ client: this.client });
@@ -2325,9 +2352,9 @@ export class V12 extends HeyApiClient {
 }
 
 export class Egeria extends HeyApiClient {
-    private _v1?: V12;
-    get v1(): V12 {
-        return this._v1 ??= new V12({ client: this.client });
+    private _v1?: V13;
+    get v1(): V13 {
+        return this._v1 ??= new V13({ client: this.client });
     }
 }
 
@@ -2442,6 +2469,39 @@ export class Items extends HeyApiClient {
     private _id?: Id17;
     get id(): Id17 {
         return this._id ??= new Id17({ client: this.client });
+    }
+}
+
+export class DenormalizedMetadata extends HeyApiClient {
+    /**
+     * POST /epiclese/v1/media/{mediaId}/denormalized-metadata
+     *
+     * レタッチ前の画像から (クライアント側で) 抽出したメタデータを、レタッチ済み画像に EpicleseDenormalizedMetadata として付与します
+     */
+    public create<ThrowOnError extends boolean = false>(options: Options<PostEpicleseV1MediaByMediaIdDenormalizedMetadataData, ThrowOnError>): RequestResult<PostEpicleseV1MediaByMediaIdDenormalizedMetadataResponses, PostEpicleseV1MediaByMediaIdDenormalizedMetadataErrors, ThrowOnError> {
+        return (options.client ?? this.client).post<PostEpicleseV1MediaByMediaIdDenormalizedMetadataResponses, PostEpicleseV1MediaByMediaIdDenormalizedMetadataErrors, ThrowOnError>({
+            security: [{ scheme: 'bearer', type: 'http' }],
+            url: '/epiclese/v1/media/{mediaId}/denormalized-metadata',
+            ...options,
+            headers: {
+                'Content-Type': 'application/json',
+                ...options.headers
+            }
+        });
+    }
+}
+
+export class MediaId extends HeyApiClient {
+    private _denormalizedMetadata?: DenormalizedMetadata;
+    get denormalizedMetadata(): DenormalizedMetadata {
+        return this._denormalizedMetadata ??= new DenormalizedMetadata({ client: this.client });
+    }
+}
+
+export class Media extends HeyApiClient {
+    private _mediaId?: MediaId;
+    get mediaId(): MediaId {
+        return this._mediaId ??= new MediaId({ client: this.client });
     }
 }
 
@@ -2605,7 +2665,7 @@ export class Worlds extends HeyApiClient {
     }
 }
 
-export class V13 extends HeyApiClient {
+export class V14 extends HeyApiClient {
     private _authors?: Authors;
     get authors(): Authors {
         return this._authors ??= new Authors({ client: this.client });
@@ -2614,6 +2674,11 @@ export class V13 extends HeyApiClient {
     private _items?: Items;
     get items(): Items {
         return this._items ??= new Items({ client: this.client });
+    }
+    
+    private _media?: Media;
+    get media(): Media {
+        return this._media ??= new Media({ client: this.client });
     }
     
     private _platforms?: Platforms;
@@ -2633,9 +2698,9 @@ export class V13 extends HeyApiClient {
 }
 
 export class Epiclese extends HeyApiClient {
-    private _v1?: V13;
-    get v1(): V13 {
-        return this._v1 ??= new V13({ client: this.client });
+    private _v1?: V14;
+    get v1(): V14 {
+        return this._v1 ??= new V14({ client: this.client });
     }
 }
 
@@ -2657,7 +2722,7 @@ export class Me4 extends HeyApiClient {
     }
 }
 
-export class V14 extends HeyApiClient {
+export class V15 extends HeyApiClient {
     private _me?: Me4;
     get me(): Me4 {
         return this._me ??= new Me4({ client: this.client });
@@ -2665,9 +2730,9 @@ export class V14 extends HeyApiClient {
 }
 
 export class FeatureFlags extends HeyApiClient {
-    private _v1?: V14;
-    get v1(): V14 {
-        return this._v1 ??= new V14({ client: this.client });
+    private _v1?: V15;
+    get v1(): V15 {
+        return this._v1 ??= new V15({ client: this.client });
     }
 }
 
@@ -2710,7 +2775,7 @@ export class Upload extends HeyApiClient {
     }
 }
 
-export class V15 extends HeyApiClient {
+export class V16 extends HeyApiClient {
     private _upload?: Upload;
     get upload(): Upload {
         return this._upload ??= new Upload({ client: this.client });
@@ -2735,10 +2800,10 @@ export class V2 extends HeyApiClient {
     }
 }
 
-export class Media extends HeyApiClient {
-    private _v1?: V15;
-    get v1(): V15 {
-        return this._v1 ??= new V15({ client: this.client });
+export class Media2 extends HeyApiClient {
+    private _v1?: V16;
+    get v1(): V16 {
+        return this._v1 ??= new V16({ client: this.client });
     }
     
     private _v2?: V2;
@@ -2747,10 +2812,10 @@ export class Media extends HeyApiClient {
     }
 }
 
-export class Media2 extends HeyApiClient {
-    private _media?: Media;
-    get media(): Media {
-        return this._media ??= new Media({ client: this.client });
+export class Media3 extends HeyApiClient {
+    private _media?: Media2;
+    get media(): Media2 {
+        return this._media ??= new Media2({ client: this.client });
     }
 }
 
@@ -2829,7 +2894,7 @@ export class Notifications extends HeyApiClient {
     }
 }
 
-export class V16 extends HeyApiClient {
+export class V17 extends HeyApiClient {
     private _notifications?: Notifications;
     get notifications(): Notifications {
         return this._notifications ??= new Notifications({ client: this.client });
@@ -2837,9 +2902,9 @@ export class V16 extends HeyApiClient {
 }
 
 export class Steambird extends HeyApiClient {
-    private _v1?: V16;
-    get v1(): V16 {
-        return this._v1 ??= new V16({ client: this.client });
+    private _v1?: V17;
+    get v1(): V17 {
+        return this._v1 ??= new V17({ client: this.client });
     }
 }
 
@@ -2908,9 +2973,9 @@ export class CatalystClient extends HeyApiClient {
         return this._featureFlags ??= new FeatureFlags2({ client: this.client });
     }
     
-    private _media?: Media2;
-    get media(): Media2 {
-        return this._media ??= new Media2({ client: this.client });
+    private _media?: Media3;
+    get media(): Media3 {
+        return this._media ??= new Media3({ client: this.client });
     }
     
     private _steambird?: Steambird2;

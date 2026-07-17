@@ -93,6 +93,226 @@ export type UserResponse = {
     } | null;
 };
 
+export type LuckyV12Response = {
+    id: string;
+    body: string;
+    user: {
+        id: string;
+        screenName: string;
+        displayName: string;
+        profile: {
+            iconUrl: string;
+            bannerUrl: string;
+            bio: string;
+            website: string;
+            additionalWebsites: Array<string>;
+        } | null;
+        profileEmoji?: {
+            type: 'standard';
+            value: string;
+            imageUrl: string;
+        } | {
+            type: 'custom';
+            id: string;
+            shortcode: string;
+            displayName: string;
+            imageUrl: string;
+            width: number;
+            height: number;
+        } | null;
+    } | null;
+    medias: Array<{
+        id: string;
+        alt: string;
+        url: string;
+        order: number;
+        metadata: {
+            width: number | null;
+            height: number | null;
+            isSensitive: boolean;
+            isSpoiler: boolean;
+        } | null;
+        privacyMetadata?: boolean;
+        blurhash?: string | null;
+    }>;
+    contest?: unknown;
+    reactions: {
+        [key: string]: {
+            name: string;
+            symbol: string;
+            url: string;
+            count: number;
+            customReactionId?: string;
+        };
+    };
+    createdAt: string;
+    updatedAt: string;
+    visitor?: unknown;
+    privacy: 'public' | 'quiet_public' | 'followers' | 'private';
+    type: 'status';
+} | {
+    id: string;
+    name: string;
+    description: string;
+    isPublic: boolean;
+    mode: 'timeline' | 'grid' | 'gallery';
+    user: {
+        id: string;
+        screenName: string;
+        displayName: string;
+        profile: {
+            iconUrl: string;
+            bannerUrl: string;
+            bio: string;
+            website: string;
+            additionalWebsites: Array<string>;
+        } | null;
+        profileEmoji?: {
+            type: 'standard';
+            value: string;
+            imageUrl: string;
+        } | {
+            type: 'custom';
+            id: string;
+            shortcode: string;
+            displayName: string;
+            imageUrl: string;
+            width: number;
+            height: number;
+        } | null;
+    };
+    statuses: Array<{
+        id: string;
+        body: string;
+        createdAt: string;
+        user: {
+            id: string;
+            screenName: string;
+            displayName: string;
+            profile: {
+                iconUrl: string;
+                bannerUrl: string;
+                bio: string;
+                website: string;
+                additionalWebsites: Array<string>;
+            } | null;
+            profileEmoji?: {
+                type: 'standard';
+                value: string;
+                imageUrl: string;
+            } | {
+                type: 'custom';
+                id: string;
+                shortcode: string;
+                displayName: string;
+                imageUrl: string;
+                width: number;
+                height: number;
+            } | null;
+        };
+        medias: Array<{
+            id: string;
+            alt: string;
+            url: string;
+            order: number;
+            metadata: {
+                width: number | null;
+                height: number | null;
+                isSensitive: boolean;
+                isSpoiler: boolean;
+            } | null;
+            privacyMetadata?: boolean;
+            blurhash?: string | null;
+        }>;
+        contest?: unknown;
+        reactions?: unknown;
+    }>;
+    type: 'album';
+} | {
+    id: string;
+    name: string;
+    description: string;
+    hashtags: Array<string>;
+    isAllowNsfw: boolean;
+    isAllowOthers: boolean;
+    isPublic: boolean;
+    since: string | null;
+    until: string | null;
+    mode: 'timeline' | 'grid' | 'gallery';
+    user: {
+        id: string;
+        screenName: string;
+        displayName: string;
+        profile: {
+            iconUrl: string;
+            bannerUrl: string;
+            bio: string;
+            website: string;
+            additionalWebsites: Array<string>;
+        } | null;
+        profileEmoji?: {
+            type: 'standard';
+            value: string;
+            imageUrl: string;
+        } | {
+            type: 'custom';
+            id: string;
+            shortcode: string;
+            displayName: string;
+            imageUrl: string;
+            width: number;
+            height: number;
+        } | null;
+    };
+    statuses: Array<{
+        id: string;
+        body: string;
+        createdAt: string;
+        user: {
+            id: string;
+            screenName: string;
+            displayName: string;
+            profile: {
+                iconUrl: string;
+                bannerUrl: string;
+                bio: string;
+                website: string;
+                additionalWebsites: Array<string>;
+            } | null;
+            profileEmoji?: {
+                type: 'standard';
+                value: string;
+                imageUrl: string;
+            } | {
+                type: 'custom';
+                id: string;
+                shortcode: string;
+                displayName: string;
+                imageUrl: string;
+                width: number;
+                height: number;
+            } | null;
+        };
+        medias: Array<{
+            id: string;
+            alt: string;
+            url: string;
+            order: number;
+            metadata: {
+                width: number | null;
+                height: number | null;
+                isSensitive: boolean;
+                isSpoiler: boolean;
+            } | null;
+            privacyMetadata?: boolean;
+            blurhash?: string | null;
+        }>;
+        contest?: unknown;
+        reactions?: unknown;
+    }>;
+    type: 'smart-album';
+};
+
 export type AlbumBookResponse = {
     id: string;
     albumId: string | null;
@@ -1131,6 +1351,83 @@ export type EpicleseItemsResponse = {
     };
 };
 
+export type EpicleseDenormalizedMetadataResponse = {
+    additionalData: {
+        [key: string]: string;
+    };
+    additionalData2: {
+        [key: string]: {
+            value: string;
+            ref: string | null;
+        };
+    };
+};
+
+export type ImportDenormalizedMetadata = {
+    records: {
+        LocationName?: string | {
+            value: string;
+            referenceId: string;
+            referenceType: 'author' | 'world' | 'item';
+        };
+        TakenAt?: string | {
+            value: string;
+            referenceId: string;
+            referenceType: 'author' | 'world' | 'item';
+        };
+        TakenBy?: string | {
+            value: string;
+            referenceId: string;
+            referenceType: 'author' | 'world' | 'item';
+        };
+        Platform?: string | {
+            value: string;
+            referenceId: string;
+            referenceType: 'author' | 'world' | 'item';
+        };
+        Application?: string | {
+            value: string;
+            referenceId: string;
+            referenceType: 'author' | 'world' | 'item';
+        };
+        Version?: string | {
+            value: string;
+            referenceId: string;
+            referenceType: 'author' | 'world' | 'item';
+        };
+        AppVersion?: string | {
+            value: string;
+            referenceId: string;
+            referenceType: 'author' | 'world' | 'item';
+        };
+        CameraFOV?: string | {
+            value: string;
+            referenceId: string;
+            referenceType: 'author' | 'world' | 'item';
+        };
+        CreatorTool?: string | {
+            value: string;
+            referenceId: string;
+            referenceType: 'author' | 'world' | 'item';
+        };
+        Author?: string | {
+            value: string;
+            referenceId: string;
+            referenceType: 'author' | 'world' | 'item';
+        };
+        World?: string | {
+            value: string;
+            referenceId: string;
+            referenceType: 'author' | 'world' | 'item';
+        };
+        Parser?: string | {
+            value: string;
+            referenceId: string;
+            referenceType: 'author' | 'world' | 'item';
+        };
+    };
+};
+
 export type EpiclesePlatformResponse = {
     id: string;
     name: string;
@@ -1580,6 +1877,31 @@ export type GetCatalystV11TimelineHomeResponses = {
 };
 
 export type GetCatalystV11TimelineHomeResponse = GetCatalystV11TimelineHomeResponses[keyof GetCatalystV11TimelineHomeResponses];
+
+export type GetCatalystV12RandomData = {
+    body?: never;
+    path?: never;
+    query?: never;
+    url: '/catalyst/v1.2/random';
+};
+
+export type GetCatalystV12RandomErrors = {
+    /**
+     * Not Found
+     */
+    404: ErrorResponse;
+};
+
+export type GetCatalystV12RandomError = GetCatalystV12RandomErrors[keyof GetCatalystV12RandomErrors];
+
+export type GetCatalystV12RandomResponses = {
+    /**
+     * OK
+     */
+    200: LuckyV12Response;
+};
+
+export type GetCatalystV12RandomResponse = GetCatalystV12RandomResponses[keyof GetCatalystV12RandomResponses];
 
 export type PostCatalystV1AlbumByIdByIdBookByBookIdRegenerateData = {
     body?: never;
@@ -5087,6 +5409,45 @@ export type GetEpicleseV1ItemsResponses = {
 
 export type GetEpicleseV1ItemsResponse = GetEpicleseV1ItemsResponses[keyof GetEpicleseV1ItemsResponses];
 
+export type PostEpicleseV1MediaByMediaIdDenormalizedMetadataData = {
+    body?: ImportDenormalizedMetadata;
+    path: {
+        mediaId: string;
+    };
+    query?: never;
+    url: '/epiclese/v1/media/{mediaId}/denormalized-metadata';
+};
+
+export type PostEpicleseV1MediaByMediaIdDenormalizedMetadataErrors = {
+    /**
+     * Bad Request
+     */
+    400: ErrorResponse;
+    /**
+     * Unauthorized
+     */
+    401: ErrorResponse;
+    /**
+     * Forbidden
+     */
+    403: ErrorResponse;
+    /**
+     * Not Found
+     */
+    404: ErrorResponse;
+};
+
+export type PostEpicleseV1MediaByMediaIdDenormalizedMetadataError = PostEpicleseV1MediaByMediaIdDenormalizedMetadataErrors[keyof PostEpicleseV1MediaByMediaIdDenormalizedMetadataErrors];
+
+export type PostEpicleseV1MediaByMediaIdDenormalizedMetadataResponses = {
+    /**
+     * OK
+     */
+    200: EpicleseDenormalizedMetadataResponse;
+};
+
+export type PostEpicleseV1MediaByMediaIdDenormalizedMetadataResponse = PostEpicleseV1MediaByMediaIdDenormalizedMetadataResponses[keyof PostEpicleseV1MediaByMediaIdDenormalizedMetadataResponses];
+
 export type GetEpicleseV1PlatformsByIdData = {
     body?: never;
     path: {
@@ -5552,7 +5913,7 @@ export type GetSteambirdV1NotificationsUnreadResponse = GetSteambirdV1Notificati
 
 export type PostTokenData = {
     body?: {
-        grant_type: 'access_token' | 'refresh_token';
+        grant_type: 'authorization_code' | 'refresh_token';
     };
     path?: never;
     query?: never;

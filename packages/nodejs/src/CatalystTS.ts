@@ -5,18 +5,12 @@ import type { Interceptor } from "./interceptors/interceptor.js";
 import type { Token } from "./types/token.js";
 import {
   Catalyst,
-  Catalyst2,
   CatalystClient,
   Egeria,
-  Egeria2,
   Epiclese,
-  Epiclese2,
   FeatureFlags,
-  FeatureFlags2,
-  Media,
-  Media2,
+  Media2 as Media,
   Steambird,
-  Steambird2,
 } from "./generated/sdk.gen.js";
 import { client } from "./generated/client.gen.js";
 
